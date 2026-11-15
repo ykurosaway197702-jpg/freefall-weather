@@ -14,7 +14,14 @@ table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;bord
 <label>地域：<select id="location"><option value="kirishima">霧島演習場周辺</option><option value="tanegashima">南種子町・前之浜周辺</option></select></label>
 <button id="fetch">予報を取得</button><p id="status" role="status">未取得</p>
 <p class="muted">地点座標は暫定の地域代表点であり、実際の降下場位置ではありません。</p></section>
-<section><h2>地上付近の予報</h2><p id="meta" class="muted">未取得</p>
+<section><h2>気象庁・公式地域予報（優先）</h2>
+<p class="muted">気象庁ホームページ掲載の府県予報区データです。降下場固有の予報ではありません。気象庁の公開JSONは外部向けの保証付きAPIではなく、ブラウザや通信環境によって取得できない場合があります。</p>
+<p><button id="jmaFetch">気象庁の予報を取得</button> <span id="jmaStatus" role="status">未取得</span></p>
+<p id="jmaMeta" class="muted">発表時刻：不明</p>
+<div class="scroll"><table><thead><tr><th>予報有効時刻</th><th>予報対象区域</th><th>天気</th><th>風</th><th>波</th></tr></thead><tbody id="jmaRows"><tr><td colspan="5">未取得</td></tr></tbody></table></div>
+<p id="jmaOverview"></p>
+<p><a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=460100" target="_blank" rel="noopener">気象庁・鹿児島県予報（公式画面）</a> ／ <a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=450000" target="_blank" rel="noopener">宮崎県予報（公式画面）</a></p>
+</section><section><h2>地上付近の予報</h2><p id="meta" class="muted">未取得</p>
 <div class="scroll"><table><thead><tr><th>有効時刻（JST）</th><th>風向（°）</th><th>風速（m/s）</th><th>突風（m/s）</th><th>降水（mm）</th><th>気温（℃）</th></tr></thead><tbody id="forecast"><tr><td colspan="6">未取得</td></tr></tbody></table></div></section>
 <section><h2>高度別風（AGL：地上高）</h2><p>高度別の数値予報は未実装です。気圧面MSL（平均海面高度）からAGLへの換算には地点標高の確定が必要です。</p>
 <div class="scroll"><table><thead><tr><th>高度</th><th>風向</th><th>風速</th></tr></thead><tbody id="levels"></tbody></table></div></section>
@@ -44,4 +51,48 @@ el("status").textContent="取得完了（現地観測ではありません）";
 }catch(e){row(el("forecast"),["取得不能：不明"]);el("status").textContent="取得失敗："+e.message}
 finally{button.disabled=false}
 });
+
+/* JMA regional forecast: independent of Open-Meteo; no guessed values. */
+async function loadJma(){
+ const button=el("jmaFetch");button.disabled=true;el("jmaStatus").textContent="取得中";el("jmaRows").replaceChildren();el("jmaMeta").textContent="発表時刻：不明";el("jmaOverview").textContent="";
+ const area=el("location").value;
+ const office="460100"; // Kagoshima local meteorological office: Kagoshima prefecture forecast
+ const url="https://www.jma.go.jp/bosai/forecast/data/forecast/"+office+".json";
+ try{
+  const response=await fetch(url,{cache:"no-store"});if(!response.ok)throw Error("HTTP "+response.status);
+  const doc=await response.json();
+  const blocks=Array.isArray(doc)?doc:[doc];
+  const target=area==="tanegashima"?/種子島|屋久島|奄美以外の島/:/薩摩|鹿児島|大隅/;
+  let shown=0, issued=[];
+  for(const block of blocks){
+   if(block.reportDatetime)issued.push(block.reportDatetime);
+   for(const series of block.timeSeries||[]){
+    const areaItems=series.areas||[];
+    for(const entry of areaItems){
+     const name=entry.area?.name||"";
+     if(!target.test(name))continue;
+     const times=series.timeDefines||[];
+     const weather=entry.weathers||entry.weatherCodes||[];
+     const winds=entry.winds||[];
+     const waves=entry.waves||[];
+     if(!weather.length&&!winds.length&&!waves.length)continue;
+     for(let i=0;i<times.length;i++){
+      if(shown>=18)break;
+      const t=times[i];
+      const w=weather[i],wind=winds[i],wave=waves[i];
+      if(w==null&&wind==null&&wave==null)continue;
+      row(el("jmaRows"),[t,name,w==null?"不明":String(w),wind==null?"不明":String(wind),wave==null?"不明":String(wave)]);shown++;
+     }
+    }
+   }
+  }
+  if(!shown)row(el("jmaRows"),["該当する地域予報を抽出できません","不明","不明","不明","不明"]);
+  el("jmaMeta").textContent="情報源：気象庁（"+url+"） ／ 発表時刻："+(issued[0]||"不明")+" ／ 取得時刻："+new Date().toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"})+" JST ／ 地域予報・地点実測ではありません";
+  el("jmaStatus").textContent=shown?"取得完了":"取得完了（対象区域の抽出なし）";
+ }catch(e){
+  row(el("jmaRows"),["取得不能：不明","不明","不明","不明","不明"]);
+  el("jmaStatus").textContent="取得失敗："+e.message+"。公式画面のリンクで確認してください。";
+ }finally{button.disabled=false}
+}
+el("jmaFetch").addEventListener("click",loadJma);
 </script></body></html>
