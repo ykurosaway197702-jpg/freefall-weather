@@ -10,13 +10,19 @@ import tempfile
 import urllib.parse
 import urllib.request
 from pathlib import Path
-from eccodes import codes_grib_new_from_file, codes_get, codes_grib_find_nearest, codes_release
-
 BASE="https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl"
 LOCATIONS={"kirishima":{"name":"霧島演習場周辺（暫定）","lat":31.98,"lon":130.76},
            "tanegashima":{"name":"南種子町周辺（暫定）","lat":30.38,"lon":130.90}}
 LEVELS=[1000,975,950,925,900,850,800,750,700,650,600,550,500]
 HOURS=[3,6,12,24,36,48,60,72]
+
+def candidate_cycles(now, publication_delay_hours=4, count=5):
+    """Return recent 6-hour GFS cycles old enough to be published."""
+    if now.tzinfo is None or now.utcoffset() is None:
+        raise ValueError("now must be timezone-aware")
+    cutoff=now.astimezone(dt.timezone.utc)-dt.timedelta(hours=publication_delay_hours)
+    latest=cutoff.replace(hour=(cutoff.hour//6)*6,minute=0,second=0,microsecond=0)
+    return [latest-dt.timedelta(hours=6*i) for i in range(count)]
 
 def download(cycle, hour):
     file=f"gfs.t{cycle.hour:02d}z.pgrb2.0p25.f{hour:03d}"
@@ -34,6 +40,8 @@ def download(cycle, hour):
     return data
 
 def parse(data):
+    # Keep ecCodes optional at import time so pure transformation logic is testable.
+    from eccodes import codes_grib_new_from_file, codes_get, codes_grib_find_nearest, codes_release
     fields={}
     with tempfile.NamedTemporaryFile(suffix=".grib2") as tmp:
         tmp.write(data);tmp.flush()
@@ -70,10 +78,9 @@ def make_record(fields,cycle,hour):
 
 def main():
     now=dt.datetime.now(dt.timezone.utc)
-    # Use an older cycle to allow for publication delay; retry another cycle if missing.
-    cycles=[(now-dt.timedelta(hours=lag)).replace(hour=0,minute=0,second=0,microsecond=0)
-            for lag in (0,12,24)]
-    cycles=list(dict.fromkeys(cycles))
+    # GFS runs at 00/06/12/18 UTC. Allow for publication delay, then fall back
+    # through earlier cycles if NOMADS has not published the preferred cycle.
+    cycles=candidate_cycles(now)
     records=[];errors=[];chosen=None
     for cycle in cycles:
         try:
@@ -101,3 +108,4 @@ def main():
     if not records:raise SystemExit("No valid NOAA GFS data. See data/gfs_winds.json")
 
 if __name__=="__main__":main()
+

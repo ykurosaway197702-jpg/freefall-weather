@@ -1,0 +1,60 @@
+import datetime as dt
+import unittest
+
+from scripts.fetch_gfs import candidate_cycles, make_record
+
+
+UTC = dt.timezone.utc
+
+
+class CandidateCyclesTests(unittest.TestCase):
+    def test_uses_latest_published_six_hour_cycle(self):
+        now = dt.datetime(2026, 11, 15, 14, 15, tzinfo=UTC)
+        self.assertEqual(
+            candidate_cycles(now, count=3),
+            [
+                dt.datetime(2026, 11, 15, 6, tzinfo=UTC),
+                dt.datetime(2026, 11, 15, 0, tzinfo=UTC),
+                dt.datetime(2026, 11, 14, 18, tzinfo=UTC),
+            ],
+        )
+
+    def test_rolls_back_across_midnight(self):
+        now = dt.datetime(2026, 11, 15, 8, 30, tzinfo=UTC)
+        self.assertEqual(
+            candidate_cycles(now, count=3),
+            [
+                dt.datetime(2026, 11, 15, 0, tzinfo=UTC),
+                dt.datetime(2026, 11, 14, 18, tzinfo=UTC),
+                dt.datetime(2026, 11, 14, 12, tzinfo=UTC),
+            ],
+        )
+
+    def test_rejects_naive_datetime(self):
+        with self.assertRaises(ValueError):
+            candidate_cycles(dt.datetime(2026, 11, 15, 12))
+
+
+class MakeRecordTests(unittest.TestCase):
+    def test_calculates_meteorological_wind_direction(self):
+        cycle = dt.datetime(2026, 11, 15, 0, tzinfo=UTC)
+        fields = {
+            "kirishima": {
+                1000: {"u": 0.0, "v": -10.0, "gh": 120.0},
+                975: {"u": -10.0, "v": 0.0, "gh": 340.0},
+            }
+        }
+        rows = make_record(fields, cycle, 3)["locations"]["kirishima"]
+        self.assertEqual(rows[0]["wind_direction_deg_from"], 0)
+        self.assertEqual(rows[0]["wind_speed_ms"], 10.0)
+        self.assertEqual(rows[1]["wind_direction_deg_from"], 90)
+
+    def test_omits_incomplete_pressure_level(self):
+        cycle = dt.datetime(2026, 11, 15, 0, tzinfo=UTC)
+        fields = {"kirishima": {1000: {"u": 1.0, "v": 2.0}}}
+        rows = make_record(fields, cycle, 3)["locations"]["kirishima"]
+        self.assertEqual(rows, [])
+
+
+if __name__ == "__main__":
+    unittest.main()
