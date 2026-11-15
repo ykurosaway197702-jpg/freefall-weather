@@ -62,31 +62,29 @@ async function loadJma(){
   const response=await fetch(url,{cache:"no-store"});if(!response.ok)throw Error("HTTP "+response.status);
   const doc=await response.json();
   const blocks=Array.isArray(doc)?doc:[doc];
-  const target=area==="tanegashima"?/種子島|屋久島|奄美以外の島/:/薩摩|鹿児島|大隅/;
+  // The first JMA block is the short-term forecast with natural-language descriptions.
+  // Later blocks often contain weekly weather codes, not human-readable forecasts.
+  const shortTerm=blocks.find(b=>(b.timeSeries||[]).some(s=>(s.areas||[]).some(e=>Array.isArray(e.weathers)&&e.weathers.length)))||null;
+  const preferred=area==="tanegashima"?["種子島・屋久島地方","種子島地方","種子島・屋久島"]:["薩摩地方"];
   let shown=0, issued=[];
-  for(const block of blocks){
-   if(block.reportDatetime)issued.push(block.reportDatetime);
-   for(const series of block.timeSeries||[]){
-    const areaItems=series.areas||[];
-    for(const entry of areaItems){
-     const name=entry.area?.name||"";
-     if(!target.test(name))continue;
-     const times=series.timeDefines||[];
-     const weather=entry.weathers||entry.weatherCodes||[];
-     const winds=entry.winds||[];
-     const waves=entry.waves||[];
-     if(!weather.length&&!winds.length&&!waves.length)continue;
-     for(let i=0;i<times.length;i++){
-      if(shown>=18)break;
-      const t=times[i];
-      const w=weather[i],wind=winds[i],wave=waves[i];
-      if(w==null&&wind==null&&wave==null)continue;
-      row(el("jmaRows"),[t,name,w==null?"不明":String(w),wind==null?"不明":String(wind),wave==null?"不明":String(wave)]);shown++;
-     }
+  if(shortTerm){
+    if(shortTerm.reportDatetime)issued.push(shortTerm.reportDatetime);
+    const series=(shortTerm.timeSeries||[]).find(s=>(s.areas||[]).some(e=>Array.isArray(e.weathers)&&e.weathers.length));
+    if(series){
+      const entry=(series.areas||[]).find(e=>preferred.some(n=>(e.area?.name||"").includes(n)));
+      if(entry){
+        const name=entry.area?.name||"不明";
+        for(let i=0;i<(series.timeDefines||[]).length;i++){
+          const weather=entry.weathers?.[i],wind=entry.winds?.[i],wave=entry.waves?.[i];
+          if(weather==null&&wind==null&&wave==null)continue;
+          const clean=v=>v==null?"不明":String(v).replace(/[\\s　]+/g," ").trim();
+          const local=new Date(series.timeDefines[i]).toLocaleString("ja-JP",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+          row(el("jmaRows"),[local+" JST",name,clean(weather),clean(wind),clean(wave)]);shown++;
+        }
+      }
     }
-   }
   }
-  if(!shown)row(el("jmaRows"),["該当する地域予報を抽出できません","不明","不明","不明","不明"]);
+  if(!shown)row(el("jmaRows"),["対象地域の短期予報なし","不明","不明","不明","不明"]);
   el("jmaMeta").textContent="情報源：気象庁（"+url+"） ／ 発表時刻："+(issued[0]||"不明")+" ／ 取得時刻："+new Date().toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"})+" JST ／ 地域予報・地点実測ではありません";
   el("jmaStatus").textContent=shown?"取得完了":"取得完了（対象区域の抽出なし）";
  }catch(e){
