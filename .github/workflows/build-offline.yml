@@ -8,12 +8,16 @@ permissions:
 jobs:
   bundle:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install GRIB reader
+        run: python -m pip install "eccodes>=2.38,<3"
+      - name: Refresh GFS for offline bundle
+        run: python scripts/fetch_gfs.py
       - name: Build standalone HTML
         run: python scripts/build_offline.py
       - name: Upload private artifact (7 days)
