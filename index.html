@@ -36,6 +36,9 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p class="muted">指定可能なのは取得済みGFSの予報時刻のみです。存在しない時刻は補間しません。</p>
 <p><button type="button" id="gfsPrev">前の予報</button> <button type="button" id="gfsNext">次の予報</button></p>
 <p id="gfsCompare" class="muted">前後の予報との比較：未取得</p>
+<h4>高度別・前後予報の風速比較（同一気圧面）</h4>
+<p class="muted">風速差は「比較時刻 − 選択時刻」。高度は選択時刻のMSL相当で、同じAGL高度を意味しません。風向は吹いてくる方向です。</p>
+<div class="scroll"><table><thead><tr><th>気圧面</th><th>高度（m・MSL相当）</th><th>現在 風向</th><th>現在 風速</th><th>前の予報（m/s）</th><th>前との差（m/s）</th><th>次の予報（m/s）</th><th>次との差（m/s）</th></tr></thead><tbody id="gfsCompareRows"><tr><td colspan="8">未取得</td></tr></tbody></table></div>
 <label class="muted">全予報時刻：<select id="gfsTime"><option value="">未取得</option></select></label>
 <p id="gfsSelected" aria-live="polite">予報時刻：未選択</p><p id="gfsFreshness" class="muted">更新状況：不明</p>
 <p id="gfsWindLegend">風向は気象学上の「吹いてくる方向」。各高度の風向・風速はグラフ下の一覧表で確認してください。</p><div id="gfsChart" role="img" aria-label="高度別風速グラフ"><p>データ未取得</p></div>
@@ -176,14 +179,14 @@ el("noaaFile").addEventListener("change",async event=>{
 let gfsDataset=null;
 const jst=iso=>{const d=new Date(iso);return Number.isNaN(d.getTime())?"不明":new Intl.DateTimeFormat("ja-JP",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).format(d)+" JST"};
 function renderGfs(){
- const tbody=el("noaaRows");tbody.replaceChildren();el("gfsChart").replaceChildren();
+ const tbody=el("noaaRows");tbody.replaceChildren();el("gfsChart").replaceChildren();el("gfsCompareRows").replaceChildren();
  if(!gfsDataset)return;
  const loc=el("location").value,idx=Number(el("gfsTime").value);
  const f=gfsDataset.forecasts[idx];if(el("gfsSelected"))el("gfsSelected").textContent="表示中の予報："+(f?jst(f.valid_utc):"不明");
  if(!f){row(tbody,["不明","不明","不明","不明","不明"]);return}
  const points=(f.locations?.[loc]||[]).filter(p=>[p.pressure_hpa,p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms].every(Number.isFinite));
  for(const p of points)row(tbody,[jst(f.valid_utc),p.pressure_hpa+" hPa",p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms]);
- if(!points.length){row(tbody,["不明","不明","不明","不明","不明"]);return}
+ if(!points.length){row(tbody,["不明","不明","不明","不明","不明"]);row(el("gfsCompareRows"),["不明","不明","不明","不明","不明","不明","不明","不明"]);return}
  const maxSpeed=Math.ceil(Math.max(5,...points.map(p=>p.wind_speed_ms))/5)*5;
  const height=390,width=740,left=90,right=35,top=36,bottom=65;
  const maxH=Math.ceil(Math.max(...points.map(p=>p.geopotential_height_m_msl_approx))/1000)*1000;
@@ -223,6 +226,14 @@ function renderGfs(){
   return side+"（"+jst(other.valid_utc)+"）："+largest.pressure+" hPa面で風速差 "+(largest.delta>=0?"+":"")+largest.delta.toFixed(1)+" m/s（選択時刻比、最大絶対差）";
  };
  el("gfsCompare").textContent=summary(prev,"前")+" ／ "+summary(next,"次");
+ const compareBody=el("gfsCompareRows");compareBody.replaceChildren();
+ const atPressure=(forecast,pressure)=>forecast?.locations?.[loc]?.find(q=>q.pressure_hpa===pressure&&Number.isFinite(q.wind_speed_ms));
+ const fmtDelta=(other,base)=>other?((other.wind_speed_ms-base>=0?"+":"")+(other.wind_speed_ms-base).toFixed(1)):"不明";
+ for(const p of ordered){
+  const before=atPressure(prev,p.pressure_hpa),after=atPressure(next,p.pressure_hpa);
+  row(compareBody,[p.pressure_hpa+" hPa",Math.round(p.geopotential_height_m_msl_approx),Math.round(p.wind_direction_deg_from)+"°",p.wind_speed_ms.toFixed(1)+" m/s",before?before.wind_speed_ms.toFixed(1):"不明",fmtDelta(before,p.wind_speed_ms),after?after.wind_speed_ms.toFixed(1):"不明",fmtDelta(after,p.wind_speed_ms)]);
+ }
+
  el("gfsPrev").disabled=!prev;el("gfsNext").disabled=!next;
 }
 function acceptGfs(data,source){
