@@ -30,6 +30,11 @@ table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;bord
 <p id="windMeta" class="muted">モデル初期時刻：不明 ／ 予報有効時刻：不明 ／ 信頼度：未評価</p>
 <div class="scroll"><table><thead><tr><th>気圧面</th><th>高度（m・MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="windRows"><tr><td colspan="4">未取得</td></tr></tbody></table></div>
 <p>API接続不能時は不明と表示します。気象庁の公式予報とは独立した参考モデルです。</p>
+<h3>NOAA GFS（GitHub Actions取得結果）</h3>
+<p>GitHub Actionsが生成した <code>data/gfs_winds.json</code> を選択すると、Open-Meteoを経由せずにGFSの気圧面風を確認できます。</p>
+<label>GFS JSONファイル：<input type="file" id="noaaFile" accept=".json,application/json"></label>
+<p id="noaaStatus" role="status">未読込</p><p id="noaaMeta" class="muted">データ初期時刻・取得時刻：不明</p>
+<div class="scroll"><table><thead><tr><th>予報有効時刻（UTC）</th><th>気圧面</th><th>高度（MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="noaaRows"><tr><td colspan="5">未読込</td></tr></tbody></table></div>
 <p><a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">気圧面と高度の説明（Open-Meteo）</a></p></section>
 <section><h2>航空気象・危険気象</h2><div class="scroll"><table><thead><tr><th>項目</th><th>状態</th></tr></thead><tbody id="hazards"></tbody></table></div></section>
 <section><h2>情報源・信頼度</h2><p>地上予報：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（気象庁の公式情報ではありません）。</p>
@@ -130,5 +135,31 @@ el("windFetch").addEventListener("click",async()=>{
   row(tbody,["取得不能","不明","不明","不明"]);
   status.textContent="取得失敗："+e.message+"。気象庁の地域予報は別途確認できます。";
  }finally{button.disabled=false}
+});
+
+el("noaaFile").addEventListener("change",async event=>{
+ const status=el("noaaStatus"),tbody=el("noaaRows");tbody.replaceChildren();
+ el("noaaMeta").textContent="データ初期時刻・取得時刻：不明";
+ const file=event.target.files?.[0];if(!file){status.textContent="未読込";return}
+ try{
+  if(file.size>2_000_000)throw Error("ファイルが大きすぎます");
+  const data=JSON.parse(await file.text());
+  if(data.schema_version!==1||data.model!=="GFS"||!Array.isArray(data.forecasts))throw Error("対応していないデータ形式");
+  if(data.status!=="ok"||!data.forecasts.length)throw Error("有効なGFS予報が含まれていません");
+  const key=el("location").value;
+  const valid=data.forecasts.filter(f=>Array.isArray(f.locations?.[key])&&f.locations[key].length);
+  if(!valid.length)throw Error("選択地点の高度別風がありません");
+  let count=0;
+  for(const forecast of valid.slice(0,8)){
+   for(const p of forecast.locations[key]){
+    if(![p.pressure_hpa,p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms].every(Number.isFinite))continue;
+    row(tbody,[forecast.valid_utc,p.pressure_hpa+" hPa",p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms]);count++;
+   }
+  }
+  if(!count)throw Error("検証可能な風データがありません");
+  const age=Date.now()-new Date(data.retrieved_utc).getTime();
+  el("noaaMeta").textContent="情報源："+data.source+" ／ 初期時刻："+(data.cycle_utc||"不明")+" ／ 取得時刻："+data.retrieved_utc+" ／ 高度：MSL相当（AGLではない） ／ 信頼度：未検証";
+  status.textContent=(age>12*3600*1000?"注意：取得から12時間以上経過した古いデータです。":"読込完了。")+" "+count+"行";
+ }catch(e){tbody.replaceChildren();row(tbody,["取得不能","不明","不明","不明","不明"]);status.textContent="読込失敗："+e.message}
 });
 </script></body></html>
