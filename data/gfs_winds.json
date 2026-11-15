@@ -4,7 +4,7 @@
   "source_url": "https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl",
   "model": "GFS",
   "cycle_utc": "2026-11-15T00:00:00Z",
-  "retrieved_utc": "2026-11-15T05:49:47.475470Z",
+  "retrieved_utc": "2026-11-15T08:21:03.720088Z",
   "altitude_reference": "geopotential height, approximately MSL; NOT AGL",
   "confidence": "not independently verified",
   "locations": {
