@@ -31,6 +31,10 @@ table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;bord
 <div class="scroll"><table><thead><tr><th>気圧面</th><th>高度（m・MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="windRows"><tr><td colspan="4">未取得</td></tr></tbody></table></div>
 <p>API接続不能時は不明と表示します。気象庁の公式予報とは独立した参考モデルです。</p>
 <h3>NOAA GFS（GitHub Actions取得結果）</h3>
+<p><button id="autoGfs">最新GFSを読み込む</button> <span id="autoStatus" role="status">未取得</span></p>
+<label>予報時刻（JST）：<select id="gfsTime"><option value="">未取得</option></select></label>
+<p id="gfsFreshness" class="muted">更新状況：不明</p>
+<div id="gfsChart" role="img" aria-label="高度別風速グラフ"><p>データ未取得</p></div>
 <p>GitHub Actionsが生成した <code>data/gfs_winds.json</code> を選択すると、Open-Meteoを経由せずにGFSの気圧面風を確認できます。</p>
 <label>GFS JSONファイル：<input type="file" id="noaaFile" accept=".json,application/json"></label>
 <p id="noaaStatus" role="status">未読込</p><p id="noaaMeta" class="muted">データ初期時刻・取得時刻：不明</p>
@@ -162,4 +166,59 @@ el("noaaFile").addEventListener("change",async event=>{
   status.textContent=(age>12*3600*1000?"注意：取得から12時間以上経過した古いデータです。":"読込完了。")+" "+count+"行";
  }catch(e){tbody.replaceChildren();row(tbody,["取得不能","不明","不明","不明","不明"]);status.textContent="読込失敗："+e.message}
 });
+
+/* Pages-compatible NOAA data viewer: no Open-Meteo dependency. */
+let gfsDataset=null;
+const jst=iso=>{const d=new Date(iso);return Number.isNaN(d.getTime())?"不明":new Intl.DateTimeFormat("ja-JP",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).format(d)+" JST"};
+function renderGfs(){
+ const tbody=el("noaaRows");tbody.replaceChildren();el("gfsChart").replaceChildren();
+ if(!gfsDataset)return;
+ const loc=el("location").value,idx=Number(el("gfsTime").value);
+ const f=gfsDataset.forecasts[idx];
+ if(!f){row(tbody,["不明","不明","不明","不明","不明"]);return}
+ const points=(f.locations?.[loc]||[]).filter(p=>[p.pressure_hpa,p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms].every(Number.isFinite));
+ for(const p of points)row(tbody,[jst(f.valid_utc),p.pressure_hpa+" hPa",p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms]);
+ if(!points.length){row(tbody,["不明","不明","不明","不明","不明"]);return}
+ const maxSpeed=Math.max(5,...points.map(p=>p.wind_speed_ms)),height=280,width=640,pad=48;
+ const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+ svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("width","100%");svg.setAttribute("height","280");svg.setAttribute("role","img");
+ const maxH=Math.max(...points.map(p=>p.geopotential_height_m_msl_approx));
+ function line(x1,y1,x2,y2,color="#d5dce5"){const e=document.createElementNS(svg.namespaceURI,"line");for(const [k,v] of Object.entries({x1,y1,x2,y2,stroke:color,"stroke-width":1.5}))e.setAttribute(k,v);svg.append(e)}
+ function label(x,y,value){const e=document.createElementNS(svg.namespaceURI,"text");e.setAttribute("x",x);e.setAttribute("y",y);e.setAttribute("font-size","12");e.setAttribute("fill","currentColor");e.textContent=value;svg.append(e)}
+ const x=s=>pad+s/maxSpeed*(width-pad-24),y=h=>height-pad-h/maxH*(height-pad-18);
+ line(pad,10,pad,height-pad);line(pad,height-pad,width-16,height-pad);
+ const poly=document.createElementNS(svg.namespaceURI,"polyline");
+ poly.setAttribute("points",points.map(p=>x(p.wind_speed_ms)+","+y(p.geopotential_height_m_msl_approx)).join(" "));
+ poly.setAttribute("fill","none");poly.setAttribute("stroke","#16639c");poly.setAttribute("stroke-width","3");svg.append(poly);
+ label(6,17,"MSL相当");label(width-108,height-12,"風速 m/s");
+ for(const p of points){const dot=document.createElementNS(svg.namespaceURI,"circle");dot.setAttribute("cx",x(p.wind_speed_ms));dot.setAttribute("cy",y(p.geopotential_height_m_msl_approx));dot.setAttribute("r","3");dot.setAttribute("fill","#16639c");svg.append(dot)}
+ el("gfsChart").append(svg);
+}
+function acceptGfs(data,source){
+ if(data.schema_version!==1||data.model!=="GFS"||data.status!=="ok"||!Array.isArray(data.forecasts)||!data.forecasts.length)throw Error("有効なGFSデータではありません");
+ gfsDataset=data;
+ const select=el("gfsTime");select.replaceChildren();
+ data.forecasts.forEach((f,i)=>{const option=document.createElement("option");option.value=i;option.textContent=jst(f.valid_utc);select.append(option)});
+ const now=Date.now();let selected=data.forecasts.findIndex(f=>new Date(f.valid_utc).getTime()>=now);
+ if(selected<0)selected=data.forecasts.length-1;
+ select.value=String(selected);
+ const age=(now-new Date(data.retrieved_utc).getTime())/3600000;
+ const freshness=!Number.isFinite(age)?"取得時刻不明":age>12?"注意：データ取得から12時間超":age<0?"時刻不整合":"取得から約"+age.toFixed(1)+"時間";
+ el("gfsFreshness").textContent=freshness+" ／ 予報モデル初期時刻："+jst(data.cycle_utc)+" ／ 最終取得："+jst(data.retrieved_utc)+" ／ 参照地点：暫定座標 ／ 信頼度：未検証";
+ el("noaaMeta").textContent="情報源："+(data.source||"NOAA GFS")+" ／ 高度：ジオポテンシャル高度（MSL相当）、AGLではない ／ 入手方法："+source;
+ renderGfs();
+}
+el("gfsTime").addEventListener("change",renderGfs);
+el("location").addEventListener("change",renderGfs);
+el("autoGfs").addEventListener("click",async()=>{
+ const status=el("autoStatus");status.textContent="取得中";
+ try{
+  if(location.protocol==="file:")throw Error("ローカルHTMLでは自動読込不可。GitHub Pagesで開くかJSONを手動選択してください");
+  const response=await fetch("./data/gfs_winds.json?t="+Date.now(),{cache:"no-store"});
+  if(!response.ok)throw Error("HTTP "+response.status);
+  acceptGfs(await response.json(),"GitHub Pages");
+  status.textContent="取得完了";
+ }catch(e){status.textContent="取得失敗："+e.message}
+});
+if(location.protocol==="https:"&&location.hostname.endsWith(".github.io"))el("autoGfs").click();
 </script></body></html>
