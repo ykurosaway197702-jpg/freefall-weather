@@ -23,8 +23,14 @@ table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;bord
 <p><a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=460100" target="_blank" rel="noopener">気象庁・鹿児島県予報（公式画面）</a> ／ <a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=450000" target="_blank" rel="noopener">宮崎県予報（公式画面）</a></p>
 </section><section><h2>地上付近の予報</h2><p id="meta" class="muted">未取得</p>
 <div class="scroll"><table><thead><tr><th>有効時刻（JST）</th><th>風向（°）</th><th>風速（m/s）</th><th>突風（m/s）</th><th>降水（mm）</th><th>気温（℃）</th></tr></thead><tbody id="forecast"><tr><td colspan="6">未取得</td></tr></tbody></table></div></section>
-<section><h2>高度別風（AGL：地上高）</h2><p>高度別の数値予報は未実装です。気圧面MSL（平均海面高度）からAGLへの換算には地点標高の確定が必要です。</p>
-<div class="scroll"><table><thead><tr><th>高度</th><th>風向</th><th>風速</th></tr></thead><tbody id="levels"></tbody></table></div></section>
+<section><h2>高度別風（気圧面・MSL）</h2>
+<p class="warn">高度は気圧面のジオポテンシャル高度（概ねMSL）です。指定AGL高度への換算・補間は未実装。降下場の正確な標高が未確定のため、100〜5,000m AGLの値として扱わないでください。</p>
+<label>予報モデル：<select id="windModel"><option value="gfs_global">GFS Global</option><option value="ecmwf_ifs025">ECMWF IFS 0.25°</option></select></label>
+<button id="windFetch">高度別風を取得</button> <span id="windStatus" role="status">未取得</span>
+<p id="windMeta" class="muted">モデル初期時刻：不明 ／ 予報有効時刻：不明 ／ 信頼度：未評価</p>
+<div class="scroll"><table><thead><tr><th>気圧面</th><th>高度（m・MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="windRows"><tr><td colspan="4">未取得</td></tr></tbody></table></div>
+<p>API接続不能時は不明と表示します。気象庁の公式予報とは独立した参考モデルです。</p>
+<p><a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">気圧面と高度の説明（Open-Meteo）</a></p></section>
 <section><h2>航空気象・危険気象</h2><div class="scroll"><table><thead><tr><th>項目</th><th>状態</th></tr></thead><tbody id="hazards"></tbody></table></div></section>
 <section><h2>情報源・信頼度</h2><p>地上予報：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（気象庁の公式情報ではありません）。</p>
 <p>公式情報の確認：<a href="https://www.jma.go.jp/bosai/" target="_blank" rel="noopener">気象庁防災情報</a></p>
@@ -33,7 +39,7 @@ table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;bord
 const places={kirishima:{lat:31.98,lon:130.76},tanegashima:{lat:30.38,lon:130.90}};
 const el=id=>document.getElementById(id);
 function row(target,values){const tr=document.createElement("tr");values.forEach(v=>{const td=document.createElement("td");td.textContent=v??"不明";tr.append(td)});target.append(tr)}
-["地上（0m）","100m","300m","500m","1,000m","1,500m","2,000m","3,000m","4,000m","5,000m"].forEach(h=>row(el("levels"),[h,"不明（未取得）","不明（未取得）"]));
+
 ["雲底","航空視程","雷","乱流","ウインドシア","霧島山の火山灰","METAR/TAF"].forEach(h=>row(el("hazards"),[h,"不明（未取得）"]));
 el("fetch").addEventListener("click",async()=>{
 const p=places[el("location").value],button=el("fetch");button.disabled=true;el("status").textContent="取得中";el("meta").textContent="未取得";el("forecast").replaceChildren();
@@ -93,4 +99,36 @@ async function loadJma(){
  }finally{button.disabled=false}
 }
 el("jmaFetch").addEventListener("click",loadJma);
+
+/* Upper-air model forecasts. Never label pressure-level winds as fixed AGL heights. */
+const pressureLevels=[1000,950,925,900,850,800,750,700,650,600,550,500];
+el("windFetch").addEventListener("click",async()=>{
+ const button=el("windFetch"),status=el("windStatus"),tbody=el("windRows");
+ button.disabled=true;status.textContent="取得中";tbody.replaceChildren();
+ el("windMeta").textContent="モデル初期時刻：不明 ／ 予報有効時刻：不明 ／ 信頼度：未評価";
+ const p=places[el("location").value],model=el("windModel").value;
+ const hourly=pressureLevels.flatMap(h=>["wind_speed_","wind_direction_","geopotential_height_"].map(prefix=>prefix+h+"hPa"));
+ const url=new URL("https://api.open-meteo.com/v1/forecast");
+ Object.entries({latitude:p.lat,longitude:p.lon,models:model,hourly:hourly.join(","),wind_speed_unit:"ms",timezone:"Asia/Tokyo",forecast_days:3}).forEach(([k,v])=>url.searchParams.set(k,v));
+ try{
+  const res=await fetch(url,{cache:"no-store"});if(!res.ok)throw Error("HTTP "+res.status);
+  const data=await res.json(),h=data.hourly;if(!Array.isArray(h?.time))throw Error("予報時刻が取得できません");
+  const now=Date.now(),i=h.time.findIndex(t=>new Date(t+"+09:00").getTime()>=now-3600000);
+  if(i<0)throw Error("有効な予報時刻がありません");
+  let valid=0;
+  for(const level of pressureLevels){
+   const height=h["geopotential_height_"+level+"hPa"]?.[i];
+   const speed=h["wind_speed_"+level+"hPa"]?.[i];
+   const dir=h["wind_direction_"+level+"hPa"]?.[i];
+   if(Number.isFinite(height)&&Number.isFinite(speed)&&Number.isFinite(dir)&&height>=0){
+    row(tbody,[level+" hPa",Math.round(height),Math.round(dir),Number(speed).toFixed(1)]);valid++;
+   }else row(tbody,[level+" hPa","不明","不明","不明"]);
+  }
+  el("windMeta").textContent="モデル："+model+" ／ 予報有効時刻："+h.time[i]+" JST ／ データ取得："+new Date().toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"})+" JST ／ モデル初期時刻：不明 ／ 信頼度：未評価 ／ 高度：MSL相当";
+  status.textContent=valid?"取得完了（"+valid+"気圧面）":"取得完了・有効な高度別風は不明";
+ }catch(e){
+  row(tbody,["取得不能","不明","不明","不明"]);
+  status.textContent="取得失敗："+e.message+"。気象庁の地域予報は別途確認できます。";
+ }finally{button.disabled=false}
+});
 </script></body></html>
