@@ -6,7 +6,7 @@ header{background:#173657;color:#fff;padding:22px}main{max-width:1000px;margin:a
 section{background:#fff;border:1px solid #dbe3eb;border-radius:12px;padding:18px;margin:16px 0}
 h1{margin:0;font-size:1.6rem}h2{font-size:1.1rem}p{line-height:1.6}
 button,select{padding:10px;border-radius:7px;font:inherit}button{background:#17548a;color:white;border:0;cursor:pointer}
-#gfsChart{overflow-x:auto}#gfsChart svg{min-width:310px;max-width:850px;height:auto}#gfsSelected{font-weight:700;font-size:1.15rem;margin:12px 0}#gfsFreshness[data-stale="true"]{color:#a13c00;font-weight:700}table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;border-bottom:1px solid #e3e9f0;text-align:left}
+#gfsChart{overflow:hidden;width:100%}#gfsChart svg{display:block;width:100%;height:auto}#gfsWindLegend{font-size:.88rem;color:#48596e;margin:4px 0 12px}#gfsChart{overflow:hidden}#gfsChart svg{min-width:310px;max-width:850px;height:auto}#gfsSelected{font-weight:700;font-size:1.15rem;margin:12px 0}#gfsFreshness[data-stale="true"]{color:#a13c00;font-weight:700}table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;border-bottom:1px solid #e3e9f0;text-align:left}
 .scroll{overflow-x:auto}.warn{color:#913800}.muted{color:#647184}
 </style></head><body>
 <header><h1>freefall-weather</h1>自由降下訓練向け気象参考ダッシュボード（初期版）</header><main>
@@ -34,7 +34,7 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p><button id="autoGfs">最新GFSを読み込む</button> <span id="autoStatus" role="status">未取得</span></p>
 <label>予報時刻（JST）：<select id="gfsTime"><option value="">未取得</option></select></label>
 <p id="gfsSelected" aria-live="polite">予報時刻：未選択</p><p id="gfsFreshness" class="muted">更新状況：不明</p>
-<div id="gfsChart" role="img" aria-label="高度別風速グラフ"><p>データ未取得</p></div>
+<p id="gfsWindLegend">風向は気象学上の「吹いてくる方向」。北を上とした方位記号と角度で示します。</p><div id="gfsChart" role="img" aria-label="高度別風速グラフ"><p>データ未取得</p></div>
 <p>GitHub Actionsが生成した <code>data/gfs_winds.json</code> を選択すると、Open-Meteoを経由せずにGFSの気圧面風を確認できます。</p>
 <label>GFS JSONファイル：<input type="file" id="noaaFile" accept=".json,application/json"></label>
 <p id="noaaStatus" role="status">未読込</p><p id="noaaMeta" class="muted">データ初期時刻・取得時刻：不明</p>
@@ -181,10 +181,10 @@ function renderGfs(){
  for(const p of points)row(tbody,[jst(f.valid_utc),p.pressure_hpa+" hPa",p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms]);
  if(!points.length){row(tbody,["不明","不明","不明","不明","不明"]);return}
  const maxSpeed=Math.ceil(Math.max(5,...points.map(p=>p.wind_speed_ms))/5)*5;
- const height=390,width=740,left=90,right=95,top=36,bottom=65;
+ const height=390,width=740,left=90,right=150,top=36,bottom=65;
  const maxH=Math.ceil(Math.max(...points.map(p=>p.geopotential_height_m_msl_approx))/1000)*1000;
  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
- svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("width","100%");
+ svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("width","100%");svg.setAttribute("preserveAspectRatio","xMidYMid meet");
  svg.setAttribute("role","img");svg.setAttribute("aria-label","風速と高度の関係。高度はMSL相当。矢印は風が吹いてくる方向を表します");
  const ns=svg.namespaceURI;
  function line(x1,y1,x2,y2,color="#d9e2eb",thick=1){const e=document.createElementNS(ns,"line");for(const [k,v] of Object.entries({x1,y1,x2,y2,stroke:color,"stroke-width":thick}))e.setAttribute(k,v);svg.append(e)}
@@ -203,14 +203,13 @@ function renderGfs(){
  for(const p of ordered){
   const px=x(p.wind_speed_ms),py=y(p.geopotential_height_m_msl_approx);
   const dot=document.createElementNS(ns,"circle");dot.setAttribute("cx",px);dot.setAttribute("cy",py);dot.setAttribute("r",3.5);dot.setAttribute("fill","#16639c");svg.append(dot);
-  const deg=p.wind_direction_deg_from*Math.PI/180;
-  const arrow=document.createElementNS(ns,"g");
-  arrow.setAttribute("transform","translate("+(width-right+30)+","+py+") rotate("+p.wind_direction_deg_from+")");
-  const shaft=document.createElementNS(ns,"path");shaft.setAttribute("d","M0 -9 L0 9 M-5 3 L0 9 L5 3");
-  shaft.setAttribute("fill","none");shaft.setAttribute("stroke","#a14b16");shaft.setAttribute("stroke-width","2");arrow.append(shaft);svg.append(arrow);
+  // Cardinal direction labels are unambiguous on mobile and do not imply flow direction.
+  const directions=["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+  const from=((p.wind_direction_deg_from%360)+360)%360;
+  const compass=directions[Math.round(from/22.5)%16];
+  label(width-right+16,py+4,compass+" "+Math.round(from)+"°","start",12);
  }
- label(width-right+8,top-9,"風向", "start");
- label(width-right+8,height-bottom+22,"吹いてくる方向");
+ label(width-right+16,top-9,"風向（FROM）","start",12);
 
  el("gfsChart").append(svg);
 }
