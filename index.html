@@ -150,6 +150,7 @@ el("noaaFile").addEventListener("change",async event=>{
   const data=JSON.parse(await file.text());
   if(data.schema_version!==1||data.model!=="GFS"||!Array.isArray(data.forecasts))throw Error("対応していないデータ形式");
   if(data.status!=="ok"||!data.forecasts.length)throw Error("有効なGFS予報が含まれていません");
+  acceptGfs(data,"手動JSONファイル");
   const key=el("location").value;
   const valid=data.forecasts.filter(f=>Array.isArray(f.locations?.[key])&&f.locations[key].length);
   if(!valid.length)throw Error("選択地点の高度別風がありません");
