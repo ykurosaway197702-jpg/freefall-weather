@@ -1,0 +1,25 @@
+name: Build private offline weather dashboard
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "40 1,7,13,19 * * *"
+permissions:
+  contents: read
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build standalone HTML
+        run: python scripts/build_offline.py
+      - name: Upload private artifact (7 days)
+        uses: actions/upload-artifact@v4
+        with:
+          name: freefall-weather-offline
+          path: dist/freefall-weather-offline.html
+          retention-days: 7
+          if-no-files-found: error
