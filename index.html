@@ -6,7 +6,7 @@ header{background:#173657;color:#fff;padding:22px}main{max-width:1000px;margin:a
 section{background:#fff;border:1px solid #dbe3eb;border-radius:12px;padding:18px;margin:16px 0}
 h1{margin:0;font-size:1.6rem}h2{font-size:1.1rem}p{line-height:1.6}
 button,select{padding:10px;border-radius:7px;font:inherit}button{background:#17548a;color:white;border:0;cursor:pointer}
-table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;border-bottom:1px solid #e3e9f0;text-align:left}
+#gfsChart{overflow-x:auto}#gfsChart svg{min-width:310px;max-width:850px;height:auto}#gfsSelected{font-weight:700;font-size:1.15rem;margin:12px 0}#gfsFreshness[data-stale="true"]{color:#a13c00;font-weight:700}table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;border-bottom:1px solid #e3e9f0;text-align:left}
 .scroll{overflow-x:auto}.warn{color:#913800}.muted{color:#647184}
 </style></head><body>
 <header><h1>freefall-weather</h1>自由降下訓練向け気象参考ダッシュボード（初期版）</header><main>
@@ -33,7 +33,7 @@ table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;bord
 <h3>NOAA GFS（GitHub Actions取得結果）</h3>
 <p><button id="autoGfs">最新GFSを読み込む</button> <span id="autoStatus" role="status">未取得</span></p>
 <label>予報時刻（JST）：<select id="gfsTime"><option value="">未取得</option></select></label>
-<p id="gfsFreshness" class="muted">更新状況：不明</p>
+<p id="gfsSelected" aria-live="polite">予報時刻：未選択</p><p id="gfsFreshness" class="muted">更新状況：不明</p>
 <div id="gfsChart" role="img" aria-label="高度別風速グラフ"><p>データ未取得</p></div>
 <p>GitHub Actionsが生成した <code>data/gfs_winds.json</code> を選択すると、Open-Meteoを経由せずにGFSの気圧面風を確認できます。</p>
 <label>GFS JSONファイル：<input type="file" id="noaaFile" accept=".json,application/json"></label>
@@ -175,24 +175,43 @@ function renderGfs(){
  const tbody=el("noaaRows");tbody.replaceChildren();el("gfsChart").replaceChildren();
  if(!gfsDataset)return;
  const loc=el("location").value,idx=Number(el("gfsTime").value);
- const f=gfsDataset.forecasts[idx];
+ const f=gfsDataset.forecasts[idx];if(el("gfsSelected"))el("gfsSelected").textContent="表示中の予報："+(f?jst(f.valid_utc):"不明");
  if(!f){row(tbody,["不明","不明","不明","不明","不明"]);return}
  const points=(f.locations?.[loc]||[]).filter(p=>[p.pressure_hpa,p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms].every(Number.isFinite));
  for(const p of points)row(tbody,[jst(f.valid_utc),p.pressure_hpa+" hPa",p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms]);
  if(!points.length){row(tbody,["不明","不明","不明","不明","不明"]);return}
- const maxSpeed=Math.max(5,...points.map(p=>p.wind_speed_ms)),height=280,width=640,pad=48;
+ const maxSpeed=Math.ceil(Math.max(5,...points.map(p=>p.wind_speed_ms))/5)*5;
+ const height=390,width=740,left=90,right=95,top=36,bottom=65;
+ const maxH=Math.ceil(Math.max(...points.map(p=>p.geopotential_height_m_msl_approx))/1000)*1000;
  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
- svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("width","100%");svg.setAttribute("height","280");svg.setAttribute("role","img");
- const maxH=Math.max(...points.map(p=>p.geopotential_height_m_msl_approx));
- function line(x1,y1,x2,y2,color="#d5dce5"){const e=document.createElementNS(svg.namespaceURI,"line");for(const [k,v] of Object.entries({x1,y1,x2,y2,stroke:color,"stroke-width":1.5}))e.setAttribute(k,v);svg.append(e)}
- function label(x,y,value){const e=document.createElementNS(svg.namespaceURI,"text");e.setAttribute("x",x);e.setAttribute("y",y);e.setAttribute("font-size","12");e.setAttribute("fill","currentColor");e.textContent=value;svg.append(e)}
- const x=s=>pad+s/maxSpeed*(width-pad-24),y=h=>height-pad-h/maxH*(height-pad-18);
- line(pad,10,pad,height-pad);line(pad,height-pad,width-16,height-pad);
- const poly=document.createElementNS(svg.namespaceURI,"polyline");
- poly.setAttribute("points",points.map(p=>x(p.wind_speed_ms)+","+y(p.geopotential_height_m_msl_approx)).join(" "));
- poly.setAttribute("fill","none");poly.setAttribute("stroke","#16639c");poly.setAttribute("stroke-width","3");svg.append(poly);
- label(6,17,"MSL相当");label(width-108,height-12,"風速 m/s");
- for(const p of points){const dot=document.createElementNS(svg.namespaceURI,"circle");dot.setAttribute("cx",x(p.wind_speed_ms));dot.setAttribute("cy",y(p.geopotential_height_m_msl_approx));dot.setAttribute("r","3");dot.setAttribute("fill","#16639c");svg.append(dot)}
+ svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("width","100%");
+ svg.setAttribute("role","img");svg.setAttribute("aria-label","風速と高度の関係。高度はMSL相当。矢印は風が吹いてくる方向を表します");
+ const ns=svg.namespaceURI;
+ function line(x1,y1,x2,y2,color="#d9e2eb",thick=1){const e=document.createElementNS(ns,"line");for(const [k,v] of Object.entries({x1,y1,x2,y2,stroke:color,"stroke-width":thick}))e.setAttribute(k,v);svg.append(e)}
+ function label(x,y,value,anchor="start",size=12){const e=document.createElementNS(ns,"text");for(const [k,v] of Object.entries({x,y,"font-size":size,"text-anchor":anchor,fill:"#31475d"}))e.setAttribute(k,v);e.textContent=value;svg.append(e)}
+ const x=v=>left+v/maxSpeed*(width-left-right),y=v=>height-bottom-v/maxH*(height-top-bottom);
+ const tickH=maxH<=6000?1000:2000;
+ for(let h=0;h<=maxH;h+=tickH){line(left,y(h),width-right,y(h));label(left-12,y(h)+4,h.toLocaleString("ja-JP"),"end")}
+ const tickS=maxSpeed<=20?5:10;
+ for(let v=0;v<=maxSpeed;v+=tickS){line(x(v),top,x(v),height-bottom);label(x(v),height-bottom+22,String(v),"middle")}
+ line(left,top,left,height-bottom,"#8194a8",1.5);line(left,height-bottom,width-right,height-bottom,"#8194a8",1.5);
+ label(left,19,"高度（m・MSL相当）");label((left+width-right)/2,height-13,"風速（m/s）","middle");
+ const ordered=[...points].sort((a,b)=>a.geopotential_height_m_msl_approx-b.geopotential_height_m_msl_approx);
+ const poly=document.createElementNS(ns,"polyline");
+ poly.setAttribute("points",ordered.map(p=>x(p.wind_speed_ms)+","+y(p.geopotential_height_m_msl_approx)).join(" "));
+ poly.setAttribute("fill","none");poly.setAttribute("stroke","#16639c");poly.setAttribute("stroke-width","2.5");svg.append(poly);
+ for(const p of ordered){
+  const px=x(p.wind_speed_ms),py=y(p.geopotential_height_m_msl_approx);
+  const dot=document.createElementNS(ns,"circle");dot.setAttribute("cx",px);dot.setAttribute("cy",py);dot.setAttribute("r",3.5);dot.setAttribute("fill","#16639c");svg.append(dot);
+  const deg=p.wind_direction_deg_from*Math.PI/180;
+  const arrow=document.createElementNS(ns,"g");
+  arrow.setAttribute("transform","translate("+(width-right+30)+","+py+") rotate("+p.wind_direction_deg_from+")");
+  const shaft=document.createElementNS(ns,"path");shaft.setAttribute("d","M0 -9 L0 9 M-5 3 L0 9 L5 3");
+  shaft.setAttribute("fill","none");shaft.setAttribute("stroke","#a14b16");shaft.setAttribute("stroke-width","2");arrow.append(shaft);svg.append(arrow);
+ }
+ label(width-right+8,top-9,"風向", "start");
+ label(width-right+8,height-bottom+22,"吹いてくる方向");
+
  el("gfsChart").append(svg);
 }
 function acceptGfs(data,source){
@@ -205,6 +224,7 @@ function acceptGfs(data,source){
  select.value=String(selected);
  const age=(now-new Date(data.retrieved_utc).getTime())/3600000;
  const freshness=!Number.isFinite(age)?"取得時刻不明":age>12?"注意：データ取得から12時間超":age<0?"時刻不整合":"取得から約"+age.toFixed(1)+"時間";
+ el("gfsFreshness").dataset.stale=String(!Number.isFinite(age)||age>12||age<0);
  el("gfsFreshness").textContent=freshness+" ／ 予報モデル初期時刻："+jst(data.cycle_utc)+" ／ 最終取得："+jst(data.retrieved_utc)+" ／ 参照地点：暫定座標 ／ 信頼度：未検証";
  el("noaaMeta").textContent="情報源："+(data.source||"NOAA GFS")+" ／ 高度：ジオポテンシャル高度（MSL相当）、AGLではない ／ 入手方法："+source;
  renderGfs();
