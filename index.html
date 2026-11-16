@@ -23,12 +23,12 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p><a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=460100" target="_blank" rel="noopener">気象庁・鹿児島県予報（公式画面）</a> ／ <a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=450000" target="_blank" rel="noopener">宮崎県予報（公式画面）</a> ／ <a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=120000" target="_blank" rel="noopener">気象庁・千葉県予報（公式画面）</a></p>
 </section><section><h2>地上付近の予報</h2><p id="meta" class="muted">未取得</p>
 <div class="scroll"><table><thead><tr><th>有効時刻（JST）</th><th>風向（°）</th><th>風速（m/s）</th><th>突風（m/s）</th><th>降水（mm）</th><th>気温（℃）</th></tr></thead><tbody id="forecast"><tr><td colspan="6">未取得</td></tr></tbody></table></div></section>
-<section><h2>高度別風（気圧面・MSL）</h2>
-<p class="warn">高度は気圧面のジオポテンシャル高度（概ねMSL）です。指定AGL高度への換算・補間は未実装。降下場の正確な標高が未確定のため、100〜5,000m AGLの値として扱わないでください。</p>
+<section><h2>高度別風（AGL・200m刻み）</h2>
+<p class="warn">200～6,000m AGLを表示します。気圧面の風ベクトルを線形補間したモデル推定値で、観測値ではありません。地表標高はモデル概算値です。元データ範囲外は補外しません。</p>
 <label>予報モデル：<select id="windModel"><option value="gfs_global">GFS Global</option><option value="ecmwf_ifs025">ECMWF IFS 0.25°</option></select></label>
 <button id="windFetch">高度別風を取得</button> <span id="windStatus" role="status">未取得</span>
 <p id="windMeta" class="muted">モデル初期時刻：不明 ／ 予報有効時刻：不明 ／ 信頼度：未評価</p>
-<div class="scroll"><table><thead><tr><th>気圧面</th><th>高度（m・MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="windRows"><tr><td colspan="4">未取得</td></tr></tbody></table></div>
+<div class="scroll"><table><thead><tr><th>高度（m・AGL）</th><th>高度（m・MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="windRows"><tr><td colspan="4">未取得</td></tr></tbody></table></div>
 <p>API接続不能時は不明と表示します。気象庁の公式予報とは独立した参考モデルです。</p>
 <h3>NOAA GFS（GitHub Actions取得結果）</h3>
 <p><button id="autoGfs">最新GFSを読み込む</button> <span id="autoStatus" role="status">未取得</span></p>
@@ -36,16 +36,20 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p class="muted">指定可能なのは取得済みGFSの予報時刻のみです。存在しない時刻は補間しません。</p>
 <p><button type="button" id="gfsPrev">前の予報</button> <button type="button" id="gfsNext">次の予報</button></p>
 <p id="gfsCompare" class="muted">前後の予報との比較：未取得</p>
-<h4>高度別・前後予報の風速比較（同一気圧面）</h4>
-<p class="muted">風速差は「比較時刻 − 選択時刻」。高度は選択時刻のMSL相当で、同じAGL高度を意味しません。風向は吹いてくる方向です。</p>
-<div class="scroll"><table><thead><tr><th>気圧面</th><th>高度（m・MSL相当）</th><th>現在 風向</th><th>現在 風速</th><th>前の予報（m/s）</th><th>前との差（m/s）</th><th>次の予報（m/s）</th><th>次との差（m/s）</th></tr></thead><tbody id="gfsCompareRows"><tr><td colspan="8">未取得</td></tr></tbody></table></div>
+<h4>高度別・前後予報の風速比較（同一AGL高度）</h4>
+<p class="muted">風速差は「比較時刻 − 選択時刻」。風向は吹いてくる方向です。</p>
+<div class="scroll"><table><thead><tr><th>高度（m・AGL）</th><th>高度（m・MSL相当）</th><th>現在 風向</th><th>現在 風速</th><th>前の予報（m/s）</th><th>前との差（m/s）</th><th>次の予報（m/s）</th><th>次との差（m/s）</th></tr></thead><tbody id="gfsCompareRows"><tr><td colspan="8">未取得</td></tr></tbody></table></div>
 <label class="muted">全予報時刻：<select id="gfsTime"><option value="">未取得</option></select></label>
 <p id="gfsSelected" aria-live="polite">予報時刻：未選択</p><p id="gfsFreshness" class="muted">更新状況：不明</p>
 <p id="gfsWindLegend">風向は気象学上の「吹いてくる方向」。各高度の風向・風速はグラフ下の一覧表で確認してください。</p><div id="gfsChart" role="img" aria-label="高度別風速グラフ"><p>データ未取得</p></div>
 <p>GitHub Actionsが生成した <code>data/gfs_winds.json</code> を選択すると、Open-Meteoを経由せずにGFSの気圧面風を確認できます。</p>
 <label>GFS JSONファイル：<input type="file" id="noaaFile" accept=".json,application/json"></label>
 <p id="noaaStatus" role="status">未読込</p><p id="noaaMeta" class="muted">データ初期時刻・取得時刻：不明</p>
-<div class="scroll"><table><thead><tr><th>予報有効時刻（UTC）</th><th>気圧面</th><th>高度（MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="noaaRows"><tr><td colspan="5">未読込</td></tr></tbody></table></div>
+<div class="scroll"><table><thead><tr><th>予報有効時刻</th><th>高度（m・AGL）</th><th>高度（m・MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="noaaRows"><tr><td colspan="5">未読込</td></tr></tbody></table></div>
+<h3>飛行経路算定入力（準備中）</h3>
+<p class="muted">次の指示に備えた入力欄です。現時点では経路を算定しません。</p>
+<p><label>降下開始高度（m AGL）：<input id="exitAltitude" type="number" min="200" max="6000" step="200" value="4000"></label> <label>開傘高度（m AGL）：<input id="openAltitude" type="number" min="200" max="6000" step="200" value="1000"></label></p>
+<p><label>着地地点 緯度：<input id="landingLat" type="number" step="0.000001" value="35.707224"></label> <label>経度：<input id="landingLon" type="number" step="0.000001" value="140.076584"></label></p>
 <p><a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">気圧面と高度の説明（Open-Meteo）</a></p></section>
 <section><h2>航空気象・危険気象</h2><div class="scroll"><table><thead><tr><th>項目</th><th>状態</th></tr></thead><tbody id="hazards"></tbody></table></div></section>
 <section><h2>情報源・信頼度</h2><p>地上予報：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（気象庁の公式情報ではありません）。</p>
@@ -55,6 +59,26 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 const places={kirishima:{lat:31.98,lon:130.76},tanegashima:{lat:30.38,lon:130.90},narashino:{lat:35.70722400,lon:140.07658381}};
 const el=id=>document.getElementById(id);
 function row(target,values){const tr=document.createElement("tr");values.forEach(v=>{const td=document.createElement("td");td.textContent=v??"不明";tr.append(td)});target.append(tr)}
+function interpolateAgl(raw,ground){
+ if(!Number.isFinite(ground))return [];
+ const source=raw.filter(p=>[p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms].every(Number.isFinite)).map(p=>{
+  const rad=p.wind_direction_deg_from*Math.PI/180;
+  return {...p,u:-p.wind_speed_ms*Math.sin(rad),v:-p.wind_speed_ms*Math.cos(rad)};
+ }).sort((a,b)=>a.geopotential_height_m_msl_approx-b.geopotential_height_m_msl_approx);
+ const result=[];
+ for(let agl=200;agl<=6000;agl+=200){
+  const msl=ground+agl;
+  const upper=source.findIndex(p=>p.geopotential_height_m_msl_approx>=msl);
+  if(upper<0)continue;
+  const hi=source[upper],lo=source[Math.max(0,upper-1)];
+  if(msl<lo.geopotential_height_m_msl_approx||msl>hi.geopotential_height_m_msl_approx)continue;
+  const span=hi.geopotential_height_m_msl_approx-lo.geopotential_height_m_msl_approx;
+  const ratio=span?((msl-lo.geopotential_height_m_msl_approx)/span):0;
+  const u=lo.u+(hi.u-lo.u)*ratio,v=lo.v+(hi.v-lo.v)*ratio;
+  result.push({agl_m:agl,msl_m:msl,wind_speed_ms:Math.hypot(u,v),wind_direction_deg_from:(Math.atan2(-u,-v)*180/Math.PI+360)%360});
+ }
+ return result;
+}
 
 ["雲底","航空視程","雷","乱流","ウインドシア","火山灰","METAR/TAF"].forEach(h=>row(el("hazards"),[h,"不明（未取得）"]));
 el("fetch").addEventListener("click",async()=>{
@@ -136,17 +160,18 @@ el("windFetch").addEventListener("click",async()=>{
   const data=await res.json(),h=data.hourly;if(!Array.isArray(h?.time))throw Error("予報時刻が取得できません");
   const now=Date.now(),i=h.time.findIndex(t=>new Date(t+"+09:00").getTime()>=now-3600000);
   if(i<0)throw Error("有効な予報時刻がありません");
-  let valid=0;
+  const raw=[];
   for(const level of pressureLevels){
    const height=h["geopotential_height_"+level+"hPa"]?.[i];
    const speed=h["wind_speed_"+level+"hPa"]?.[i];
    const dir=h["wind_direction_"+level+"hPa"]?.[i];
-   if(Number.isFinite(height)&&Number.isFinite(speed)&&Number.isFinite(dir)&&height>=0){
-    row(tbody,[level+" hPa",Math.round(height),Math.round(dir),Number(speed).toFixed(1)]);valid++;
-   }else row(tbody,[level+" hPa","不明","不明","不明"]);
+   if(Number.isFinite(height)&&Number.isFinite(speed)&&Number.isFinite(dir)&&height>=0)raw.push({geopotential_height_m_msl_approx:height,wind_direction_deg_from:dir,wind_speed_ms:speed});
   }
-  el("windMeta").textContent="モデル："+model+" ／ 予報有効時刻："+h.time[i]+" JST ／ データ取得："+new Date().toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"})+" JST ／ モデル初期時刻：不明 ／ 信頼度：未評価 ／ 高度：MSL相当";
-  status.textContent=valid?"取得完了（"+valid+"気圧面）":"取得完了・有効な高度別風は不明";
+  const points=interpolateAgl(raw,Number(data.elevation));
+  for(const p of points)row(tbody,[p.agl_m,p.msl_m,Math.round(p.wind_direction_deg_from),p.wind_speed_ms.toFixed(1)]);
+  if(!points.length)row(tbody,["不明","不明","不明","不明"]);
+  el("windMeta").textContent="モデル："+model+" ／ 予報有効時刻："+h.time[i]+" JST ／ データ取得："+new Date().toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"})+" JST ／ 地表標高（モデル）："+(Number.isFinite(data.elevation)?data.elevation+"m MSL":"不明")+" ／ 200m AGL間隔・ベクトル線形補間 ／ 信頼度：未評価";
+  status.textContent=points.length?"取得完了（"+points.length+"高度）":"取得完了・有効な高度別風は不明";
  }catch(e){
   row(tbody,["取得不能","不明","不明","不明"]);
   status.textContent="取得失敗："+e.message+"。気象庁の地域予報は別途確認できます。";
@@ -166,17 +191,8 @@ el("noaaFile").addEventListener("change",async event=>{
   const key=el("location").value;
   const valid=data.forecasts.filter(f=>Array.isArray(f.locations?.[key])&&f.locations[key].length);
   if(!valid.length)throw Error("選択地点の高度別風がありません");
-  let count=0;
-  for(const forecast of valid.slice(0,8)){
-   for(const p of forecast.locations[key]){
-    if(![p.pressure_hpa,p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms].every(Number.isFinite))continue;
-    row(tbody,[forecast.valid_utc,p.pressure_hpa+" hPa",p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms]);count++;
-   }
-  }
-  if(!count)throw Error("検証可能な風データがありません");
   const age=Date.now()-new Date(data.retrieved_utc).getTime();
-  el("noaaMeta").textContent="情報源："+data.source+" ／ 初期時刻："+(data.cycle_utc||"不明")+" ／ 取得時刻："+data.retrieved_utc+" ／ 高度：MSL相当（AGLではない） ／ 信頼度：未検証";
-  status.textContent=(age>12*3600*1000?"注意：取得から12時間以上経過した古いデータです。":"読込完了。")+" "+count+"行";
+  status.textContent=(age>12*3600*1000?"注意：取得から12時間以上経過した古いデータです。":"読込完了。")+" "+valid.length+"予報時刻";
  }catch(e){tbody.replaceChildren();row(tbody,["取得不能","不明","不明","不明","不明"]);status.textContent="読込失敗："+e.message}
 });
 
@@ -189,15 +205,16 @@ function renderGfs(){
  const loc=el("location").value,idx=Number(el("gfsTime").value);
  const f=gfsDataset.forecasts[idx];if(el("gfsSelected"))el("gfsSelected").textContent="表示中の予報："+(f?jst(f.valid_utc):"不明");
  if(!f){row(tbody,["不明","不明","不明","不明","不明"]);return}
- const points=(f.locations?.[loc]||[]).filter(p=>[p.pressure_hpa,p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms].every(Number.isFinite));
- for(const p of points)row(tbody,[jst(f.valid_utc),p.pressure_hpa+" hPa",p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms]);
+ const ground=Number(gfsDataset.locations?.[loc]?.ground_elevation_m_msl_approx);
+ const points=interpolateAgl(f.locations?.[loc]||[],ground);
+ for(const p of points)row(tbody,[jst(f.valid_utc),p.agl_m,p.msl_m,Math.round(p.wind_direction_deg_from),p.wind_speed_ms.toFixed(1)]);
  if(!points.length){row(tbody,["不明","不明","不明","不明","不明"]);row(el("gfsCompareRows"),["不明","不明","不明","不明","不明","不明","不明","不明"]);return}
  const maxSpeed=Math.ceil(Math.max(5,...points.map(p=>p.wind_speed_ms))/5)*5;
  const height=390,width=740,left=90,right=35,top=36,bottom=65;
- const maxH=Math.ceil(Math.max(...points.map(p=>p.geopotential_height_m_msl_approx))/1000)*1000;
+ const maxH=6000;
  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
  svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("width","100%");svg.setAttribute("preserveAspectRatio","xMidYMid meet");
- svg.setAttribute("role","img");svg.setAttribute("aria-label","風速と高度の関係。高度はMSL相当。風向は下の表で確認してください");
+ svg.setAttribute("role","img");svg.setAttribute("aria-label","風速と地上高の関係。200メートル間隔の補間値。風向は下の表で確認してください");
  const ns=svg.namespaceURI;
  function line(x1,y1,x2,y2,color="#d9e2eb",thick=1){const e=document.createElementNS(ns,"line");for(const [k,v] of Object.entries({x1,y1,x2,y2,stroke:color,"stroke-width":thick}))e.setAttribute(k,v);svg.append(e)}
  function label(x,y,value,anchor="start",size=12){const e=document.createElementNS(ns,"text");for(const [k,v] of Object.entries({x,y,"font-size":size,"text-anchor":anchor,fill:"#31475d"}))e.setAttribute(k,v);e.textContent=value;svg.append(e)}
@@ -207,13 +224,13 @@ function renderGfs(){
  const tickS=maxSpeed<=20?5:10;
  for(let v=0;v<=maxSpeed;v+=tickS){line(x(v),top,x(v),height-bottom);label(x(v),height-bottom+22,String(v),"middle")}
  line(left,top,left,height-bottom,"#8194a8",1.5);line(left,height-bottom,width-right,height-bottom,"#8194a8",1.5);
- label(left,19,"高度（m・MSL相当）");label((left+width-right)/2,height-13,"風速（m/s）","middle");
- const ordered=[...points].sort((a,b)=>a.geopotential_height_m_msl_approx-b.geopotential_height_m_msl_approx);
+ label(left,19,"高度（m・AGL）");label((left+width-right)/2,height-13,"風速（m/s）","middle");
+ const ordered=[...points].sort((a,b)=>a.agl_m-b.agl_m);
  const poly=document.createElementNS(ns,"polyline");
- poly.setAttribute("points",ordered.map(p=>x(p.wind_speed_ms)+","+y(p.geopotential_height_m_msl_approx)).join(" "));
+ poly.setAttribute("points",ordered.map(p=>x(p.wind_speed_ms)+","+y(p.agl_m)).join(" "));
  poly.setAttribute("fill","none");poly.setAttribute("stroke","#16639c");poly.setAttribute("stroke-width","2.5");svg.append(poly);
  for(const p of ordered){
-  const px=x(p.wind_speed_ms),py=y(p.geopotential_height_m_msl_approx);
+  const px=x(p.wind_speed_ms),py=y(p.agl_m);
   const dot=document.createElementNS(ns,"circle");dot.setAttribute("cx",px);dot.setAttribute("cy",py);dot.setAttribute("r",3.5);dot.setAttribute("fill","#16639c");svg.append(dot);
 
  }
@@ -224,19 +241,19 @@ function renderGfs(){
  const prev=gfsDataset.forecasts[currentIdx-1],next=gfsDataset.forecasts[currentIdx+1];
  const summary=(other,side)=>{
   if(!other)return side+"：データなし";
-  const otherPoints=other.locations?.[loc]||[];
-  const changes=points.map(p=>{const q=otherPoints.find(x=>x.pressure_hpa===p.pressure_hpa);return q&&Number.isFinite(q.wind_speed_ms)?{pressure:p.pressure_hpa,delta:q.wind_speed_ms-p.wind_speed_ms}:null}).filter(Boolean);
+  const otherPoints=interpolateAgl(other.locations?.[loc]||[],ground);
+  const changes=points.map(p=>{const q=otherPoints.find(x=>x.agl_m===p.agl_m);return q?{agl:p.agl_m,delta:q.wind_speed_ms-p.wind_speed_ms}:null}).filter(Boolean);
   if(!changes.length)return side+"（"+jst(other.valid_utc)+"）：比較不能";
   const largest=changes.reduce((a,b)=>Math.abs(a.delta)>Math.abs(b.delta)?a:b);
-  return side+"（"+jst(other.valid_utc)+"）："+largest.pressure+" hPa面で風速差 "+(largest.delta>=0?"+":"")+largest.delta.toFixed(1)+" m/s（選択時刻比、最大絶対差）";
+  return side+"（"+jst(other.valid_utc)+"）："+largest.agl+"m AGLで風速差 "+(largest.delta>=0?"+":"")+largest.delta.toFixed(1)+" m/s（選択時刻比、最大絶対差）";
  };
  el("gfsCompare").textContent=summary(prev,"前")+" ／ "+summary(next,"次");
  const compareBody=el("gfsCompareRows");compareBody.replaceChildren();
- const atPressure=(forecast,pressure)=>forecast?.locations?.[loc]?.find(q=>q.pressure_hpa===pressure&&Number.isFinite(q.wind_speed_ms));
+ const atAgl=(forecast,agl)=>interpolateAgl(forecast?.locations?.[loc]||[],ground).find(q=>q.agl_m===agl);
  const fmtDelta=(other,base)=>other?((other.wind_speed_ms-base>=0?"+":"")+(other.wind_speed_ms-base).toFixed(1)):"不明";
  for(const p of ordered){
-  const before=atPressure(prev,p.pressure_hpa),after=atPressure(next,p.pressure_hpa);
-  row(compareBody,[p.pressure_hpa+" hPa",Math.round(p.geopotential_height_m_msl_approx),Math.round(p.wind_direction_deg_from)+"°",p.wind_speed_ms.toFixed(1)+" m/s",before?before.wind_speed_ms.toFixed(1):"不明",fmtDelta(before,p.wind_speed_ms),after?after.wind_speed_ms.toFixed(1):"不明",fmtDelta(after,p.wind_speed_ms)]);
+  const before=atAgl(prev,p.agl_m),after=atAgl(next,p.agl_m);
+  row(compareBody,[p.agl_m,p.msl_m,Math.round(p.wind_direction_deg_from)+"°",p.wind_speed_ms.toFixed(1)+" m/s",before?before.wind_speed_ms.toFixed(1):"不明",fmtDelta(before,p.wind_speed_ms),after?after.wind_speed_ms.toFixed(1):"不明",fmtDelta(after,p.wind_speed_ms)]);
  }
 
  el("gfsPrev").disabled=!prev;el("gfsNext").disabled=!next;
@@ -253,7 +270,7 @@ function acceptGfs(data,source){
  const freshness=!Number.isFinite(age)?"取得時刻不明":age>12?"注意：データ取得から12時間超":age<0?"時刻不整合":"取得から約"+age.toFixed(1)+"時間";
  el("gfsFreshness").dataset.stale=String(!Number.isFinite(age)||age>12||age<0);
  el("gfsFreshness").textContent=freshness+" ／ 予報モデル初期時刻："+jst(data.cycle_utc)+" ／ 最終取得："+jst(data.retrieved_utc)+" ／ 参照地点：暫定座標 ／ 信頼度：未検証";
- el("noaaMeta").textContent="情報源："+(data.source||"NOAA GFS")+" ／ 高度：ジオポテンシャル高度（MSL相当）、AGLではない ／ 入手方法："+source;
+ el("noaaMeta").textContent="情報源："+(data.source||"NOAA GFS")+" ／ 200～6,000m AGL・200m間隔（風ベクトル線形補間） ／ 地表標高：モデル概算値 ／ 入手方法："+source;
  syncGfsDateHour();
  renderGfs();
 }
