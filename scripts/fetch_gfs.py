@@ -21,7 +21,7 @@ REGIONS={
               "bounds":{"leftlon":"139.55","rightlon":"140.55","toplat":"36.20","bottomlat":"35.20"}},
 }
 LEVELS=[1000,975,950,925,900,850,800,750,700,650,600,550,500]
-HOURS=[3,6,12,24,36,48,60,72]
+HOURS=list(range(3,73,3))
 
 def candidate_cycles(now, publication_delay_hours=4, count=5):
     """Return recent 6-hour GFS cycles old enough to be published."""
