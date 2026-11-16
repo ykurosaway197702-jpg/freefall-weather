@@ -69,6 +69,7 @@ class LocationConfigurationTests(unittest.TestCase):
         point = LOCATIONS["narashino"]
         self.assertAlmostEqual(point["lat"], 35.70722400)
         self.assertAlmostEqual(point["lon"], 140.07658381)
+        self.assertEqual(point["ground_elevation_m_msl_approx"], 29)
 
 
 if __name__ == "__main__":
