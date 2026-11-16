@@ -4,7 +4,7 @@
   "source_url": "https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl",
   "model": "GFS",
   "cycle_utc": "2026-11-16T06:00:00Z",
-  "retrieved_utc": "2026-11-16T12:17:30.439712Z",
+  "retrieved_utc": "2026-11-16T12:27:39.107224Z",
   "altitude_reference": "geopotential height, approximately MSL; NOT AGL",
   "confidence": "not independently verified",
   "locations": {
@@ -20,8 +20,8 @@
     },
     "narashino": {
       "name": "習志野演習場周辺（暫定）",
-      "lat": 35.7114533,
-      "lon": 140.069658
+      "lat": 35.707224,
+      "lon": 140.07658381
     }
   },
   "forecasts": [
