@@ -1,6 +1,10 @@
 name: Fetch NOAA GFS upper winds
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/fetch_gfs.py
   schedule:
     - cron: "25 1,7,13,19 * * *"
 permissions:
@@ -30,3 +34,4 @@ jobs:
             git commit -m "data: update NOAA GFS upper winds"
             git push
           fi
+
