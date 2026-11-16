@@ -3,8 +3,8 @@
   "source": "NOAA NCEP NOMADS GFS 0.25-degree GRIB filter",
   "source_url": "https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl",
   "model": "GFS",
-  "cycle_utc": "2026-11-16T00:00:00Z",
-  "retrieved_utc": "2026-11-16T09:56:22.006294Z",
+  "cycle_utc": "2026-11-16T06:00:00Z",
+  "retrieved_utc": "2026-11-16T12:17:30.439712Z",
   "altitude_reference": "geopotential height, approximately MSL; NOT AGL",
   "confidence": "not independently verified",
   "locations": {
@@ -17,1333 +17,1972 @@
       "name": "南種子町周辺（暫定）",
       "lat": 30.38,
       "lon": 130.9
+    },
+    "narashino": {
+      "name": "習志野演習場周辺（暫定）",
+      "lat": 35.7114533,
+      "lon": 140.069658
     }
   },
   "forecasts": [
     {
-      "valid_utc": "2026-11-16T03:00:00Z",
+      "valid_utc": "2026-11-16T09:00:00Z",
       "forecast_hour": 3,
       "locations": {
         "kirishima": [
           {
             "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 141,
-            "wind_direction_deg_from": 190,
-            "wind_speed_ms": 0.6
+            "geopotential_height_m_msl_approx": 152,
+            "wind_direction_deg_from": 102,
+            "wind_speed_ms": 1.5
           },
           {
             "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 357,
-            "wind_direction_deg_from": 187,
-            "wind_speed_ms": 0.7
+            "geopotential_height_m_msl_approx": 367,
+            "wind_direction_deg_from": 102,
+            "wind_speed_ms": 1.6
           },
           {
             "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 579,
-            "wind_direction_deg_from": 175,
-            "wind_speed_ms": 1.1
+            "geopotential_height_m_msl_approx": 588,
+            "wind_direction_deg_from": 105,
+            "wind_speed_ms": 3.3
           },
           {
             "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 806,
-            "wind_direction_deg_from": 177,
-            "wind_speed_ms": 1.9
+            "geopotential_height_m_msl_approx": 814,
+            "wind_direction_deg_from": 102,
+            "wind_speed_ms": 3.2
           },
           {
             "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1037,
-            "wind_direction_deg_from": 196,
-            "wind_speed_ms": 3.8
+            "geopotential_height_m_msl_approx": 1045,
+            "wind_direction_deg_from": 101,
+            "wind_speed_ms": 2.1
           },
           {
             "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1515,
-            "wind_direction_deg_from": 205,
-            "wind_speed_ms": 5.5
+            "geopotential_height_m_msl_approx": 1524,
+            "wind_direction_deg_from": 174,
+            "wind_speed_ms": 2.2
           },
           {
             "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2016,
-            "wind_direction_deg_from": 199,
-            "wind_speed_ms": 5.4
+            "geopotential_height_m_msl_approx": 2025,
+            "wind_direction_deg_from": 196,
+            "wind_speed_ms": 3.7
           },
           {
             "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2548,
-            "wind_direction_deg_from": 147,
-            "wind_speed_ms": 1.2
+            "geopotential_height_m_msl_approx": 2553,
+            "wind_direction_deg_from": 213,
+            "wind_speed_ms": 6.7
           },
           {
             "pressure_hpa": 700,
             "geopotential_height_m_msl_approx": 3111,
-            "wind_direction_deg_from": 136,
-            "wind_speed_ms": 2.2
-          },
-          {
-            "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3708,
-            "wind_direction_deg_from": 183,
-            "wind_speed_ms": 4.6
-          },
-          {
-            "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4346,
-            "wind_direction_deg_from": 192,
-            "wind_speed_ms": 9.3
-          },
-          {
-            "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5027,
-            "wind_direction_deg_from": 204,
-            "wind_speed_ms": 12.2
-          },
-          {
-            "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5760,
-            "wind_direction_deg_from": 238,
-            "wind_speed_ms": 15.5
-          }
-        ],
-        "tanegashima": [
-          {
-            "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 140,
-            "wind_direction_deg_from": 74,
-            "wind_speed_ms": 6.4
-          },
-          {
-            "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 358,
-            "wind_direction_deg_from": 75,
-            "wind_speed_ms": 6.8
-          },
-          {
-            "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 580,
-            "wind_direction_deg_from": 76,
-            "wind_speed_ms": 6.6
-          },
-          {
-            "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 807,
-            "wind_direction_deg_from": 78,
-            "wind_speed_ms": 6.1
-          },
-          {
-            "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1038,
-            "wind_direction_deg_from": 102,
-            "wind_speed_ms": 3.4
-          },
-          {
-            "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1517,
-            "wind_direction_deg_from": 191,
-            "wind_speed_ms": 2.7
-          },
-          {
-            "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2020,
-            "wind_direction_deg_from": 218,
-            "wind_speed_ms": 4.6
-          },
-          {
-            "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2550,
-            "wind_direction_deg_from": 182,
-            "wind_speed_ms": 2.7
-          },
-          {
-            "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3113,
-            "wind_direction_deg_from": 172,
-            "wind_speed_ms": 4.0
-          },
-          {
-            "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3712,
-            "wind_direction_deg_from": 174,
-            "wind_speed_ms": 5.2
-          },
-          {
-            "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4351,
-            "wind_direction_deg_from": 211,
-            "wind_speed_ms": 6.1
-          },
-          {
-            "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5037,
-            "wind_direction_deg_from": 243,
-            "wind_speed_ms": 10.9
-          },
-          {
-            "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5775,
-            "wind_direction_deg_from": 249,
-            "wind_speed_ms": 14.6
-          }
-        ]
-      }
-    },
-    {
-      "valid_utc": "2026-11-16T06:00:00Z",
-      "forecast_hour": 6,
-      "locations": {
-        "kirishima": [
-          {
-            "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 142,
-            "wind_direction_deg_from": 155,
-            "wind_speed_ms": 1.1
-          },
-          {
-            "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 358,
-            "wind_direction_deg_from": 153,
-            "wind_speed_ms": 1.2
-          },
-          {
-            "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 579,
-            "wind_direction_deg_from": 142,
-            "wind_speed_ms": 2.4
-          },
-          {
-            "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 805,
-            "wind_direction_deg_from": 144,
-            "wind_speed_ms": 1.7
-          },
-          {
-            "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1035,
-            "wind_direction_deg_from": 205,
-            "wind_speed_ms": 1.4
-          },
-          {
-            "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1513,
-            "wind_direction_deg_from": 221,
-            "wind_speed_ms": 4.9
-          },
-          {
-            "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2015,
-            "wind_direction_deg_from": 209,
-            "wind_speed_ms": 5.1
-          },
-          {
-            "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2544,
-            "wind_direction_deg_from": 187,
-            "wind_speed_ms": 3.6
-          },
-          {
-            "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3106,
-            "wind_direction_deg_from": 175,
-            "wind_speed_ms": 4.1
-          },
-          {
-            "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3701,
-            "wind_direction_deg_from": 185,
-            "wind_speed_ms": 6.0
-          },
-          {
-            "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4335,
-            "wind_direction_deg_from": 197,
-            "wind_speed_ms": 9.4
-          },
-          {
-            "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5015,
-            "wind_direction_deg_from": 233,
-            "wind_speed_ms": 11.0
-          },
-          {
-            "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5746,
-            "wind_direction_deg_from": 255,
-            "wind_speed_ms": 13.3
-          }
-        ],
-        "tanegashima": [
-          {
-            "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 136,
-            "wind_direction_deg_from": 70,
-            "wind_speed_ms": 6.5
-          },
-          {
-            "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 354,
-            "wind_direction_deg_from": 72,
-            "wind_speed_ms": 7.0
-          },
-          {
-            "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 577,
-            "wind_direction_deg_from": 73,
-            "wind_speed_ms": 7.0
-          },
-          {
-            "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 803,
-            "wind_direction_deg_from": 74,
-            "wind_speed_ms": 6.8
-          },
-          {
-            "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1035,
-            "wind_direction_deg_from": 77,
-            "wind_speed_ms": 6.3
-          },
-          {
-            "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1513,
-            "wind_direction_deg_from": 182,
-            "wind_speed_ms": 1.9
-          },
-          {
-            "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2015,
-            "wind_direction_deg_from": 222,
-            "wind_speed_ms": 6.0
-          },
-          {
-            "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2546,
-            "wind_direction_deg_from": 223,
-            "wind_speed_ms": 7.2
-          },
-          {
-            "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3106,
-            "wind_direction_deg_from": 203,
-            "wind_speed_ms": 4.5
+            "wind_direction_deg_from": 195,
+            "wind_speed_ms": 8.0
           },
           {
             "pressure_hpa": 650,
             "geopotential_height_m_msl_approx": 3704,
-            "wind_direction_deg_from": 222,
-            "wind_speed_ms": 5.2
+            "wind_direction_deg_from": 195,
+            "wind_speed_ms": 8.2
           },
           {
             "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4342,
-            "wind_direction_deg_from": 253,
-            "wind_speed_ms": 9.4
+            "geopotential_height_m_msl_approx": 4336,
+            "wind_direction_deg_from": 222,
+            "wind_speed_ms": 9.0
           },
           {
             "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5027,
-            "wind_direction_deg_from": 262,
-            "wind_speed_ms": 15.6
+            "geopotential_height_m_msl_approx": 5018,
+            "wind_direction_deg_from": 247,
+            "wind_speed_ms": 12.1
           },
           {
             "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5765,
-            "wind_direction_deg_from": 257,
-            "wind_speed_ms": 17.7
+            "geopotential_height_m_msl_approx": 5754,
+            "wind_direction_deg_from": 256,
+            "wind_speed_ms": 17.2
+          }
+        ],
+        "tanegashima": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 147,
+            "wind_direction_deg_from": 75,
+            "wind_speed_ms": 7.3
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 366,
+            "wind_direction_deg_from": 77,
+            "wind_speed_ms": 7.8
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 588,
+            "wind_direction_deg_from": 78,
+            "wind_speed_ms": 7.6
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 815,
+            "wind_direction_deg_from": 79,
+            "wind_speed_ms": 7.4
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1046,
+            "wind_direction_deg_from": 81,
+            "wind_speed_ms": 6.8
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1524,
+            "wind_direction_deg_from": 179,
+            "wind_speed_ms": 2.7
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 2028,
+            "wind_direction_deg_from": 224,
+            "wind_speed_ms": 5.5
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2559,
+            "wind_direction_deg_from": 234,
+            "wind_speed_ms": 7.4
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3120,
+            "wind_direction_deg_from": 224,
+            "wind_speed_ms": 7.0
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3715,
+            "wind_direction_deg_from": 219,
+            "wind_speed_ms": 6.3
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4350,
+            "wind_direction_deg_from": 252,
+            "wind_speed_ms": 8.0
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 5034,
+            "wind_direction_deg_from": 261,
+            "wind_speed_ms": 13.2
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5770,
+            "wind_direction_deg_from": 249,
+            "wind_speed_ms": 16.3
+          }
+        ],
+        "narashino": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 162,
+            "wind_direction_deg_from": 44,
+            "wind_speed_ms": 4.9
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 376,
+            "wind_direction_deg_from": 52,
+            "wind_speed_ms": 5.0
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 594,
+            "wind_direction_deg_from": 71,
+            "wind_speed_ms": 4.4
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 817,
+            "wind_direction_deg_from": 93,
+            "wind_speed_ms": 3.2
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1044,
+            "wind_direction_deg_from": 148,
+            "wind_speed_ms": 2.4
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1513,
+            "wind_direction_deg_from": 234,
+            "wind_speed_ms": 3.1
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 2006,
+            "wind_direction_deg_from": 279,
+            "wind_speed_ms": 6.6
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2528,
+            "wind_direction_deg_from": 251,
+            "wind_speed_ms": 10.9
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3082,
+            "wind_direction_deg_from": 272,
+            "wind_speed_ms": 12.5
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3674,
+            "wind_direction_deg_from": 287,
+            "wind_speed_ms": 16.0
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4306,
+            "wind_direction_deg_from": 288,
+            "wind_speed_ms": 20.6
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4982,
+            "wind_direction_deg_from": 280,
+            "wind_speed_ms": 25.4
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5708,
+            "wind_direction_deg_from": 270,
+            "wind_speed_ms": 29.2
           }
         ]
       }
     },
     {
       "valid_utc": "2026-11-16T12:00:00Z",
-      "forecast_hour": 12,
+      "forecast_hour": 6,
       "locations": {
         "kirishima": [
           {
             "pressure_hpa": 1000,
             "geopotential_height_m_msl_approx": 160,
-            "wind_direction_deg_from": 111,
+            "wind_direction_deg_from": 106,
             "wind_speed_ms": 1.4
           },
           {
             "pressure_hpa": 975,
             "geopotential_height_m_msl_approx": 375,
-            "wind_direction_deg_from": 111,
-            "wind_speed_ms": 1.6
+            "wind_direction_deg_from": 106,
+            "wind_speed_ms": 1.5
           },
           {
             "pressure_hpa": 950,
             "geopotential_height_m_msl_approx": 595,
-            "wind_direction_deg_from": 113,
-            "wind_speed_ms": 3.6
+            "wind_direction_deg_from": 110,
+            "wind_speed_ms": 3.3
           },
           {
             "pressure_hpa": 925,
             "geopotential_height_m_msl_approx": 820,
-            "wind_direction_deg_from": 112,
-            "wind_speed_ms": 4.8
+            "wind_direction_deg_from": 110,
+            "wind_speed_ms": 4.6
           },
           {
             "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1049,
-            "wind_direction_deg_from": 116,
-            "wind_speed_ms": 5.8
+            "geopotential_height_m_msl_approx": 1050,
+            "wind_direction_deg_from": 113,
+            "wind_speed_ms": 5.9
           },
           {
             "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1527,
-            "wind_direction_deg_from": 157,
-            "wind_speed_ms": 4.5
+            "geopotential_height_m_msl_approx": 1528,
+            "wind_direction_deg_from": 151,
+            "wind_speed_ms": 4.3
           },
           {
             "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2029,
-            "wind_direction_deg_from": 189,
-            "wind_speed_ms": 6.9
+            "geopotential_height_m_msl_approx": 2030,
+            "wind_direction_deg_from": 202,
+            "wind_speed_ms": 5.5
           },
           {
             "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2556,
-            "wind_direction_deg_from": 206,
-            "wind_speed_ms": 8.1
+            "geopotential_height_m_msl_approx": 2557,
+            "wind_direction_deg_from": 215,
+            "wind_speed_ms": 7.7
           },
           {
             "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3112,
+            "geopotential_height_m_msl_approx": 3114,
             "wind_direction_deg_from": 219,
-            "wind_speed_ms": 8.4
+            "wind_speed_ms": 10.3
           },
           {
             "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3705,
-            "wind_direction_deg_from": 211,
-            "wind_speed_ms": 8.7
+            "geopotential_height_m_msl_approx": 3707,
+            "wind_direction_deg_from": 219,
+            "wind_speed_ms": 8.8
           },
           {
             "pressure_hpa": 600,
             "geopotential_height_m_msl_approx": 4340,
-            "wind_direction_deg_from": 234,
-            "wind_speed_ms": 9.6
+            "wind_direction_deg_from": 239,
+            "wind_speed_ms": 11.1
           },
           {
             "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5023,
+            "geopotential_height_m_msl_approx": 5024,
             "wind_direction_deg_from": 252,
-            "wind_speed_ms": 12.8
+            "wind_speed_ms": 13.8
           },
           {
             "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5758,
-            "wind_direction_deg_from": 256,
-            "wind_speed_ms": 15.2
+            "geopotential_height_m_msl_approx": 5759,
+            "wind_direction_deg_from": 255,
+            "wind_speed_ms": 15.4
           }
         ],
         "tanegashima": [
           {
             "pressure_hpa": 1000,
             "geopotential_height_m_msl_approx": 150,
-            "wind_direction_deg_from": 73,
-            "wind_speed_ms": 6.0
+            "wind_direction_deg_from": 81,
+            "wind_speed_ms": 6.8
           },
           {
             "pressure_hpa": 975,
             "geopotential_height_m_msl_approx": 369,
-            "wind_direction_deg_from": 75,
-            "wind_speed_ms": 6.8
+            "wind_direction_deg_from": 81,
+            "wind_speed_ms": 7.4
           },
           {
             "pressure_hpa": 950,
             "geopotential_height_m_msl_approx": 592,
-            "wind_direction_deg_from": 75,
-            "wind_speed_ms": 6.8
+            "wind_direction_deg_from": 80,
+            "wind_speed_ms": 7.3
           },
           {
             "pressure_hpa": 925,
             "geopotential_height_m_msl_approx": 819,
-            "wind_direction_deg_from": 76,
-            "wind_speed_ms": 6.7
+            "wind_direction_deg_from": 80,
+            "wind_speed_ms": 7.1
           },
           {
             "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1050,
-            "wind_direction_deg_from": 79,
-            "wind_speed_ms": 6.0
+            "geopotential_height_m_msl_approx": 1051,
+            "wind_direction_deg_from": 81,
+            "wind_speed_ms": 6.5
           },
           {
             "pressure_hpa": 850,
             "geopotential_height_m_msl_approx": 1530,
-            "wind_direction_deg_from": 157,
+            "wind_direction_deg_from": 163,
             "wind_speed_ms": 2.8
           },
           {
             "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2032,
-            "wind_direction_deg_from": 180,
-            "wind_speed_ms": 3.2
-          },
-          {
-            "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2561,
-            "wind_direction_deg_from": 222,
-            "wind_speed_ms": 6.7
-          },
-          {
-            "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3121,
-            "wind_direction_deg_from": 210,
-            "wind_speed_ms": 7.8
-          },
-          {
-            "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3716,
-            "wind_direction_deg_from": 222,
-            "wind_speed_ms": 6.9
-          },
-          {
-            "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4353,
-            "wind_direction_deg_from": 251,
-            "wind_speed_ms": 10.9
-          },
-          {
-            "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5039,
-            "wind_direction_deg_from": 258,
-            "wind_speed_ms": 14.7
-          },
-          {
-            "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5776,
-            "wind_direction_deg_from": 258,
-            "wind_speed_ms": 17.8
-          }
-        ]
-      }
-    },
-    {
-      "valid_utc": "2026-11-17T00:00:00Z",
-      "forecast_hour": 24,
-      "locations": {
-        "kirishima": [
-          {
-            "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 155,
-            "wind_direction_deg_from": 82,
-            "wind_speed_ms": 1.0
-          },
-          {
-            "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 370,
-            "wind_direction_deg_from": 79,
-            "wind_speed_ms": 1.1
-          },
-          {
-            "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 590,
-            "wind_direction_deg_from": 90,
-            "wind_speed_ms": 2.5
-          },
-          {
-            "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 815,
-            "wind_direction_deg_from": 105,
-            "wind_speed_ms": 3.8
-          },
-          {
-            "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1046,
-            "wind_direction_deg_from": 128,
-            "wind_speed_ms": 5.6
-          },
-          {
-            "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1526,
-            "wind_direction_deg_from": 162,
-            "wind_speed_ms": 6.3
-          },
-          {
-            "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2028,
-            "wind_direction_deg_from": 183,
-            "wind_speed_ms": 5.4
-          },
-          {
-            "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2557,
-            "wind_direction_deg_from": 197,
-            "wind_speed_ms": 7.7
-          },
-          {
-            "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3115,
-            "wind_direction_deg_from": 200,
-            "wind_speed_ms": 9.3
-          },
-          {
-            "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3708,
-            "wind_direction_deg_from": 195,
-            "wind_speed_ms": 10.4
-          },
-          {
-            "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4339,
-            "wind_direction_deg_from": 185,
-            "wind_speed_ms": 11.2
-          },
-          {
-            "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5016,
-            "wind_direction_deg_from": 209,
-            "wind_speed_ms": 13.4
-          },
-          {
-            "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5747,
-            "wind_direction_deg_from": 200,
-            "wind_speed_ms": 11.7
-          }
-        ],
-        "tanegashima": [
-          {
-            "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 149,
-            "wind_direction_deg_from": 247,
+            "geopotential_height_m_msl_approx": 2034,
+            "wind_direction_deg_from": 186,
             "wind_speed_ms": 3.6
           },
           {
-            "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 367,
-            "wind_direction_deg_from": 241,
-            "wind_speed_ms": 4.3
-          },
-          {
-            "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 590,
-            "wind_direction_deg_from": 237,
-            "wind_speed_ms": 5.2
-          },
-          {
-            "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 817,
-            "wind_direction_deg_from": 234,
-            "wind_speed_ms": 6.1
-          },
-          {
-            "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1049,
-            "wind_direction_deg_from": 233,
-            "wind_speed_ms": 6.9
-          },
-          {
-            "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1530,
-            "wind_direction_deg_from": 233,
-            "wind_speed_ms": 7.8
-          },
-          {
-            "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2035,
-            "wind_direction_deg_from": 242,
-            "wind_speed_ms": 7.7
-          },
-          {
             "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2566,
-            "wind_direction_deg_from": 255,
-            "wind_speed_ms": 9.8
+            "geopotential_height_m_msl_approx": 2563,
+            "wind_direction_deg_from": 225,
+            "wind_speed_ms": 6.0
           },
           {
             "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3125,
-            "wind_direction_deg_from": 255,
-            "wind_speed_ms": 12.9
+            "geopotential_height_m_msl_approx": 3124,
+            "wind_direction_deg_from": 220,
+            "wind_speed_ms": 7.5
           },
           {
             "pressure_hpa": 650,
             "geopotential_height_m_msl_approx": 3718,
-            "wind_direction_deg_from": 253,
-            "wind_speed_ms": 13.1
+            "wind_direction_deg_from": 218,
+            "wind_speed_ms": 7.7
           },
           {
             "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4351,
-            "wind_direction_deg_from": 241,
-            "wind_speed_ms": 12.9
+            "geopotential_height_m_msl_approx": 4354,
+            "wind_direction_deg_from": 247,
+            "wind_speed_ms": 10.9
           },
           {
             "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5029,
-            "wind_direction_deg_from": 241,
-            "wind_speed_ms": 16.8
+            "geopotential_height_m_msl_approx": 5040,
+            "wind_direction_deg_from": 255,
+            "wind_speed_ms": 14.4
           },
           {
             "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5762,
-            "wind_direction_deg_from": 238,
-            "wind_speed_ms": 22.9
+            "geopotential_height_m_msl_approx": 5777,
+            "wind_direction_deg_from": 256,
+            "wind_speed_ms": 17.2
+          }
+        ],
+        "narashino": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 182,
+            "wind_direction_deg_from": 78,
+            "wind_speed_ms": 5.0
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 394,
+            "wind_direction_deg_from": 78,
+            "wind_speed_ms": 4.9
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 611,
+            "wind_direction_deg_from": 83,
+            "wind_speed_ms": 4.0
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 832,
+            "wind_direction_deg_from": 100,
+            "wind_speed_ms": 2.2
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1058,
+            "wind_direction_deg_from": 162,
+            "wind_speed_ms": 1.2
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1525,
+            "wind_direction_deg_from": 245,
+            "wind_speed_ms": 4.0
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 2016,
+            "wind_direction_deg_from": 257,
+            "wind_speed_ms": 8.7
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2538,
+            "wind_direction_deg_from": 265,
+            "wind_speed_ms": 12.6
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3094,
+            "wind_direction_deg_from": 283,
+            "wind_speed_ms": 12.7
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3687,
+            "wind_direction_deg_from": 286,
+            "wind_speed_ms": 14.6
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4317,
+            "wind_direction_deg_from": 280,
+            "wind_speed_ms": 20.6
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4990,
+            "wind_direction_deg_from": 275,
+            "wind_speed_ms": 26.7
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5714,
+            "wind_direction_deg_from": 267,
+            "wind_speed_ms": 30.1
           }
         ]
       }
     },
     {
-      "valid_utc": "2026-11-17T12:00:00Z",
-      "forecast_hour": 36,
+      "valid_utc": "2026-11-16T18:00:00Z",
+      "forecast_hour": 12,
       "locations": {
         "kirishima": [
           {
             "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 142,
-            "wind_direction_deg_from": 140,
-            "wind_speed_ms": 0.7
-          },
-          {
-            "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 357,
-            "wind_direction_deg_from": 142,
-            "wind_speed_ms": 0.7
-          },
-          {
-            "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 577,
-            "wind_direction_deg_from": 205,
+            "geopotential_height_m_msl_approx": 156,
+            "wind_direction_deg_from": 88,
             "wind_speed_ms": 1.5
           },
           {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 370,
+            "wind_direction_deg_from": 88,
+            "wind_speed_ms": 1.7
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 589,
+            "wind_direction_deg_from": 100,
+            "wind_speed_ms": 3.9
+          },
+          {
             "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 803,
-            "wind_direction_deg_from": 228,
-            "wind_speed_ms": 2.6
+            "geopotential_height_m_msl_approx": 814,
+            "wind_direction_deg_from": 106,
+            "wind_speed_ms": 5.6
           },
           {
             "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1034,
-            "wind_direction_deg_from": 245,
-            "wind_speed_ms": 4.1
+            "geopotential_height_m_msl_approx": 1045,
+            "wind_direction_deg_from": 123,
+            "wind_speed_ms": 6.7
           },
           {
             "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1510,
-            "wind_direction_deg_from": 256,
-            "wind_speed_ms": 6.5
+            "geopotential_height_m_msl_approx": 1524,
+            "wind_direction_deg_from": 167,
+            "wind_speed_ms": 6.4
           },
           {
             "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2010,
-            "wind_direction_deg_from": 260,
-            "wind_speed_ms": 8.6
+            "geopotential_height_m_msl_approx": 2027,
+            "wind_direction_deg_from": 184,
+            "wind_speed_ms": 5.7
           },
           {
             "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2538,
-            "wind_direction_deg_from": 269,
-            "wind_speed_ms": 12.2
+            "geopotential_height_m_msl_approx": 2554,
+            "wind_direction_deg_from": 200,
+            "wind_speed_ms": 7.7
           },
           {
             "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3096,
-            "wind_direction_deg_from": 267,
-            "wind_speed_ms": 14.6
+            "geopotential_height_m_msl_approx": 3111,
+            "wind_direction_deg_from": 223,
+            "wind_speed_ms": 11.4
           },
           {
             "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3688,
-            "wind_direction_deg_from": 260,
-            "wind_speed_ms": 16.0
+            "geopotential_height_m_msl_approx": 3702,
+            "wind_direction_deg_from": 210,
+            "wind_speed_ms": 13.8
           },
           {
             "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4321,
-            "wind_direction_deg_from": 259,
-            "wind_speed_ms": 24.4
+            "geopotential_height_m_msl_approx": 4334,
+            "wind_direction_deg_from": 241,
+            "wind_speed_ms": 12.0
           },
           {
             "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5004,
-            "wind_direction_deg_from": 263,
-            "wind_speed_ms": 27.8
+            "geopotential_height_m_msl_approx": 5018,
+            "wind_direction_deg_from": 261,
+            "wind_speed_ms": 12.0
           },
           {
             "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5742,
-            "wind_direction_deg_from": 265,
-            "wind_speed_ms": 28.3
+            "geopotential_height_m_msl_approx": 5754,
+            "wind_direction_deg_from": 263,
+            "wind_speed_ms": 15.6
           }
         ],
         "tanegashima": [
           {
             "pressure_hpa": 1000,
             "geopotential_height_m_msl_approx": 144,
-            "wind_direction_deg_from": 288,
-            "wind_speed_ms": 10.9
+            "wind_direction_deg_from": 98,
+            "wind_speed_ms": 5.0
           },
           {
             "pressure_hpa": 975,
             "geopotential_height_m_msl_approx": 362,
-            "wind_direction_deg_from": 286,
-            "wind_speed_ms": 12.5
+            "wind_direction_deg_from": 101,
+            "wind_speed_ms": 5.3
           },
           {
             "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 584,
-            "wind_direction_deg_from": 283,
-            "wind_speed_ms": 12.6
+            "geopotential_height_m_msl_approx": 585,
+            "wind_direction_deg_from": 105,
+            "wind_speed_ms": 5.2
           },
           {
             "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 811,
-            "wind_direction_deg_from": 277,
-            "wind_speed_ms": 11.1
+            "geopotential_height_m_msl_approx": 813,
+            "wind_direction_deg_from": 113,
+            "wind_speed_ms": 5.2
           },
           {
             "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1043,
-            "wind_direction_deg_from": 265,
-            "wind_speed_ms": 8.8
+            "geopotential_height_m_msl_approx": 1045,
+            "wind_direction_deg_from": 121,
+            "wind_speed_ms": 4.9
           },
           {
             "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1523,
-            "wind_direction_deg_from": 254,
-            "wind_speed_ms": 7.4
+            "geopotential_height_m_msl_approx": 1525,
+            "wind_direction_deg_from": 145,
+            "wind_speed_ms": 4.0
           },
           {
             "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2027,
-            "wind_direction_deg_from": 264,
-            "wind_speed_ms": 11.1
+            "geopotential_height_m_msl_approx": 2030,
+            "wind_direction_deg_from": 180,
+            "wind_speed_ms": 4.8
           },
           {
             "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2557,
-            "wind_direction_deg_from": 264,
-            "wind_speed_ms": 13.4
+            "geopotential_height_m_msl_approx": 2561,
+            "wind_direction_deg_from": 202,
+            "wind_speed_ms": 7.0
           },
           {
             "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3118,
-            "wind_direction_deg_from": 262,
-            "wind_speed_ms": 17.1
+            "geopotential_height_m_msl_approx": 3123,
+            "wind_direction_deg_from": 214,
+            "wind_speed_ms": 10.9
           },
           {
             "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3715,
-            "wind_direction_deg_from": 263,
-            "wind_speed_ms": 20.3
+            "geopotential_height_m_msl_approx": 3719,
+            "wind_direction_deg_from": 202,
+            "wind_speed_ms": 12.1
           },
           {
             "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4354,
-            "wind_direction_deg_from": 263,
-            "wind_speed_ms": 23.2
+            "geopotential_height_m_msl_approx": 4353,
+            "wind_direction_deg_from": 218,
+            "wind_speed_ms": 9.1
           },
           {
             "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5040,
-            "wind_direction_deg_from": 265,
-            "wind_speed_ms": 24.9
+            "geopotential_height_m_msl_approx": 5036,
+            "wind_direction_deg_from": 250,
+            "wind_speed_ms": 10.1
           },
           {
             "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5779,
-            "wind_direction_deg_from": 266,
-            "wind_speed_ms": 26.9
+            "geopotential_height_m_msl_approx": 5772,
+            "wind_direction_deg_from": 255,
+            "wind_speed_ms": 11.4
           }
-        ]
-      }
-    },
-    {
-      "valid_utc": "2026-11-18T00:00:00Z",
-      "forecast_hour": 48,
-      "locations": {
-        "kirishima": [
+        ],
+        "narashino": [
           {
             "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 129,
-            "wind_direction_deg_from": 224,
-            "wind_speed_ms": 2.2
+            "geopotential_height_m_msl_approx": 195,
+            "wind_direction_deg_from": 59,
+            "wind_speed_ms": 5.7
           },
           {
             "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 344,
-            "wind_direction_deg_from": 224,
-            "wind_speed_ms": 2.3
+            "geopotential_height_m_msl_approx": 407,
+            "wind_direction_deg_from": 67,
+            "wind_speed_ms": 6.3
           },
           {
             "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 564,
-            "wind_direction_deg_from": 227,
-            "wind_speed_ms": 5.5
+            "geopotential_height_m_msl_approx": 623,
+            "wind_direction_deg_from": 84,
+            "wind_speed_ms": 6.9
           },
           {
             "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 788,
-            "wind_direction_deg_from": 236,
-            "wind_speed_ms": 8.1
+            "geopotential_height_m_msl_approx": 843,
+            "wind_direction_deg_from": 97,
+            "wind_speed_ms": 6.4
           },
           {
             "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1017,
-            "wind_direction_deg_from": 247,
-            "wind_speed_ms": 9.6
+            "geopotential_height_m_msl_approx": 1068,
+            "wind_direction_deg_from": 116,
+            "wind_speed_ms": 4.4
           },
           {
             "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1492,
-            "wind_direction_deg_from": 257,
-            "wind_speed_ms": 10.7
+            "geopotential_height_m_msl_approx": 1532,
+            "wind_direction_deg_from": 222,
+            "wind_speed_ms": 3.4
           },
           {
             "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 1990,
-            "wind_direction_deg_from": 259,
-            "wind_speed_ms": 13.6
+            "geopotential_height_m_msl_approx": 2022,
+            "wind_direction_deg_from": 240,
+            "wind_speed_ms": 11.3
           },
           {
             "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2517,
-            "wind_direction_deg_from": 257,
-            "wind_speed_ms": 14.3
+            "geopotential_height_m_msl_approx": 2541,
+            "wind_direction_deg_from": 243,
+            "wind_speed_ms": 15.8
           },
           {
             "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3075,
-            "wind_direction_deg_from": 271,
-            "wind_speed_ms": 15.4
+            "geopotential_height_m_msl_approx": 3094,
+            "wind_direction_deg_from": 268,
+            "wind_speed_ms": 14.3
           },
           {
             "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3666,
-            "wind_direction_deg_from": 275,
-            "wind_speed_ms": 16.3
+            "geopotential_height_m_msl_approx": 3685,
+            "wind_direction_deg_from": 276,
+            "wind_speed_ms": 15.6
           },
           {
             "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4298,
-            "wind_direction_deg_from": 259,
-            "wind_speed_ms": 21.3
+            "geopotential_height_m_msl_approx": 4314,
+            "wind_direction_deg_from": 271,
+            "wind_speed_ms": 18.5
           },
           {
             "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 4976,
-            "wind_direction_deg_from": 257,
-            "wind_speed_ms": 28.1
+            "geopotential_height_m_msl_approx": 4986,
+            "wind_direction_deg_from": 263,
+            "wind_speed_ms": 21.8
           },
           {
             "pressure_hpa": 500,
             "geopotential_height_m_msl_approx": 5709,
             "wind_direction_deg_from": 262,
-            "wind_speed_ms": 34.2
-          }
-        ],
-        "tanegashima": [
-          {
-            "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 138,
-            "wind_direction_deg_from": 285,
-            "wind_speed_ms": 11.7
-          },
-          {
-            "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 355,
-            "wind_direction_deg_from": 283,
-            "wind_speed_ms": 12.9
-          },
-          {
-            "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 576,
-            "wind_direction_deg_from": 278,
-            "wind_speed_ms": 12.4
-          },
-          {
-            "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 802,
-            "wind_direction_deg_from": 271,
-            "wind_speed_ms": 10.9
-          },
-          {
-            "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1033,
-            "wind_direction_deg_from": 257,
-            "wind_speed_ms": 8.9
-          },
-          {
-            "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1511,
-            "wind_direction_deg_from": 252,
-            "wind_speed_ms": 10.6
-          },
-          {
-            "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 2013,
-            "wind_direction_deg_from": 254,
-            "wind_speed_ms": 15.0
-          },
-          {
-            "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2542,
-            "wind_direction_deg_from": 256,
-            "wind_speed_ms": 18.1
-          },
-          {
-            "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3102,
-            "wind_direction_deg_from": 258,
-            "wind_speed_ms": 20.4
-          },
-          {
-            "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3698,
-            "wind_direction_deg_from": 261,
-            "wind_speed_ms": 23.0
-          },
-          {
-            "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4333,
-            "wind_direction_deg_from": 261,
-            "wind_speed_ms": 24.8
-          },
-          {
-            "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 5015,
-            "wind_direction_deg_from": 259,
-            "wind_speed_ms": 26.1
-          },
-          {
-            "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5752,
-            "wind_direction_deg_from": 259,
-            "wind_speed_ms": 32.9
+            "wind_speed_ms": 23.8
           }
         ]
       }
     },
     {
-      "valid_utc": "2026-11-18T12:00:00Z",
-      "forecast_hour": 60,
+      "valid_utc": "2026-11-17T06:00:00Z",
+      "forecast_hour": 24,
       "locations": {
         "kirishima": [
           {
             "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 137,
-            "wind_direction_deg_from": 316,
-            "wind_speed_ms": 4.0
+            "geopotential_height_m_msl_approx": 123,
+            "wind_direction_deg_from": 238,
+            "wind_speed_ms": 1.9
           },
           {
             "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 350,
-            "wind_direction_deg_from": 317,
-            "wind_speed_ms": 4.3
+            "geopotential_height_m_msl_approx": 339,
+            "wind_direction_deg_from": 238,
+            "wind_speed_ms": 2.0
           },
           {
             "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 566,
-            "wind_direction_deg_from": 318,
-            "wind_speed_ms": 10.3
+            "geopotential_height_m_msl_approx": 561,
+            "wind_direction_deg_from": 238,
+            "wind_speed_ms": 3.3
           },
           {
             "pressure_hpa": 925,
             "geopotential_height_m_msl_approx": 787,
-            "wind_direction_deg_from": 318,
-            "wind_speed_ms": 12.9
+            "wind_direction_deg_from": 239,
+            "wind_speed_ms": 3.9
           },
           {
             "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1013,
-            "wind_direction_deg_from": 317,
-            "wind_speed_ms": 15.2
+            "geopotential_height_m_msl_approx": 1018,
+            "wind_direction_deg_from": 241,
+            "wind_speed_ms": 5.0
           },
           {
             "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1479,
-            "wind_direction_deg_from": 305,
-            "wind_speed_ms": 17.7
+            "geopotential_height_m_msl_approx": 1497,
+            "wind_direction_deg_from": 245,
+            "wind_speed_ms": 7.1
           },
           {
             "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 1969,
-            "wind_direction_deg_from": 291,
-            "wind_speed_ms": 19.9
+            "geopotential_height_m_msl_approx": 1998,
+            "wind_direction_deg_from": 245,
+            "wind_speed_ms": 9.3
           },
           {
             "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2485,
-            "wind_direction_deg_from": 277,
-            "wind_speed_ms": 22.7
+            "geopotential_height_m_msl_approx": 2526,
+            "wind_direction_deg_from": 240,
+            "wind_speed_ms": 10.4
           },
           {
             "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3035,
-            "wind_direction_deg_from": 268,
-            "wind_speed_ms": 27.3
+            "geopotential_height_m_msl_approx": 3086,
+            "wind_direction_deg_from": 237,
+            "wind_speed_ms": 9.7
           },
           {
             "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3624,
-            "wind_direction_deg_from": 266,
-            "wind_speed_ms": 30.5
+            "geopotential_height_m_msl_approx": 3679,
+            "wind_direction_deg_from": 247,
+            "wind_speed_ms": 10.5
           },
           {
             "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4255,
-            "wind_direction_deg_from": 263,
-            "wind_speed_ms": 33.8
+            "geopotential_height_m_msl_approx": 4313,
+            "wind_direction_deg_from": 251,
+            "wind_speed_ms": 14.8
           },
           {
             "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 4931,
-            "wind_direction_deg_from": 258,
-            "wind_speed_ms": 34.6
+            "geopotential_height_m_msl_approx": 4992,
+            "wind_direction_deg_from": 254,
+            "wind_speed_ms": 18.5
           },
           {
             "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5656,
-            "wind_direction_deg_from": 262,
-            "wind_speed_ms": 37.0
+            "geopotential_height_m_msl_approx": 5722,
+            "wind_direction_deg_from": 255,
+            "wind_speed_ms": 20.9
           }
         ],
         "tanegashima": [
           {
             "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 138,
-            "wind_direction_deg_from": 300,
-            "wind_speed_ms": 15.7
+            "geopotential_height_m_msl_approx": 125,
+            "wind_direction_deg_from": 277,
+            "wind_speed_ms": 7.5
           },
           {
             "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 354,
-            "wind_direction_deg_from": 300,
-            "wind_speed_ms": 17.9
+            "geopotential_height_m_msl_approx": 344,
+            "wind_direction_deg_from": 274,
+            "wind_speed_ms": 8.4
           },
           {
             "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 574,
-            "wind_direction_deg_from": 299,
-            "wind_speed_ms": 18.3
+            "geopotential_height_m_msl_approx": 567,
+            "wind_direction_deg_from": 271,
+            "wind_speed_ms": 8.4
           },
           {
             "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 798,
-            "wind_direction_deg_from": 298,
-            "wind_speed_ms": 18.1
+            "geopotential_height_m_msl_approx": 795,
+            "wind_direction_deg_from": 268,
+            "wind_speed_ms": 8.1
           },
           {
             "pressure_hpa": 900,
             "geopotential_height_m_msl_approx": 1027,
-            "wind_direction_deg_from": 297,
-            "wind_speed_ms": 18.0
+            "wind_direction_deg_from": 263,
+            "wind_speed_ms": 7.2
           },
           {
             "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1499,
-            "wind_direction_deg_from": 291,
-            "wind_speed_ms": 17.4
+            "geopotential_height_m_msl_approx": 1507,
+            "wind_direction_deg_from": 252,
+            "wind_speed_ms": 7.0
           },
           {
             "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 1995,
-            "wind_direction_deg_from": 276,
-            "wind_speed_ms": 17.7
+            "geopotential_height_m_msl_approx": 2011,
+            "wind_direction_deg_from": 253,
+            "wind_speed_ms": 11.3
           },
           {
             "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2519,
+            "geopotential_height_m_msl_approx": 2542,
+            "wind_direction_deg_from": 262,
+            "wind_speed_ms": 16.7
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3104,
+            "wind_direction_deg_from": 263,
+            "wind_speed_ms": 18.7
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3701,
+            "wind_direction_deg_from": 260,
+            "wind_speed_ms": 21.3
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4337,
+            "wind_direction_deg_from": 255,
+            "wind_speed_ms": 23.6
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 5018,
+            "wind_direction_deg_from": 257,
+            "wind_speed_ms": 26.5
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5754,
+            "wind_direction_deg_from": 262,
+            "wind_speed_ms": 28.0
+          }
+        ],
+        "narashino": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 198,
+            "wind_direction_deg_from": 40,
+            "wind_speed_ms": 8.7
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 409,
+            "wind_direction_deg_from": 46,
+            "wind_speed_ms": 9.4
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 623,
+            "wind_direction_deg_from": 54,
+            "wind_speed_ms": 10.3
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 842,
+            "wind_direction_deg_from": 73,
+            "wind_speed_ms": 11.8
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1066,
+            "wind_direction_deg_from": 91,
+            "wind_speed_ms": 12.7
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1532,
+            "wind_direction_deg_from": 132,
+            "wind_speed_ms": 12.7
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 2027,
+            "wind_direction_deg_from": 169,
+            "wind_speed_ms": 12.9
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2548,
+            "wind_direction_deg_from": 193,
+            "wind_speed_ms": 12.3
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3101,
+            "wind_direction_deg_from": 214,
+            "wind_speed_ms": 13.8
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3688,
+            "wind_direction_deg_from": 240,
+            "wind_speed_ms": 15.6
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4312,
+            "wind_direction_deg_from": 232,
+            "wind_speed_ms": 22.5
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4986,
+            "wind_direction_deg_from": 216,
+            "wind_speed_ms": 24.3
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5713,
+            "wind_direction_deg_from": 222,
+            "wind_speed_ms": 24.9
+          }
+        ]
+      }
+    },
+    {
+      "valid_utc": "2026-11-17T18:00:00Z",
+      "forecast_hour": 36,
+      "locations": {
+        "kirishima": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 122,
+            "wind_direction_deg_from": 236,
+            "wind_speed_ms": 1.6
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 337,
+            "wind_direction_deg_from": 236,
+            "wind_speed_ms": 1.7
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 557,
+            "wind_direction_deg_from": 248,
+            "wind_speed_ms": 5.6
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 782,
+            "wind_direction_deg_from": 251,
+            "wind_speed_ms": 8.7
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1012,
+            "wind_direction_deg_from": 251,
+            "wind_speed_ms": 10.2
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1487,
+            "wind_direction_deg_from": 249,
+            "wind_speed_ms": 12.6
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1985,
+            "wind_direction_deg_from": 248,
+            "wind_speed_ms": 14.1
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2510,
+            "wind_direction_deg_from": 255,
+            "wind_speed_ms": 18.1
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3070,
+            "wind_direction_deg_from": 259,
+            "wind_speed_ms": 20.4
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3666,
+            "wind_direction_deg_from": 267,
+            "wind_speed_ms": 20.8
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4303,
+            "wind_direction_deg_from": 272,
+            "wind_speed_ms": 21.7
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4985,
+            "wind_direction_deg_from": 267,
+            "wind_speed_ms": 21.2
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5720,
+            "wind_direction_deg_from": 248,
+            "wind_speed_ms": 24.6
+          }
+        ],
+        "tanegashima": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 128,
+            "wind_direction_deg_from": 275,
+            "wind_speed_ms": 7.5
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 346,
+            "wind_direction_deg_from": 272,
+            "wind_speed_ms": 8.9
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 568,
+            "wind_direction_deg_from": 271,
+            "wind_speed_ms": 9.2
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 794,
+            "wind_direction_deg_from": 268,
+            "wind_speed_ms": 8.9
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1025,
+            "wind_direction_deg_from": 260,
+            "wind_speed_ms": 8.1
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1503,
+            "wind_direction_deg_from": 255,
+            "wind_speed_ms": 9.3
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 2006,
+            "wind_direction_deg_from": 262,
+            "wind_speed_ms": 16.1
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2537,
+            "wind_direction_deg_from": 266,
+            "wind_speed_ms": 21.3
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3100,
+            "wind_direction_deg_from": 267,
+            "wind_speed_ms": 22.6
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3698,
+            "wind_direction_deg_from": 267,
+            "wind_speed_ms": 21.9
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4335,
+            "wind_direction_deg_from": 264,
+            "wind_speed_ms": 21.5
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 5019,
+            "wind_direction_deg_from": 252,
+            "wind_speed_ms": 24.9
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5757,
+            "wind_direction_deg_from": 252,
+            "wind_speed_ms": 27.6
+          }
+        ],
+        "narashino": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 103,
+            "wind_direction_deg_from": 336,
+            "wind_speed_ms": 6.1
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 313,
+            "wind_direction_deg_from": 349,
+            "wind_speed_ms": 5.5
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 529,
+            "wind_direction_deg_from": 17,
+            "wind_speed_ms": 3.6
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 752,
+            "wind_direction_deg_from": 340,
+            "wind_speed_ms": 1.2
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 980,
+            "wind_direction_deg_from": 251,
+            "wind_speed_ms": 4.3
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1455,
+            "wind_direction_deg_from": 232,
+            "wind_speed_ms": 11.6
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1955,
+            "wind_direction_deg_from": 236,
+            "wind_speed_ms": 15.9
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2481,
+            "wind_direction_deg_from": 207,
+            "wind_speed_ms": 15.7
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3039,
+            "wind_direction_deg_from": 188,
+            "wind_speed_ms": 19.7
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3631,
+            "wind_direction_deg_from": 202,
+            "wind_speed_ms": 22.3
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4263,
+            "wind_direction_deg_from": 229,
+            "wind_speed_ms": 21.9
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4940,
+            "wind_direction_deg_from": 246,
+            "wind_speed_ms": 20.7
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5671,
+            "wind_direction_deg_from": 241,
+            "wind_speed_ms": 18.9
+          }
+        ]
+      }
+    },
+    {
+      "valid_utc": "2026-11-18T06:00:00Z",
+      "forecast_hour": 48,
+      "locations": {
+        "kirishima": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 111,
+            "wind_direction_deg_from": 303,
+            "wind_speed_ms": 3.3
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 325,
+            "wind_direction_deg_from": 304,
+            "wind_speed_ms": 3.4
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 544,
+            "wind_direction_deg_from": 306,
+            "wind_speed_ms": 7.5
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 768,
+            "wind_direction_deg_from": 307,
+            "wind_speed_ms": 9.6
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 996,
+            "wind_direction_deg_from": 307,
+            "wind_speed_ms": 12.4
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1468,
+            "wind_direction_deg_from": 293,
+            "wind_speed_ms": 17.1
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1964,
+            "wind_direction_deg_from": 282,
+            "wind_speed_ms": 18.1
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2487,
             "wind_direction_deg_from": 271,
             "wind_speed_ms": 20.6
           },
           {
             "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3076,
-            "wind_direction_deg_from": 269,
-            "wind_speed_ms": 27.2
+            "geopotential_height_m_msl_approx": 3042,
+            "wind_direction_deg_from": 267,
+            "wind_speed_ms": 25.7
           },
           {
             "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3669,
-            "wind_direction_deg_from": 265,
-            "wind_speed_ms": 28.7
+            "geopotential_height_m_msl_approx": 3633,
+            "wind_direction_deg_from": 260,
+            "wind_speed_ms": 26.2
           },
           {
             "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4301,
-            "wind_direction_deg_from": 261,
-            "wind_speed_ms": 29.2
+            "geopotential_height_m_msl_approx": 4267,
+            "wind_direction_deg_from": 262,
+            "wind_speed_ms": 31.5
           },
           {
             "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 4982,
-            "wind_direction_deg_from": 259,
-            "wind_speed_ms": 32.0
-          },
-          {
-            "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5716,
-            "wind_direction_deg_from": 262,
-            "wind_speed_ms": 36.6
-          }
-        ]
-      }
-    },
-    {
-      "valid_utc": "2026-11-19T00:00:00Z",
-      "forecast_hour": 72,
-      "locations": {
-        "kirishima": [
-          {
-            "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 164,
-            "wind_direction_deg_from": 303,
-            "wind_speed_ms": 3.9
-          },
-          {
-            "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 374,
-            "wind_direction_deg_from": 304,
-            "wind_speed_ms": 4.7
-          },
-          {
-            "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 588,
-            "wind_direction_deg_from": 307,
-            "wind_speed_ms": 9.8
-          },
-          {
-            "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 806,
-            "wind_direction_deg_from": 308,
-            "wind_speed_ms": 12.0
-          },
-          {
-            "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1028,
-            "wind_direction_deg_from": 309,
-            "wind_speed_ms": 13.9
-          },
-          {
-            "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1488,
-            "wind_direction_deg_from": 305,
-            "wind_speed_ms": 18.4
-          },
-          {
-            "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 1969,
-            "wind_direction_deg_from": 301,
-            "wind_speed_ms": 20.1
-          },
-          {
-            "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2478,
-            "wind_direction_deg_from": 297,
-            "wind_speed_ms": 25.2
-          },
-          {
-            "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3025,
-            "wind_direction_deg_from": 291,
-            "wind_speed_ms": 29.4
-          },
-          {
-            "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3607,
-            "wind_direction_deg_from": 286,
-            "wind_speed_ms": 30.8
-          },
-          {
-            "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4227,
-            "wind_direction_deg_from": 282,
+            "geopotential_height_m_msl_approx": 4947,
+            "wind_direction_deg_from": 265,
             "wind_speed_ms": 32.6
           },
           {
-            "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 4891,
-            "wind_direction_deg_from": 275,
-            "wind_speed_ms": 35.6
-          },
-          {
             "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5606,
-            "wind_direction_deg_from": 267,
-            "wind_speed_ms": 41.8
+            "geopotential_height_m_msl_approx": 5680,
+            "wind_direction_deg_from": 263,
+            "wind_speed_ms": 30.9
           }
         ],
         "tanegashima": [
           {
             "pressure_hpa": 1000,
-            "geopotential_height_m_msl_approx": 161,
-            "wind_direction_deg_from": 309,
-            "wind_speed_ms": 14.3
+            "geopotential_height_m_msl_approx": 116,
+            "wind_direction_deg_from": 299,
+            "wind_speed_ms": 13.8
           },
           {
             "pressure_hpa": 975,
-            "geopotential_height_m_msl_approx": 375,
-            "wind_direction_deg_from": 308,
-            "wind_speed_ms": 15.9
+            "geopotential_height_m_msl_approx": 332,
+            "wind_direction_deg_from": 298,
+            "wind_speed_ms": 16.1
           },
           {
             "pressure_hpa": 950,
-            "geopotential_height_m_msl_approx": 592,
-            "wind_direction_deg_from": 307,
-            "wind_speed_ms": 16.3
+            "geopotential_height_m_msl_approx": 553,
+            "wind_direction_deg_from": 297,
+            "wind_speed_ms": 16.8
           },
           {
             "pressure_hpa": 925,
-            "geopotential_height_m_msl_approx": 813,
-            "wind_direction_deg_from": 306,
-            "wind_speed_ms": 16.3
+            "geopotential_height_m_msl_approx": 779,
+            "wind_direction_deg_from": 295,
+            "wind_speed_ms": 17.4
           },
           {
             "pressure_hpa": 900,
-            "geopotential_height_m_msl_approx": 1039,
-            "wind_direction_deg_from": 305,
-            "wind_speed_ms": 16.1
+            "geopotential_height_m_msl_approx": 1009,
+            "wind_direction_deg_from": 292,
+            "wind_speed_ms": 17.4
           },
           {
             "pressure_hpa": 850,
-            "geopotential_height_m_msl_approx": 1506,
-            "wind_direction_deg_from": 304,
-            "wind_speed_ms": 16.1
+            "geopotential_height_m_msl_approx": 1484,
+            "wind_direction_deg_from": 279,
+            "wind_speed_ms": 17.4
           },
           {
             "pressure_hpa": 800,
-            "geopotential_height_m_msl_approx": 1993,
-            "wind_direction_deg_from": 301,
-            "wind_speed_ms": 16.3
+            "geopotential_height_m_msl_approx": 1985,
+            "wind_direction_deg_from": 272,
+            "wind_speed_ms": 17.7
           },
           {
             "pressure_hpa": 750,
-            "geopotential_height_m_msl_approx": 2511,
-            "wind_direction_deg_from": 292,
-            "wind_speed_ms": 19.4
+            "geopotential_height_m_msl_approx": 2513,
+            "wind_direction_deg_from": 268,
+            "wind_speed_ms": 18.1
           },
           {
             "pressure_hpa": 700,
-            "geopotential_height_m_msl_approx": 3064,
-            "wind_direction_deg_from": 289,
+            "geopotential_height_m_msl_approx": 3071,
+            "wind_direction_deg_from": 262,
+            "wind_speed_ms": 21.4
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3664,
+            "wind_direction_deg_from": 264,
+            "wind_speed_ms": 24.2
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4300,
+            "wind_direction_deg_from": 266,
+            "wind_speed_ms": 28.5
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4984,
+            "wind_direction_deg_from": 260,
+            "wind_speed_ms": 36.0
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5724,
+            "wind_direction_deg_from": 264,
+            "wind_speed_ms": 43.7
+          }
+        ],
+        "narashino": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 39,
+            "wind_direction_deg_from": 195,
+            "wind_speed_ms": 4.7
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 253,
+            "wind_direction_deg_from": 196,
+            "wind_speed_ms": 6.2
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 472,
+            "wind_direction_deg_from": 198,
+            "wind_speed_ms": 7.0
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 696,
+            "wind_direction_deg_from": 200,
+            "wind_speed_ms": 7.3
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 926,
+            "wind_direction_deg_from": 197,
+            "wind_speed_ms": 5.9
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1403,
+            "wind_direction_deg_from": 207,
+            "wind_speed_ms": 3.8
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1904,
+            "wind_direction_deg_from": 223,
+            "wind_speed_ms": 5.7
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2433,
+            "wind_direction_deg_from": 257,
+            "wind_speed_ms": 8.7
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 2993,
+            "wind_direction_deg_from": 276,
+            "wind_speed_ms": 11.1
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3587,
+            "wind_direction_deg_from": 271,
+            "wind_speed_ms": 11.0
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4218,
+            "wind_direction_deg_from": 254,
+            "wind_speed_ms": 12.2
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4890,
+            "wind_direction_deg_from": 246,
+            "wind_speed_ms": 18.8
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5614,
+            "wind_direction_deg_from": 253,
+            "wind_speed_ms": 25.4
+          }
+        ]
+      }
+    },
+    {
+      "valid_utc": "2026-11-18T18:00:00Z",
+      "forecast_hour": 60,
+      "locations": {
+        "kirishima": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 138,
+            "wind_direction_deg_from": 308,
+            "wind_speed_ms": 4.9
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 349,
+            "wind_direction_deg_from": 308,
+            "wind_speed_ms": 5.1
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 565,
+            "wind_direction_deg_from": 310,
+            "wind_speed_ms": 11.9
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 785,
+            "wind_direction_deg_from": 311,
+            "wind_speed_ms": 14.8
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1010,
+            "wind_direction_deg_from": 312,
+            "wind_speed_ms": 16.9
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1475,
+            "wind_direction_deg_from": 310,
+            "wind_speed_ms": 19.9
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1962,
+            "wind_direction_deg_from": 300,
+            "wind_speed_ms": 18.9
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2475,
+            "wind_direction_deg_from": 282,
+            "wind_speed_ms": 18.3
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3017,
+            "wind_direction_deg_from": 276,
             "wind_speed_ms": 21.2
           },
           {
             "pressure_hpa": 650,
-            "geopotential_height_m_msl_approx": 3651,
-            "wind_direction_deg_from": 282,
-            "wind_speed_ms": 24.1
+            "geopotential_height_m_msl_approx": 3596,
+            "wind_direction_deg_from": 278,
+            "wind_speed_ms": 30.6
           },
           {
             "pressure_hpa": 600,
-            "geopotential_height_m_msl_approx": 4277,
-            "wind_direction_deg_from": 274,
-            "wind_speed_ms": 29.0
+            "geopotential_height_m_msl_approx": 4216,
+            "wind_direction_deg_from": 273,
+            "wind_speed_ms": 36.0
           },
           {
             "pressure_hpa": 550,
-            "geopotential_height_m_msl_approx": 4950,
-            "wind_direction_deg_from": 264,
-            "wind_speed_ms": 37.8
+            "geopotential_height_m_msl_approx": 4883,
+            "wind_direction_deg_from": 271,
+            "wind_speed_ms": 40.5
           },
           {
             "pressure_hpa": 500,
-            "geopotential_height_m_msl_approx": 5678,
+            "geopotential_height_m_msl_approx": 5602,
+            "wind_direction_deg_from": 265,
+            "wind_speed_ms": 47.8
+          }
+        ],
+        "tanegashima": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 136,
+            "wind_direction_deg_from": 298,
+            "wind_speed_ms": 15.2
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 351,
+            "wind_direction_deg_from": 297,
+            "wind_speed_ms": 17.5
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 570,
+            "wind_direction_deg_from": 297,
+            "wind_speed_ms": 18.2
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 793,
+            "wind_direction_deg_from": 296,
+            "wind_speed_ms": 18.6
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1020,
+            "wind_direction_deg_from": 296,
+            "wind_speed_ms": 18.8
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1490,
+            "wind_direction_deg_from": 295,
+            "wind_speed_ms": 18.5
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1982,
+            "wind_direction_deg_from": 286,
+            "wind_speed_ms": 18.6
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2503,
+            "wind_direction_deg_from": 279,
+            "wind_speed_ms": 20.1
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3052,
+            "wind_direction_deg_from": 275,
+            "wind_speed_ms": 24.1
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3639,
+            "wind_direction_deg_from": 269,
+            "wind_speed_ms": 30.4
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4269,
+            "wind_direction_deg_from": 265,
+            "wind_speed_ms": 34.5
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4945,
+            "wind_direction_deg_from": 261,
+            "wind_speed_ms": 41.4
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5677,
             "wind_direction_deg_from": 262,
-            "wind_speed_ms": 40.8
+            "wind_speed_ms": 49.1
+          }
+        ],
+        "narashino": [
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 201,
+            "wind_direction_deg_from": 305,
+            "wind_speed_ms": 6.7
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 420,
+            "wind_direction_deg_from": 311,
+            "wind_speed_ms": 9.4
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 644,
+            "wind_direction_deg_from": 312,
+            "wind_speed_ms": 12.5
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 873,
+            "wind_direction_deg_from": 299,
+            "wind_speed_ms": 10.8
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1349,
+            "wind_direction_deg_from": 259,
+            "wind_speed_ms": 11.3
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1847,
+            "wind_direction_deg_from": 256,
+            "wind_speed_ms": 15.0
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2370,
+            "wind_direction_deg_from": 258,
+            "wind_speed_ms": 16.6
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 2921,
+            "wind_direction_deg_from": 255,
+            "wind_speed_ms": 17.5
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3504,
+            "wind_direction_deg_from": 254,
+            "wind_speed_ms": 23.4
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4124,
+            "wind_direction_deg_from": 253,
+            "wind_speed_ms": 31.4
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4789,
+            "wind_direction_deg_from": 252,
+            "wind_speed_ms": 37.5
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5509,
+            "wind_direction_deg_from": 249,
+            "wind_speed_ms": 42.3
+          }
+        ]
+      }
+    },
+    {
+      "valid_utc": "2026-11-19T06:00:00Z",
+      "forecast_hour": 72,
+      "locations": {
+        "kirishima": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 151,
+            "wind_direction_deg_from": 305,
+            "wind_speed_ms": 4.0
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 362,
+            "wind_direction_deg_from": 305,
+            "wind_speed_ms": 4.5
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 576,
+            "wind_direction_deg_from": 307,
+            "wind_speed_ms": 9.6
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 795,
+            "wind_direction_deg_from": 308,
+            "wind_speed_ms": 11.9
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1018,
+            "wind_direction_deg_from": 307,
+            "wind_speed_ms": 13.5
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1479,
+            "wind_direction_deg_from": 302,
+            "wind_speed_ms": 16.7
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1961,
+            "wind_direction_deg_from": 296,
+            "wind_speed_ms": 18.0
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2468,
+            "wind_direction_deg_from": 293,
+            "wind_speed_ms": 20.1
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3007,
+            "wind_direction_deg_from": 284,
+            "wind_speed_ms": 29.6
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3586,
+            "wind_direction_deg_from": 274,
+            "wind_speed_ms": 34.5
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4206,
+            "wind_direction_deg_from": 269,
+            "wind_speed_ms": 37.4
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4868,
+            "wind_direction_deg_from": 268,
+            "wind_speed_ms": 42.1
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5583,
+            "wind_direction_deg_from": 271,
+            "wind_speed_ms": 47.3
+          }
+        ],
+        "tanegashima": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 152,
+            "wind_direction_deg_from": 309,
+            "wind_speed_ms": 12.8
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 365,
+            "wind_direction_deg_from": 308,
+            "wind_speed_ms": 14.3
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 582,
+            "wind_direction_deg_from": 306,
+            "wind_speed_ms": 14.7
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 803,
+            "wind_direction_deg_from": 305,
+            "wind_speed_ms": 14.8
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 1029,
+            "wind_direction_deg_from": 304,
+            "wind_speed_ms": 14.8
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1494,
+            "wind_direction_deg_from": 302,
+            "wind_speed_ms": 14.8
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1981,
+            "wind_direction_deg_from": 295,
+            "wind_speed_ms": 15.3
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2497,
+            "wind_direction_deg_from": 279,
+            "wind_speed_ms": 19.7
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 3049,
+            "wind_direction_deg_from": 275,
+            "wind_speed_ms": 23.7
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3635,
+            "wind_direction_deg_from": 271,
+            "wind_speed_ms": 27.2
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4259,
+            "wind_direction_deg_from": 267,
+            "wind_speed_ms": 32.5
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4929,
+            "wind_direction_deg_from": 269,
+            "wind_speed_ms": 37.7
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5652,
+            "wind_direction_deg_from": 268,
+            "wind_speed_ms": 41.5
+          }
+        ],
+        "narashino": [
+          {
+            "pressure_hpa": 1000,
+            "geopotential_height_m_msl_approx": 13,
+            "wind_direction_deg_from": 282,
+            "wind_speed_ms": 7.1
+          },
+          {
+            "pressure_hpa": 975,
+            "geopotential_height_m_msl_approx": 227,
+            "wind_direction_deg_from": 281,
+            "wind_speed_ms": 12.1
+          },
+          {
+            "pressure_hpa": 950,
+            "geopotential_height_m_msl_approx": 445,
+            "wind_direction_deg_from": 278,
+            "wind_speed_ms": 12.6
+          },
+          {
+            "pressure_hpa": 925,
+            "geopotential_height_m_msl_approx": 667,
+            "wind_direction_deg_from": 275,
+            "wind_speed_ms": 12.6
+          },
+          {
+            "pressure_hpa": 900,
+            "geopotential_height_m_msl_approx": 893,
+            "wind_direction_deg_from": 272,
+            "wind_speed_ms": 12.4
+          },
+          {
+            "pressure_hpa": 850,
+            "geopotential_height_m_msl_approx": 1359,
+            "wind_direction_deg_from": 267,
+            "wind_speed_ms": 11.9
+          },
+          {
+            "pressure_hpa": 800,
+            "geopotential_height_m_msl_approx": 1846,
+            "wind_direction_deg_from": 263,
+            "wind_speed_ms": 12.2
+          },
+          {
+            "pressure_hpa": 750,
+            "geopotential_height_m_msl_approx": 2355,
+            "wind_direction_deg_from": 267,
+            "wind_speed_ms": 16.0
+          },
+          {
+            "pressure_hpa": 700,
+            "geopotential_height_m_msl_approx": 2893,
+            "wind_direction_deg_from": 276,
+            "wind_speed_ms": 32.1
+          },
+          {
+            "pressure_hpa": 650,
+            "geopotential_height_m_msl_approx": 3467,
+            "wind_direction_deg_from": 271,
+            "wind_speed_ms": 38.4
+          },
+          {
+            "pressure_hpa": 600,
+            "geopotential_height_m_msl_approx": 4080,
+            "wind_direction_deg_from": 265,
+            "wind_speed_ms": 43.6
+          },
+          {
+            "pressure_hpa": 550,
+            "geopotential_height_m_msl_approx": 4737,
+            "wind_direction_deg_from": 263,
+            "wind_speed_ms": 47.6
+          },
+          {
+            "pressure_hpa": 500,
+            "geopotential_height_m_msl_approx": 5444,
+            "wind_direction_deg_from": 260,
+            "wind_speed_ms": 50.6
           }
         ]
       }
