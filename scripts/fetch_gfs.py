@@ -13,7 +13,7 @@ from pathlib import Path
 BASE="https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl"
 LOCATIONS={"kirishima":{"name":"霧島演習場周辺（暫定）","lat":31.98,"lon":130.76},
            "tanegashima":{"name":"南種子町周辺（暫定）","lat":30.38,"lon":130.90},
-           "narashino":{"name":"習志野演習場周辺（暫定）","lat":35.7114533,"lon":140.0696580}}
+           "narashino":{"name":"習志野演習場周辺（暫定）","lat":35.70722400,"lon":140.07658381}}
 REGIONS={
     "kyushu":{"locations":("kirishima","tanegashima"),
                "bounds":{"leftlon":"130.25","rightlon":"131.25","toplat":"32.50","bottomlat":"29.90"}},
