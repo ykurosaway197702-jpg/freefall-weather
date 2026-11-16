@@ -64,8 +64,8 @@ class LocationConfigurationTests(unittest.TestCase):
 
     def test_narashino_reference_point(self):
         point = LOCATIONS["narashino"]
-        self.assertAlmostEqual(point["lat"], 35.7114533)
-        self.assertAlmostEqual(point["lon"], 140.0696580)
+        self.assertAlmostEqual(point["lat"], 35.70722400)
+        self.assertAlmostEqual(point["lon"], 140.07658381)
 
 
 if __name__ == "__main__":
