@@ -1,7 +1,7 @@
 import datetime as dt
 import unittest
 
-from scripts.fetch_gfs import candidate_cycles, make_record
+from scripts.fetch_gfs import LOCATIONS, REGIONS, candidate_cycles, make_record
 
 
 UTC = dt.timezone.utc
@@ -54,6 +54,18 @@ class MakeRecordTests(unittest.TestCase):
         fields = {"kirishima": {1000: {"u": 1.0, "v": 2.0}}}
         rows = make_record(fields, cycle, 3)["locations"]["kirishima"]
         self.assertEqual(rows, [])
+
+
+class LocationConfigurationTests(unittest.TestCase):
+    def test_every_location_is_assigned_to_one_fetch_region(self):
+        assigned = [key for region in REGIONS.values() for key in region["locations"]]
+        self.assertCountEqual(assigned, LOCATIONS)
+        self.assertEqual(len(assigned), len(set(assigned)))
+
+    def test_narashino_reference_point(self):
+        point = LOCATIONS["narashino"]
+        self.assertAlmostEqual(point["lat"], 35.7114533)
+        self.assertAlmostEqual(point["lon"], 140.0696580)
 
 
 if __name__ == "__main__":
