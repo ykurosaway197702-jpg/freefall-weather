@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch NOAA GFS 0.25-degree pressure-level winds for two approximate reference locations.
+"""Fetch NOAA GFS 0.25-degree pressure-level winds for approximate reference locations.
 No extrapolation, no operational go/no-go decision. Uses ecCodes Python bindings.
 """
 import datetime as dt
@@ -12,7 +12,14 @@ import urllib.request
 from pathlib import Path
 BASE="https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl"
 LOCATIONS={"kirishima":{"name":"霧島演習場周辺（暫定）","lat":31.98,"lon":130.76},
-           "tanegashima":{"name":"南種子町周辺（暫定）","lat":30.38,"lon":130.90}}
+           "tanegashima":{"name":"南種子町周辺（暫定）","lat":30.38,"lon":130.90},
+           "narashino":{"name":"習志野演習場周辺（暫定）","lat":35.7114533,"lon":140.0696580}}
+REGIONS={
+    "kyushu":{"locations":("kirishima","tanegashima"),
+               "bounds":{"leftlon":"130.25","rightlon":"131.25","toplat":"32.50","bottomlat":"29.90"}},
+    "kanto":{"locations":("narashino",),
+              "bounds":{"leftlon":"139.55","rightlon":"140.55","toplat":"36.20","bottomlat":"35.20"}},
+}
 LEVELS=[1000,975,950,925,900,850,800,750,700,650,600,550,500]
 HOURS=[3,6,12,24,36,48,60,72]
 
@@ -24,12 +31,11 @@ def candidate_cycles(now, publication_delay_hours=4, count=5):
     latest=cutoff.replace(hour=(cutoff.hour//6)*6,minute=0,second=0,microsecond=0)
     return [latest-dt.timedelta(hours=6*i) for i in range(count)]
 
-def download(cycle, hour):
+def download(cycle, hour, bounds):
     file=f"gfs.t{cycle.hour:02d}z.pgrb2.0p25.f{hour:03d}"
     query={"file":file,"dir":f"/gfs.{cycle:%Y%m%d}/{cycle.hour:02d}/atmos",
            "var_UGRD":"on","var_VGRD":"on","var_HGT":"on",
-           "subregion":"","leftlon":"130.25","rightlon":"131.25",
-           "toplat":"32.50","bottomlat":"29.90"}
+           "subregion":"",**bounds}
     for lev in LEVELS:query[f"lev_{lev}_mb"]="on"
     url=BASE+"?"+urllib.parse.urlencode(query)
     req=urllib.request.Request(url,headers={"User-Agent":"freefall-weather/0.2 (educational weather dashboard)"})
@@ -39,7 +45,7 @@ def download(cycle, hour):
         raise ValueError("Not a valid bounded GRIB2 download")
     return data
 
-def parse(data):
+def parse(data, location_keys=None):
     # Keep ecCodes optional at import time so pure transformation logic is testable.
     from eccodes import codes_grib_new_from_file, codes_get, codes_grib_find_nearest, codes_release
     fields={}
@@ -53,12 +59,24 @@ def parse(data):
                     name=codes_get(gid,"shortName")
                     level=int(codes_get(gid,"level"))
                     if level not in LEVELS or name not in ("u","v","gh"):continue
-                    for key,p in LOCATIONS.items():
+                    for key in location_keys or LOCATIONS:
+                        p=LOCATIONS[key]
                         nearest=codes_grib_find_nearest(gid,p["lat"],p["lon"])[0]
                         value=float(nearest["value"])
                         if math.isfinite(value):fields.setdefault(key,{}).setdefault(level,{})[name]=value
                 finally:codes_release(gid)
     return fields
+
+def fetch_fields(cycle, hour):
+    """Fetch compact regions independently and combine their locations."""
+    combined={};errors=[]
+    for region_name,region in REGIONS.items():
+        try:
+            fields=parse(download(cycle,hour,region["bounds"]),region["locations"])
+            combined.update(fields)
+        except Exception as exc:
+            errors.append(f"{region_name}: {type(exc).__name__}: {exc}")
+    return combined,errors
 
 def make_record(fields,cycle,hour):
     valid=cycle+dt.timedelta(hours=hour)
@@ -84,15 +102,18 @@ def main():
     records=[];errors=[];chosen=None
     for cycle in cycles:
         try:
-            data=download(cycle,3)
-            first=make_record(parse(data),cycle,3)
+            fields,region_errors=fetch_fields(cycle,3)
+            errors.extend(f"{cycle.isoformat()} f003 {e}" for e in region_errors)
+            first=make_record(fields,cycle,3)
             if not any(first["locations"].values()):raise ValueError("No complete U/V/HGT fields")
             chosen=cycle;records.append(first);break
         except Exception as exc:errors.append(f"{cycle.isoformat()}: {type(exc).__name__}: {exc}")
     if chosen:
         for hour in HOURS[1:]:
             try:
-                r=make_record(parse(download(chosen,hour)),chosen,hour)
+                fields,region_errors=fetch_fields(chosen,hour)
+                errors.extend(f"f{hour:03d} {e}" for e in region_errors)
+                r=make_record(fields,chosen,hour)
                 if any(r["locations"].values()):records.append(r)
                 else:errors.append(f"f{hour:03d}: no valid fields")
             except Exception as exc:errors.append(f"f{hour:03d}: {type(exc).__name__}: {exc}")
