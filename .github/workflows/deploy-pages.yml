@@ -6,6 +6,9 @@ on:
       - "index.html"
       - "data/gfs_winds.json"
       - ".github/workflows/deploy-pages.yml"
+  workflow_run:
+    workflows: ["Fetch NOAA GFS upper winds"]
+    types: [completed]
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,6 +19,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
