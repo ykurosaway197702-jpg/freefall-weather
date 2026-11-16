@@ -11,9 +11,9 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 BASE="https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl"
-LOCATIONS={"kirishima":{"name":"霧島演習場周辺（暫定）","lat":31.98,"lon":130.76},
-           "tanegashima":{"name":"南種子町周辺（暫定）","lat":30.38,"lon":130.90},
-           "narashino":{"name":"習志野演習場周辺（暫定）","lat":35.70722400,"lon":140.07658381}}
+LOCATIONS={"kirishima":{"name":"霧島演習場周辺（暫定）","lat":31.98,"lon":130.76,"ground_elevation_m_msl_approx":379},
+           "tanegashima":{"name":"南種子町周辺（暫定）","lat":30.38,"lon":130.90,"ground_elevation_m_msl_approx":115},
+           "narashino":{"name":"習志野演習場周辺（暫定）","lat":35.70722400,"lon":140.07658381,"ground_elevation_m_msl_approx":29}}
 REGIONS={
     "kyushu":{"locations":("kirishima","tanegashima"),
                "bounds":{"leftlon":"130.25","rightlon":"131.25","toplat":"32.50","bottomlat":"29.90"}},
@@ -120,7 +120,8 @@ def main():
     payload={"schema_version":1,"source":"NOAA NCEP NOMADS GFS 0.25-degree GRIB filter",
              "source_url":BASE,"model":"GFS","cycle_utc":chosen.isoformat().replace("+00:00","Z") if chosen else None,
              "retrieved_utc":dt.datetime.now(dt.timezone.utc).isoformat().replace("+00:00","Z"),
-             "altitude_reference":"geopotential height, approximately MSL; NOT AGL",
+             "altitude_reference":"source levels are geopotential height approximately MSL; UI interpolates to 200 m AGL intervals",
+             "ground_elevation_source":"Open-Meteo elevation model; approximate, not surveyed",
              "confidence":"not independently verified","locations":LOCATIONS,"forecasts":records,
              "errors":errors[:16],"status":"ok" if records else "unavailable"}
     Path("data").mkdir(exist_ok=True)
