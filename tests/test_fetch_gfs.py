@@ -1,7 +1,7 @@
 import datetime as dt
 import unittest
 
-from scripts.fetch_gfs import LOCATIONS, REGIONS, candidate_cycles, make_record
+from scripts.fetch_gfs import HOURS, LOCATIONS, REGIONS, candidate_cycles, make_record
 
 
 UTC = dt.timezone.utc
@@ -57,6 +57,9 @@ class MakeRecordTests(unittest.TestCase):
 
 
 class LocationConfigurationTests(unittest.TestCase):
+    def test_forecasts_use_three_hour_intervals_through_72_hours(self):
+        self.assertEqual(HOURS, list(range(3, 73, 3)))
+
     def test_every_location_is_assigned_to_one_fetch_region(self):
         assigned = [key for region in REGIONS.values() for key in region["locations"]]
         self.assertCountEqual(assigned, LOCATIONS)
