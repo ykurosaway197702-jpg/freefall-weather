@@ -11,7 +11,7 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 </style></head><body>
 <header><h1>freefall-weather</h1>自由降下訓練向け気象参考ダッシュボード（初期版）</header><main>
 <section><p class="warn"><strong>安全上の注意：</strong>訓練実施可否を判定するものではありません。現地観測と部隊の正式な基準に従ってください。</p>
-<label>地域：<select id="location"><option value="kirishima">霧島演習場周辺</option><option value="tanegashima">南種子町・前之浜周辺</option><option value="narashino">習志野演習場周辺（暫定）</option></select></label>
+<label>地域：<select id="location"><option value="kirishima">霧島演習場周辺</option><option value="tanegashima">南種子町・前之浜周辺</option><option value="narashino" selected>習志野演習場周辺（暫定）</option></select></label>
 <button id="fetch">予報を取得</button><p id="status" role="status">未取得</p>
 <p class="muted">地点座標は暫定の地域代表点であり、実際の降下場位置ではありません。</p></section>
 <section><h2>気象庁・公式地域予報（優先）</h2>
