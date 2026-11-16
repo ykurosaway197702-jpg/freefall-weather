@@ -4,24 +4,28 @@
   "source_url": "https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl",
   "model": "GFS",
   "cycle_utc": "2026-11-16T06:00:00Z",
-  "retrieved_utc": "2026-11-16T12:44:57.224712Z",
-  "altitude_reference": "geopotential height, approximately MSL; NOT AGL",
+  "retrieved_utc": "2026-11-16T13:17:07.182457Z",
+  "altitude_reference": "source levels are geopotential height approximately MSL; UI interpolates to 200 m AGL intervals",
+  "ground_elevation_source": "Open-Meteo elevation model; approximate, not surveyed",
   "confidence": "not independently verified",
   "locations": {
     "kirishima": {
       "name": "霧島演習場周辺（暫定）",
       "lat": 31.98,
-      "lon": 130.76
+      "lon": 130.76,
+      "ground_elevation_m_msl_approx": 379
     },
     "tanegashima": {
       "name": "南種子町周辺（暫定）",
       "lat": 30.38,
-      "lon": 130.9
+      "lon": 130.9,
+      "ground_elevation_m_msl_approx": 115
     },
     "narashino": {
       "name": "習志野演習場周辺（暫定）",
       "lat": 35.707224,
-      "lon": 140.07658381
+      "lon": 140.07658381,
+      "ground_elevation_m_msl_approx": 29
     }
   },
   "forecasts": [
