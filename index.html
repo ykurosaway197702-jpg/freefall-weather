@@ -7,7 +7,7 @@ section{background:#fff;border:1px solid #dbe3eb;border-radius:12px;padding:18px
 h1{margin:0;font-size:1.6rem}h2{font-size:1.1rem}p{line-height:1.6}
 button,select{padding:10px;border-radius:7px;font:inherit}button{background:#17548a;color:white;border:0;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.time-controls{display:flex;gap:12px;flex-wrap:wrap}.time-controls label{display:inline-flex;align-items:center;gap:5px}.time-controls select{max-width:100%}@media(max-width:520px){.time-controls{flex-direction:column;align-items:flex-start}.time-controls label{width:100%;justify-content:space-between}.time-controls select{min-width:160px}}
 #gfsChart{overflow:hidden;width:100%}#gfsChart svg{display:block;width:100%;height:auto}#gfsWindLegend{font-size:.88rem;color:#48596e;margin:4px 0 12px}#gfsChart{overflow:hidden}#gfsChart svg{min-width:310px;max-width:850px;height:auto}#gfsSelected{font-weight:700;font-size:1.15rem;margin:12px 0}#gfsFreshness[data-stale="true"]{color:#a13c00;font-weight:700}table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;border-bottom:1px solid #e3e9f0;text-align:left}
-.scroll{overflow-x:auto}.warn{color:#913800}.muted{color:#647184}#pathMap{height:420px;max-height:65vh;border:1px solid #cbd6e2;border-radius:10px;margin:12px 0;background:#eef3f7}#pathLegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem}.legend-line{display:inline-block;width:28px;height:4px;vertical-align:middle;margin-right:5px}.freefall-line{background:#d45b00}.canopy-line{background:#1468a8}#aviationCrossSection,#cloudGeneraReference{overflow-x:auto;border:1px solid #cbd6e2;border-radius:10px;background:#f8fbfe;padding:8px}#aviationCrossSection svg,#cloudGeneraReference svg{display:block;width:100%;height:auto}#aviationCrossSection svg{min-width:680px}#cloudGeneraReference svg{min-width:0;max-width:620px;margin:auto}
+.scroll{overflow-x:auto}.warn{color:#913800}.muted{color:#647184}#pathMap{height:420px;max-height:65vh;border:1px solid #cbd6e2;border-radius:10px;margin:12px 0;background:#eef3f7}#pathLegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem}.legend-line{display:inline-block;width:28px;height:4px;vertical-align:middle;margin-right:5px}.freefall-line{background:#d45b00}.canopy-line{background:#1468a8}#aviationCrossSection,#cloudGeneraReference,#cloudThicknessTimeline{overflow-x:auto;border:1px solid #cbd6e2;border-radius:10px;background:#f8fbfe;padding:8px}#aviationCrossSection svg,#cloudGeneraReference svg,#cloudThicknessTimeline svg{display:block;width:100%;height:auto}#aviationCrossSection svg,#cloudThicknessTimeline svg{min-width:680px}#cloudGeneraReference svg{min-width:0;max-width:620px;margin:auto}
 </style></head><body>
 <header><h1>freefall-weather</h1>自由降下訓練向け気象参考ダッシュボード（初期版）</header><main>
 <section><p class="warn"><strong>安全上の注意：</strong>訓練実施可否を判定するものではありません。現地観測と部隊の正式な基準に従ってください。</p>
@@ -72,6 +72,10 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <h4>十種雲形の典型的な厚さ・高度帯（教育用）</h4>
 <p class="muted">日本付近の中緯度における概略図です。季節・気団・対流の強さで高度と厚さは変化します。現在のMETARから雲形や実際の厚さを特定した図ではありません。</p>
 <div id="cloudGeneraReference" role="img" aria-label="十種雲形の典型的な高度帯と厚さの概念図"></div>
+<h4>モデル推定雲層の時間推移（3時間間隔）</h4>
+<p class="warn">GFS相対湿度を200m刻みに補間し、RH 80%以上を潜在的な雲層として表示します。実際の雲底・雲頂・雲厚の観測値ではありません。</p>
+<div id="cloudThicknessTimeline" role="img" aria-label="GFS相対湿度による潜在的雲層の時間高度断面"><p class="muted">相対湿度を含む最新GFSを読み込むと表示します。</p></div>
+<p id="cloudThicknessStatus" class="muted">未取得</p>
 <p class="muted">情報源：<a href="https://aviationweather.gov/" target="_blank" rel="noopener">US Aviation Weather Center</a></p></section>
 <section><h2>情報源・信頼度</h2><p>地上予報：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（気象庁の公式情報ではありません）。</p>
 <p>公式情報の確認：<a href="https://www.jma.go.jp/bosai/" target="_blank" rel="noopener">気象庁防災情報</a></p>
@@ -187,6 +191,45 @@ function renderCloudGeneraReference(){
  container.append(svg);
 }
 renderCloudGeneraReference();
+function interpolateHumidity(raw,ground){
+ if(!Number.isFinite(ground))return [];
+ const source=raw.filter(p=>Number.isFinite(p.geopotential_height_m_msl_approx)&&Number.isFinite(p.relative_humidity_percent)).sort((a,b)=>a.geopotential_height_m_msl_approx-b.geopotential_height_m_msl_approx);
+ const result=[];
+ for(let agl=200;agl<=12000;agl+=200){
+  const msl=ground+agl,upper=source.findIndex(p=>p.geopotential_height_m_msl_approx>=msl);
+  if(upper<=0)continue;
+  const lo=source[upper-1],hi=source[upper];
+  if(msl<lo.geopotential_height_m_msl_approx||msl>hi.geopotential_height_m_msl_approx)continue;
+  const span=hi.geopotential_height_m_msl_approx-lo.geopotential_height_m_msl_approx,ratio=span?(msl-lo.geopotential_height_m_msl_approx)/span:0;
+  result.push({agl_m:agl,rh:lo.relative_humidity_percent+(hi.relative_humidity_percent-lo.relative_humidity_percent)*ratio});
+ }
+ return result;
+}
+function renderCloudThicknessTimeline(){
+ const container=el("cloudThicknessTimeline"),status=el("cloudThicknessStatus");container.replaceChildren();
+ if(typeof gfsDataset==="undefined"||!gfsDataset){const p=document.createElement("p");p.className="muted";p.textContent="最新GFSを読み込むと表示します。";container.append(p);status.textContent="未取得";return}
+ const key=el("location").value,ground=Number(gfsDataset.locations?.[key]?.ground_elevation_m_msl_approx),forecasts=gfsDataset.forecasts||[];
+ const columns=forecasts.map(f=>({valid:f.valid_utc,points:interpolateHumidity(f.locations?.[key]||[],ground)}));
+ if(!columns.some(c=>c.points.length)){const p=document.createElement("p");p.className="muted";p.textContent="現在のGFSデータには相対湿度がありません。次回の自動更新後に表示されます。";container.append(p);status.textContent="相対湿度データ待ち";return}
+ const ns="http://www.w3.org/2000/svg",cellW=30,left=72,right=25,top=38,bottom=405,maxM=12000,width=Math.max(760,left+right+columns.length*cellW),height=470;
+ const svg=document.createElementNS(ns,"svg");svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("aria-label","GFS相対湿度80パーセント以上による潜在的雲層の時間高度断面");
+ const add=(tag,attrs,text)=>{const node=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs||{}))node.setAttribute(k,v);if(text!=null)node.textContent=text;svg.append(node);return node};
+ const y=m=>bottom-m/maxM*(bottom-top),plotRight=left+columns.length*cellW;
+ add("rect",{x:left,y:top,width:columns.length*cellW,height:bottom-top,fill:"#fff",stroke:"#b8c7d6"});
+ for(let m=0;m<=maxM;m+=2000){add("line",{x1:left,y1:y(m),x2:plotRight,y2:y(m),stroke:"#dbe4ed"});add("text",{x:left-8,y:y(m)+4,"text-anchor":"end","font-size":11,fill:"#42566d"},m/1000+"km")}
+ let cells=0;
+ columns.forEach((column,i)=>{
+  for(const point of column.points){
+   if(point.rh<80)continue;cells++;
+   const opacity=.25+Math.min(20,point.rh-80)/20*.65,rect=add("rect",{x:left+i*cellW,y:y(point.agl_m),width:cellW+.5,height:Math.max(2,y(point.agl_m-200)-y(point.agl_m)+.5),fill:"#2378b8",opacity:opacity.toFixed(2)});
+   const title=document.createElementNS(ns,"title");title.textContent=jst(column.valid)+" / "+point.agl_m+"m AGL / RH "+point.rh.toFixed(0)+"%";rect.append(title);
+  }
+  if(i%4===0||i===columns.length-1){const x=left+i*cellW+cellW/2,label=new Intl.DateTimeFormat("ja-JP",{timeZone:"Asia/Tokyo",day:"2-digit",hour:"2-digit",hourCycle:"h23"}).format(new Date(column.valid));add("text",{x,y:bottom+17,"text-anchor":"end","font-size":10,fill:"#42566d",transform:"rotate(-45 "+x+" "+(bottom+17)+")"},label)}
+ });
+ add("text",{x:(left+plotRight)/2,y:18,"text-anchor":"middle","font-size":13,"font-weight":"700",fill:"#173657"},"潜在的雲層の時間高度断面（青：RH 80～100%）");
+ add("text",{x:(left+plotRight)/2,y:462,"text-anchor":"middle","font-size":11,fill:"#913800"},"GFS湿度によるモデル推定。実測した雲厚ではありません。時刻はJST。");
+ container.append(svg);status.textContent="表示中："+columns.length+"予報時刻（3時間間隔）／ 青色セル "+cells+"層 ／ 地域："+places[key].dzName;
+}
 function renderAviationCrossSection(){
  const container=el("aviationCrossSection");container.replaceChildren();
  if(!aviationDataset){const p=document.createElement("p");p.className="muted";p.textContent="先に航空気象を読み込んでください。";container.append(p);return}
@@ -455,6 +498,7 @@ function renderGfs(){
 
  el("gfsPrev").disabled=!prev;el("gfsNext").disabled=!next;
  renderAviationCrossSection();
+ renderCloudThicknessTimeline();
 }
 function acceptGfs(data,source){
  if(data.schema_version!==1||data.model!=="GFS"||data.status!=="ok"||!Array.isArray(data.forecasts)||!data.forecasts.length)throw Error("有効なGFSデータではありません");
@@ -495,7 +539,7 @@ el("gfsHour").addEventListener("change",()=>{el("gfsTime").value=el("gfsHour").v
 el("gfsPrev").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i>0){el("gfsTime").value=String(i-1);syncGfsDateHour();renderGfs()}});
 el("gfsNext").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i<gfsDataset.forecasts.length-1){el("gfsTime").value=String(i+1);syncGfsDateHour();renderGfs()}});
 el("gfsTime").addEventListener("change",()=>{syncGfsDateHour();renderGfs()});
-el("location").addEventListener("change",()=>{syncLandingSite();renderGfs();renderAviation();renderAviationCrossSection()});
+el("location").addEventListener("change",()=>{syncLandingSite();renderGfs();renderAviation();renderAviationCrossSection();renderCloudThicknessTimeline()});
 let pathMap=null,pathLayer=null;
 function renderPathMap(points,opening,canopyLabel){
  const container=el("pathMap");
