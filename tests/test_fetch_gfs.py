@@ -61,6 +61,12 @@ class MakeRecordTests(unittest.TestCase):
         row = make_record(fields, cycle, 3)["locations"]["kirishima"][0]
         self.assertEqual(row["relative_humidity_percent"], 100)
 
+    def test_includes_bounded_cloud_cover(self):
+        cycle = dt.datetime(2026, 11, 15, 0, tzinfo=UTC)
+        fields = {"kirishima": {1000: {"u": 1.0, "v": 2.0, "gh": 120.0, "tcc": 106.0}}}
+        row = make_record(fields, cycle, 3)["locations"]["kirishima"][0]
+        self.assertEqual(row["cloud_cover_percent"], 100)
+
 
 class LocationConfigurationTests(unittest.TestCase):
     def test_forecasts_use_three_hour_intervals_through_72_hours(self):
