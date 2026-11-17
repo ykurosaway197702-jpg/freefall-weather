@@ -46,10 +46,13 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <label>GFS JSONファイル：<input type="file" id="noaaFile" accept=".json,application/json"></label>
 <p id="noaaStatus" role="status">未読込</p><p id="noaaMeta" class="muted">データ初期時刻・取得時刻：不明</p>
 <div class="scroll"><table><thead><tr><th>予報有効時刻</th><th>高度（m・AGL）</th><th>高度（m・MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="noaaRows"><tr><td colspan="5">未読込</td></tr></tbody></table></div>
-<h3>飛行経路算定入力（準備中）</h3>
-<p class="muted">次の指示に備えた入力欄です。現時点では経路を算定しません。</p>
+<h3>風ドリフト経路（参考推定）</h3>
+<p class="warn">操舵、機体運動、加減速、局地風、乱流を含まない単純モデルです。実際の降下計画や着地点決定には使用しないでください。</p>
 <p><label>降下開始高度（m AGL）：<input id="exitAltitude" type="number" min="200" max="6000" step="200" value="4000"></label> <label>開傘高度（m AGL）：<input id="openAltitude" type="number" min="200" max="6000" step="200" value="1000"></label></p>
-<p><label>着地地点 緯度：<input id="landingLat" type="number" step="0.000001" value="35.707224"></label> <label>経度：<input id="landingLon" type="number" step="0.000001" value="140.076584"></label></p>
+<p><label>自由降下率（m/s）：<input id="freefallRate" type="number" min="1" max="100" step="0.1" value="50"></label> <label>開傘後降下率（m/s）：<input id="canopyRate" type="number" min="0.5" max="20" step="0.1" value="5"></label></p>
+<p><label>着地地点（MGRS）：<input id="landingMgrs" type="text" value="54SVE1646751869" inputmode="text" autocomplete="off"></label> <button type="button" id="calculatePath">参考経路を算定</button></p>
+<p id="pathStatus" role="status">未算定</p><p id="pathSummary" class="muted">選択中のGFS予報を使用します。</p>
+<div class="scroll"><table><thead><tr><th>高度（m AGL）</th><th>段階</th><th>経過時間（秒）</th><th>緯度</th><th>経度</th><th>風向</th><th>風速</th></tr></thead><tbody id="pathRows"><tr><td colspan="7">未算定</td></tr></tbody></table></div>
 <p><a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">気圧面と高度の説明（Open-Meteo）</a></p></section>
 <section><h2>航空気象・危険気象</h2><div class="scroll"><table><thead><tr><th>項目</th><th>状態</th></tr></thead><tbody id="hazards"></tbody></table></div></section>
 <section><h2>情報源・信頼度</h2><p>地上予報：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（気象庁の公式情報ではありません）。</p>
@@ -78,6 +81,37 @@ function interpolateAgl(raw,ground){
   result.push({agl_m:agl,msl_m:msl,wind_speed_ms:Math.hypot(u,v),wind_direction_deg_from:(Math.atan2(-u,-v)*180/Math.PI+360)%360});
  }
  return result;
+}
+function utmToLatLon(easting,northing,zone,northern){
+ const a=6378137,f=1/298.257223563,k0=.9996,e2=f*(2-f),ep2=e2/(1-e2);
+ const x=easting-500000,y=northern?northing:northing-10000000;
+ const m=y/k0,mu=m/(a*(1-e2/4-3*e2**2/64-5*e2**3/256));
+ const e1=(1-Math.sqrt(1-e2))/(1+Math.sqrt(1-e2));
+ const fp=mu+(3*e1/2-27*e1**3/32)*Math.sin(2*mu)+(21*e1**2/16-55*e1**4/32)*Math.sin(4*mu)+(151*e1**3/96)*Math.sin(6*mu)+(1097*e1**4/512)*Math.sin(8*mu);
+ const c=ep2*Math.cos(fp)**2,t=Math.tan(fp)**2,n=a/Math.sqrt(1-e2*Math.sin(fp)**2),r=a*(1-e2)/(1-e2*Math.sin(fp)**2)**1.5,d=x/(n*k0);
+ const lat=fp-(n*Math.tan(fp)/r)*(d**2/2-(5+3*t+10*c-4*c**2-9*ep2)*d**4/24+(61+90*t+298*c+45*t**2-252*ep2-3*c**2)*d**6/720);
+ const lon0=((zone-1)*6-177)*Math.PI/180;
+ const lon=lon0+(d-(1+2*t+c)*d**3/6+(5-2*c+28*t-3*c**2+8*ep2+24*t**2)*d**5/120)/Math.cos(fp);
+ return {lat:lat*180/Math.PI,lon:lon*180/Math.PI};
+}
+function mgrsToLatLon(value){
+ const text=String(value||"").toUpperCase().replace(/\s+/g,"");
+ const match=text.match(/^(\d{1,2})([C-HJ-NP-X])([A-HJ-NP-Z])([A-HJ-NP-V])(\d{2,10})$/);
+ if(!match||match[5].length%2)throw Error("MGRSは例：54SVE1646751869 の形式で入力してください");
+ const zone=Number(match[1]),band=match[2],column=match[3],rowLetter=match[4],digits=match[5];
+ if(zone<1||zone>60)throw Error("MGRSゾーンが範囲外です");
+ const columnSets=["ABCDEFGH","JKLMNPQR","STUVWXYZ"],columns=columnSets[(zone-1)%3];
+ const columnIndex=columns.indexOf(column);if(columnIndex<0)throw Error("MGRSの100km方眼文字がゾーンと一致しません");
+ const rows="ABCDEFGHJKLMNPQRSTUV",origin=zone%2?0:5,rowIndex=rows.indexOf(rowLetter);
+ if(rowIndex<0)throw Error("MGRSの行文字が不正です");
+ const precision=digits.length/2,scale=10**(5-precision);
+ const easting=(columnIndex+1)*100000+Number(digits.slice(0,precision))*scale;
+ let northing=((rowIndex-origin+20)%20)*100000+Number(digits.slice(precision))*scale;
+ const bandMinimum={C:1100000,D:2000000,E:2800000,F:3700000,G:4600000,H:5500000,J:6400000,K:7300000,L:8200000,M:9100000,N:0,P:800000,Q:1700000,R:2600000,S:3500000,T:4400000,U:5300000,V:6200000,W:7000000,X:7900000}[band];
+ while(northing<bandMinimum)northing+=2000000;
+ const point=utmToLatLon(easting,northing,zone,band>="N");
+ if(!Number.isFinite(point.lat)||!Number.isFinite(point.lon))throw Error("MGRSを緯度経度へ変換できません");
+ return {...point,normalized:text};
 }
 
 ["雲底","航空視程","雷","乱流","ウインドシア","火山灰","METAR/TAF"].forEach(h=>row(el("hazards"),[h,"不明（未取得）"]));
@@ -298,6 +332,40 @@ el("gfsPrev").addEventListener("click",()=>{const i=Number(el("gfsTime").value);
 el("gfsNext").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i<gfsDataset.forecasts.length-1){el("gfsTime").value=String(i+1);syncGfsDateHour();renderGfs()}});
 el("gfsTime").addEventListener("change",()=>{syncGfsDateHour();renderGfs()});
 el("location").addEventListener("change",renderGfs);
+el("calculatePath").addEventListener("click",()=>{
+ const status=el("pathStatus"),tbody=el("pathRows");tbody.replaceChildren();
+ try{
+  if(!gfsDataset)throw Error("先に最新GFSを読み込んでください");
+  const exit=Number(el("exitAltitude").value),opening=Number(el("openAltitude").value);
+  const freefallRate=Number(el("freefallRate").value),canopyRate=Number(el("canopyRate").value);
+  if(!Number.isInteger(exit/200)||exit<200||exit>6000)throw Error("降下開始高度は200～6,000mの200m刻みで指定してください");
+  if(!Number.isInteger(opening/200)||opening<200||opening>=exit)throw Error("開傘高度は降下開始高度未満の200m刻みで指定してください");
+  if(!(freefallRate>0&&canopyRate>0))throw Error("降下率は0より大きい値にしてください");
+  const landing=mgrsToLatLon(el("landingMgrs").value),loc=el("location").value;
+  const forecast=gfsDataset.forecasts[Number(el("gfsTime").value)],ground=Number(gfsDataset.locations?.[loc]?.ground_elevation_m_msl_approx);
+  if(!forecast)throw Error("予報時刻を選択してください");
+  const winds=interpolateAgl(forecast.locations?.[loc]||[],ground),byHeight=new Map(winds.map(p=>[p.agl_m,p]));
+  const ascending=[{agl:0,east:0,north:0,timeBelow:0,wind:null}];
+  let east=0,north=0,timeBelow=0;
+  for(let h=200;h<=exit;h+=200){
+   const wind=byHeight.get(h);if(!wind)throw Error(h+"m AGLの風データがなく、経路を算定できません");
+   const rate=h<=opening?canopyRate:freefallRate,seconds=200/rate,rad=wind.wind_direction_deg_from*Math.PI/180;
+   east+=(-wind.wind_speed_ms*Math.sin(rad))*seconds;
+   north+=(-wind.wind_speed_ms*Math.cos(rad))*seconds;
+   timeBelow+=seconds;ascending.push({agl:h,east,north,timeBelow,wind});
+  }
+  const totalTime=timeBelow,totalEast=east,totalNorth=north,cosLat=Math.cos(landing.lat*Math.PI/180);
+  const descending=[...ascending].reverse();
+  for(const p of descending){
+   const lat=landing.lat-p.north/111320,lon=landing.lon-p.east/(111320*cosLat);
+   const phase=p.agl===0?"着地":p.agl<=opening?"開傘後":"自由降下";
+   row(tbody,[p.agl,phase,(totalTime-p.timeBelow).toFixed(1),lat.toFixed(6),lon.toFixed(6),p.wind?Math.round(p.wind.wind_direction_deg_from)+"°":"不明",p.wind?p.wind.wind_speed_ms.toFixed(1)+" m/s":"不明"]);
+  }
+  const exitLat=landing.lat-totalNorth/111320,exitLon=landing.lon-totalEast/(111320*cosLat),distance=Math.hypot(totalEast,totalNorth);
+  el("pathSummary").textContent="着地MGRS "+landing.normalized+"（"+landing.lat.toFixed(6)+", "+landing.lon.toFixed(6)+"） ／ 受動ドリフト開始点の参考推定 "+exitLat.toFixed(6)+", "+exitLon.toFixed(6)+" ／ 水平変位 約"+Math.round(distance)+"m ／ 推定降下時間 "+totalTime.toFixed(1)+"秒 ／ 予報 "+jst(forecast.valid_utc);
+  status.textContent="参考推定完了（操舵・局地風・乱流等を含みません）";
+ }catch(e){row(tbody,["算定不能","不明","不明","不明","不明","不明","不明"]);status.textContent="算定失敗："+e.message}
+});
 el("autoGfs").addEventListener("click",async()=>{
  const status=el("autoStatus");status.textContent="取得中";
  try{
