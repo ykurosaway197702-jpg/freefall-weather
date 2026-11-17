@@ -5,9 +5,10 @@ on:
     paths:
       - "index.html"
       - "data/gfs_winds.json"
+      - "data/aviation_weather.json"
       - ".github/workflows/deploy-pages.yml"
   workflow_run:
-    workflows: ["Fetch NOAA GFS upper winds"]
+    workflows: ["Fetch NOAA GFS upper winds", "Fetch aviation weather"]
     types: [completed]
   workflow_dispatch:
 permissions:
@@ -31,6 +32,9 @@ jobs:
           mkdir -p _site/data
           cp index.html _site/index.html
           cp data/gfs_winds.json _site/data/gfs_winds.json
+          if [ -f data/aviation_weather.json ]; then
+            cp data/aviation_weather.json _site/data/aviation_weather.json
+          fi
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
