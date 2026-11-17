@@ -55,6 +55,12 @@ class MakeRecordTests(unittest.TestCase):
         rows = make_record(fields, cycle, 3)["locations"]["kirishima"]
         self.assertEqual(rows, [])
 
+    def test_includes_bounded_relative_humidity(self):
+        cycle = dt.datetime(2026, 11, 15, 0, tzinfo=UTC)
+        fields = {"kirishima": {1000: {"u": 1.0, "v": 2.0, "gh": 120.0, "r": 104.0}}}
+        row = make_record(fields, cycle, 3)["locations"]["kirishima"][0]
+        self.assertEqual(row["relative_humidity_percent"], 100)
+
 
 class LocationConfigurationTests(unittest.TestCase):
     def test_forecasts_use_three_hour_intervals_through_72_hours(self):
