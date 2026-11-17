@@ -49,7 +49,9 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <h3>風ドリフト経路（参考推定）</h3>
 <p class="warn">操舵、機体運動、加減速、局地風、乱流を含まない単純モデルです。実際の降下計画や着地点決定には使用しないでください。</p>
 <p><label>降下開始高度（m AGL）：<input id="exitAltitude" type="number" min="200" max="6000" step="200" value="4000"></label> <label>開傘高度（m AGL）：<input id="openAltitude" type="number" min="200" max="6000" step="200" value="1000"></label></p>
-<p><label>自由降下率（m/s）：<input id="freefallRate" type="number" min="1" max="100" step="0.1" value="50"></label> <label>開傘後降下率（m/s）：<input id="canopyRate" type="number" min="0.5" max="20" step="0.1" value="5"></label></p>
+<p><label>傘種：<select id="canopyType"><option value="ra1">RA-1</option><option value="mc4">MC-4</option></select></label> <label>自由降下率（m/s）：<input id="freefallRate" type="number" min="1" max="100" step="0.1" value="50"></label> <label>開傘後降下率（m/s）：<input id="canopyRate" type="number" min="0.5" max="20" step="0.1" value="4.0"></label></p>
+<p id="canopyInfo" class="muted">RA-1 公開仕様：降下率4.0m/s、前進速度13.4m/s、滑空比3.5:1。算定には降下率のみを使用します。</p>
+<p class="muted">性能資料：<a href="https://airborne-sys.com/wp-content/uploads/2026/10/RA-Intruder-Family_English-20261005.pdf" target="_blank" rel="noopener">Airborne Systems RA Intruder</a> ／ <a href="https://www.liberatedmanuals.com/TM-10-1670-287-23-and-P.pdf" target="_blank" rel="noopener">米陸軍 TM 10-1670-287-23&amp;P（MC-4）</a></p>
 <p><label>着地地点（MGRS）：<input id="landingMgrs" type="text" value="54SVE1646751869" inputmode="text" autocomplete="off"></label> <button type="button" id="calculatePath">参考経路を算定</button></p>
 <p id="pathStatus" role="status">未算定</p><p id="pathSummary" class="muted">選択中のGFS予報を使用します。</p>
 <div id="pathMap" role="img" aria-label="参考経路地図"><p class="muted">経路算定後に地図を表示します。</p></div>
@@ -64,6 +66,12 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 const places={kirishima:{lat:31.98,lon:130.76},tanegashima:{lat:30.38,lon:130.90},narashino:{lat:35.70722400,lon:140.07658381}};
 const el=id=>document.getElementById(id);
 function row(target,values){const tr=document.createElement("tr");values.forEach(v=>{const td=document.createElement("td");td.textContent=v??"不明";tr.append(td)});target.append(tr)}
+const canopyProfiles={
+ ra1:{label:"RA-1",rate:4.0,info:"RA-1 公開仕様：降下率4.0m/s（13.2ft/s）、前進速度13.4m/s（44ft/s）、滑空比3.5:1。算定には降下率のみを使用します。"},
+ mc4:{label:"MC-4",rate:4.6,info:"MC-4 米陸軍公開仕様：全滑空降下率14～16ft/s（4.3～4.9m/s。プリセットは中間値4.6m/s）、前進速度10～25mph、滑空比3:1。算定には降下率のみを使用します。"}
+};
+function applyCanopyProfile(){const p=canopyProfiles[el("canopyType").value];el("canopyRate").value=p.rate.toFixed(1);el("canopyInfo").textContent=p.info}
+el("canopyType").addEventListener("change",applyCanopyProfile);
 function interpolateAgl(raw,ground){
  if(!Number.isFinite(ground))return [];
  const source=raw.filter(p=>[p.geopotential_height_m_msl_approx,p.wind_direction_deg_from,p.wind_speed_ms].every(Number.isFinite)).map(p=>{
@@ -335,7 +343,7 @@ el("gfsNext").addEventListener("click",()=>{const i=Number(el("gfsTime").value);
 el("gfsTime").addEventListener("change",()=>{syncGfsDateHour();renderGfs()});
 el("location").addEventListener("change",renderGfs);
 let pathMap=null,pathLayer=null;
-function renderPathMap(points,opening){
+function renderPathMap(points,opening,canopyLabel){
  const container=el("pathMap");
  if(typeof L==="undefined"){container.replaceChildren();const p=document.createElement("p");p.className="warn";p.textContent="地図ライブラリを読み込めません。通信状態を確認してください。";container.append(p);return}
  if(!pathMap){container.replaceChildren();pathMap=L.map(container,{zoomControl:true});L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}).addTo(pathMap)}
@@ -345,7 +353,7 @@ function renderPathMap(points,opening){
  if(canopy.length>1)L.polyline(canopy.map(p=>[p.lat,p.lon]),{color:"#1468a8",weight:5,opacity:.9}).addTo(pathLayer).bindPopup("開傘後区間（参考推定）");
  const start=points[0],open=points.find(p=>p.agl===opening),landing=points[points.length-1];
  const marker=(p,color,label)=>L.circleMarker([p.lat,p.lon],{radius:8,color:"#fff",weight:2,fillColor:color,fillOpacity:1}).addTo(pathLayer).bindPopup(label+"<br>高度 "+p.agl+"m AGL<br>"+p.lat.toFixed(6)+", "+p.lon.toFixed(6));
- marker(start,"#8b2f00","降下開始点（参考推定）");if(open)marker(open,"#6b3fa0","開傘点（参考推定）");marker(landing,"#14833b","着地点（入力値）");
+ marker(start,"#8b2f00","降下開始点（参考推定）");if(open)marker(open,"#6b3fa0","開傘点 "+canopyLabel+"（参考推定）");marker(landing,"#14833b","着地点（入力値）");
  const bounds=L.latLngBounds(points.map(p=>[p.lat,p.lon]));pathMap.fitBounds(bounds.pad(.25),{maxZoom:16});setTimeout(()=>pathMap.invalidateSize(),0);
 }
 el("calculatePath").addEventListener("click",()=>{
@@ -353,7 +361,8 @@ el("calculatePath").addEventListener("click",()=>{
  try{
   if(!gfsDataset)throw Error("先に最新GFSを読み込んでください");
   const exit=Number(el("exitAltitude").value),opening=Number(el("openAltitude").value);
-  const freefallRate=Number(el("freefallRate").value),canopyRate=Number(el("canopyRate").value);
+  const canopy=canopyProfiles[el("canopyType").value],freefallRate=Number(el("freefallRate").value),canopyRate=Number(el("canopyRate").value);
+  if(!canopy)throw Error("傘種を選択してください");
   if(!Number.isInteger(exit/200)||exit<200||exit>6000)throw Error("降下開始高度は200～6,000mの200m刻みで指定してください");
   if(!Number.isInteger(opening/200)||opening<200||opening>=exit)throw Error("開傘高度は降下開始高度未満の200m刻みで指定してください");
   if(!(freefallRate>0&&canopyRate>0))throw Error("降下率は0より大きい値にしてください");
@@ -380,8 +389,8 @@ el("calculatePath").addEventListener("click",()=>{
    row(tbody,[p.agl,phase,(totalTime-p.timeBelow).toFixed(1),lat.toFixed(6),lon.toFixed(6),p.wind?Math.round(p.wind.wind_direction_deg_from)+"°":"不明",p.wind?p.wind.wind_speed_ms.toFixed(1)+" m/s":"不明"]);
   }
   const exitLat=landing.lat-totalNorth/111320,exitLon=landing.lon-totalEast/(111320*cosLat),distance=Math.hypot(totalEast,totalNorth);
-  el("pathSummary").textContent="着地MGRS "+landing.normalized+"（"+landing.lat.toFixed(6)+", "+landing.lon.toFixed(6)+"） ／ 受動ドリフト開始点の参考推定 "+exitLat.toFixed(6)+", "+exitLon.toFixed(6)+" ／ 水平変位 約"+Math.round(distance)+"m ／ 推定降下時間 "+totalTime.toFixed(1)+"秒 ／ 予報 "+jst(forecast.valid_utc);
-  renderPathMap(pathPoints,opening);
+  el("pathSummary").textContent="傘種 "+canopy.label+"（開傘後降下率 "+canopyRate.toFixed(1)+"m/s） ／ 着地MGRS "+landing.normalized+"（"+landing.lat.toFixed(6)+", "+landing.lon.toFixed(6)+"） ／ 受動ドリフト開始点の参考推定 "+exitLat.toFixed(6)+", "+exitLon.toFixed(6)+" ／ 水平変位 約"+Math.round(distance)+"m ／ 推定降下時間 "+totalTime.toFixed(1)+"秒 ／ 予報 "+jst(forecast.valid_utc);
+  renderPathMap(pathPoints,opening,canopy.label);
   status.textContent="参考推定完了（操舵・局地風・乱流等を含みません）";
  }catch(e){if(pathLayer)pathLayer.clearLayers();row(tbody,["算定不能","不明","不明","不明","不明","不明","不明"]);status.textContent="算定失敗："+e.message}
 });
