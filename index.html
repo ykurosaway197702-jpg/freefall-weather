@@ -41,7 +41,7 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <div class="scroll"><table><thead><tr><th>高度（m・AGL）</th><th>高度（m・MSL相当）</th><th>現在 風向</th><th>現在 風速</th><th>前の予報（m/s）</th><th>前との差（m/s）</th><th>次の予報（m/s）</th><th>次との差（m/s）</th></tr></thead><tbody id="gfsCompareRows"><tr><td colspan="8">未取得</td></tr></tbody></table></div>
 <label class="muted">全予報時刻：<select id="gfsTime"><option value="">未取得</option></select></label>
 <p id="gfsSelected" aria-live="polite">予報時刻：未選択</p><p id="gfsFreshness" class="muted">更新状況：不明</p>
-<p id="gfsWindLegend">風向は気象学上の「吹いてくる方向」。各高度の風向・風速はグラフ下の一覧表で確認してください。</p><div id="gfsChart" role="img" aria-label="高度別風速グラフ"><p>データ未取得</p></div>
+<p id="gfsWindLegend">風向角は気象学上の「吹いてくる方向」。右欄の矢印は風が吹いていく方向を北を上にして示します。</p><div id="gfsChart" role="img" aria-label="高度別風速・風向グラフ"><p>データ未取得</p></div>
 <p>GitHub Actionsが生成した <code>data/gfs_winds.json</code> を選択すると、Open-Meteoを経由せずにGFSの気圧面風を確認できます。</p>
 <label>GFS JSONファイル：<input type="file" id="noaaFile" accept=".json,application/json"></label>
 <p id="noaaStatus" role="status">未読込</p><p id="noaaMeta" class="muted">データ初期時刻・取得時刻：不明</p>
@@ -450,21 +450,23 @@ function renderGfs(){
  for(const p of points)row(tbody,[jst(f.valid_utc),p.agl_m,p.msl_m,Math.round(p.wind_direction_deg_from),p.wind_speed_ms.toFixed(1)]);
  if(!points.length){row(tbody,["不明","不明","不明","不明","不明"]);row(el("gfsCompareRows"),["不明","不明","不明","不明","不明","不明","不明","不明"]);return}
  const maxSpeed=Math.ceil(Math.max(5,...points.map(p=>p.wind_speed_ms))/5)*5;
- const height=390,width=740,left=90,right=35,top=36,bottom=65;
+ const height=390,width=900,left=90,speedRight=610,directionLeft=650,directionCenter=745,right=30,top=36,bottom=65;
  const maxH=6000;
  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
  svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("width","100%");svg.setAttribute("preserveAspectRatio","xMidYMid meet");
- svg.setAttribute("role","img");svg.setAttribute("aria-label","風速と地上高の関係。200メートル間隔の補間値。風向は下の表で確認してください");
+ svg.setAttribute("role","img");svg.setAttribute("aria-label","風速と地上高の関係及び高度別風向矢印。風向矢印は北を上にして風が吹いていく方向を示す");
  const ns=svg.namespaceURI;
  function line(x1,y1,x2,y2,color="#d9e2eb",thick=1){const e=document.createElementNS(ns,"line");for(const [k,v] of Object.entries({x1,y1,x2,y2,stroke:color,"stroke-width":thick}))e.setAttribute(k,v);svg.append(e)}
  function label(x,y,value,anchor="start",size=12){const e=document.createElementNS(ns,"text");for(const [k,v] of Object.entries({x,y,"font-size":size,"text-anchor":anchor,fill:"#31475d"}))e.setAttribute(k,v);e.textContent=value;svg.append(e)}
- const x=v=>left+v/maxSpeed*(width-left-right),y=v=>height-bottom-v/maxH*(height-top-bottom);
+ const defs=document.createElementNS(ns,"defs"),marker=document.createElementNS(ns,"marker"),arrowPath=document.createElementNS(ns,"path");
+ marker.setAttribute("id","windArrowHead");marker.setAttribute("markerWidth","7");marker.setAttribute("markerHeight","7");marker.setAttribute("refX","6");marker.setAttribute("refY","3.5");marker.setAttribute("orient","auto");arrowPath.setAttribute("d","M0,0 L7,3.5 L0,7 Z");arrowPath.setAttribute("fill","#b24700");marker.append(arrowPath);defs.append(marker);svg.append(defs);
+ const x=v=>left+v/maxSpeed*(speedRight-left),y=v=>height-bottom-v/maxH*(height-top-bottom);
  const tickH=maxH<=6000?1000:2000;
  for(let h=0;h<=maxH;h+=tickH){line(left,y(h),width-right,y(h));label(left-12,y(h)+4,h.toLocaleString("ja-JP"),"end")}
  const tickS=maxSpeed<=20?5:10;
  for(let v=0;v<=maxSpeed;v+=tickS){line(x(v),top,x(v),height-bottom);label(x(v),height-bottom+22,String(v),"middle")}
- line(left,top,left,height-bottom,"#8194a8",1.5);line(left,height-bottom,width-right,height-bottom,"#8194a8",1.5);
- label(left,19,"高度（m・AGL）");label((left+width-right)/2,height-13,"風速（m/s）","middle");
+ line(left,top,left,height-bottom,"#8194a8",1.5);line(left,height-bottom,speedRight,height-bottom,"#8194a8",1.5);line(directionLeft,top,directionLeft,height-bottom,"#8194a8",1.5);
+ label(left,19,"高度（m・AGL）");label((left+speedRight)/2,height-13,"風速（m/s）","middle");label(directionCenter,19,"風向（北↑・矢印は吹いていく方向）","middle",12);label(directionCenter,top+13,"N","middle",11);label(directionCenter+31,top+31,"E","middle",11);
  const ordered=[...points].sort((a,b)=>a.agl_m-b.agl_m);
  const poly=document.createElementNS(ns,"polyline");
  poly.setAttribute("points",ordered.map(p=>x(p.wind_speed_ms)+","+y(p.agl_m)).join(" "));
@@ -473,6 +475,11 @@ function renderGfs(){
   const px=x(p.wind_speed_ms),py=y(p.agl_m);
   const dot=document.createElementNS(ns,"circle");dot.setAttribute("cx",px);dot.setAttribute("cy",py);dot.setAttribute("r",3.5);dot.setAttribute("fill","#16639c");svg.append(dot);
 
+ }
+ for(const p of ordered.filter(p=>p.agl_m%400===0)){
+  const py=y(p.agl_m),to=(p.wind_direction_deg_from+180)%360,rad=to*Math.PI/180,dx=Math.sin(rad)*32,dy=-Math.cos(rad)*32;
+  const arrow=document.createElementNS(ns,"line");arrow.setAttribute("x1",directionCenter-dx/2);arrow.setAttribute("y1",py-dy/2);arrow.setAttribute("x2",directionCenter+dx/2);arrow.setAttribute("y2",py+dy/2);arrow.setAttribute("stroke","#b24700");arrow.setAttribute("stroke-width","2.5");arrow.setAttribute("marker-end","url(#windArrowHead)");svg.append(arrow);
+  label(directionCenter+47,py+4,Math.round(p.wind_direction_deg_from)+"°","start",10);
  }
 
 
