@@ -7,7 +7,7 @@ section{background:#fff;border:1px solid #dbe3eb;border-radius:12px;padding:18px
 h1{margin:0;font-size:1.6rem}h2{font-size:1.1rem}p{line-height:1.6}
 button,select{padding:10px;border-radius:7px;font:inherit}button{background:#17548a;color:white;border:0;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.time-controls{display:flex;gap:12px;flex-wrap:wrap}.time-controls label{display:inline-flex;align-items:center;gap:5px}.time-controls select{max-width:100%}@media(max-width:520px){.time-controls{flex-direction:column;align-items:flex-start}.time-controls label{width:100%;justify-content:space-between}.time-controls select{min-width:160px}}
 #gfsChart{overflow:hidden;width:100%}#gfsChart svg{display:block;width:100%;height:auto}#gfsWindLegend{font-size:.88rem;color:#48596e;margin:4px 0 12px}#gfsChart{overflow:hidden}#gfsChart svg{min-width:310px;max-width:850px;height:auto}#gfsSelected{font-weight:700;font-size:1.15rem;margin:12px 0}#gfsFreshness[data-stale="true"]{color:#a13c00;font-weight:700}table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;border-bottom:1px solid #e3e9f0;text-align:left}
-.scroll{overflow-x:auto}.warn{color:#913800}.muted{color:#647184}
+.scroll{overflow-x:auto}.warn{color:#913800}.muted{color:#647184}#pathMap{height:420px;max-height:65vh;border:1px solid #cbd6e2;border-radius:10px;margin:12px 0;background:#eef3f7}#pathLegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem}.legend-line{display:inline-block;width:28px;height:4px;vertical-align:middle;margin-right:5px}.freefall-line{background:#d45b00}.canopy-line{background:#1468a8}
 </style></head><body>
 <header><h1>freefall-weather</h1>自由降下訓練向け気象参考ダッシュボード（初期版）</header><main>
 <section><p class="warn"><strong>安全上の注意：</strong>訓練実施可否を判定するものではありません。現地観測と部隊の正式な基準に従ってください。</p>
@@ -52,13 +52,15 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p><label>自由降下率（m/s）：<input id="freefallRate" type="number" min="1" max="100" step="0.1" value="50"></label> <label>開傘後降下率（m/s）：<input id="canopyRate" type="number" min="0.5" max="20" step="0.1" value="5"></label></p>
 <p><label>着地地点（MGRS）：<input id="landingMgrs" type="text" value="54SVE1646751869" inputmode="text" autocomplete="off"></label> <button type="button" id="calculatePath">参考経路を算定</button></p>
 <p id="pathStatus" role="status">未算定</p><p id="pathSummary" class="muted">選択中のGFS予報を使用します。</p>
+<div id="pathMap" role="img" aria-label="参考経路地図"><p class="muted">経路算定後に地図を表示します。</p></div>
+<p id="pathLegend"><span><i class="legend-line freefall-line"></i>自由降下</span><span><i class="legend-line canopy-line"></i>開傘後</span></p>
 <div class="scroll"><table><thead><tr><th>高度（m AGL）</th><th>段階</th><th>経過時間（秒）</th><th>緯度</th><th>経度</th><th>風向</th><th>風速</th></tr></thead><tbody id="pathRows"><tr><td colspan="7">未算定</td></tr></tbody></table></div>
 <p><a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">気圧面と高度の説明（Open-Meteo）</a></p></section>
 <section><h2>航空気象・危険気象</h2><div class="scroll"><table><thead><tr><th>項目</th><th>状態</th></tr></thead><tbody id="hazards"></tbody></table></div></section>
 <section><h2>情報源・信頼度</h2><p>地上予報：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（気象庁の公式情報ではありません）。</p>
 <p>公式情報の確認：<a href="https://www.jma.go.jp/bosai/" target="_blank" rel="noopener">気象庁防災情報</a></p>
 <p>予報モデルの詳細・更新時刻：不明。信頼度：未評価。取得時刻と予報有効時刻は異なります。</p></section>
-</main><script>
+</main><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
 const places={kirishima:{lat:31.98,lon:130.76},tanegashima:{lat:30.38,lon:130.90},narashino:{lat:35.70722400,lon:140.07658381}};
 const el=id=>document.getElementById(id);
 function row(target,values){const tr=document.createElement("tr");values.forEach(v=>{const td=document.createElement("td");td.textContent=v??"不明";tr.append(td)});target.append(tr)}
@@ -332,6 +334,20 @@ el("gfsPrev").addEventListener("click",()=>{const i=Number(el("gfsTime").value);
 el("gfsNext").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i<gfsDataset.forecasts.length-1){el("gfsTime").value=String(i+1);syncGfsDateHour();renderGfs()}});
 el("gfsTime").addEventListener("change",()=>{syncGfsDateHour();renderGfs()});
 el("location").addEventListener("change",renderGfs);
+let pathMap=null,pathLayer=null;
+function renderPathMap(points,opening){
+ const container=el("pathMap");
+ if(typeof L==="undefined"){container.replaceChildren();const p=document.createElement("p");p.className="warn";p.textContent="地図ライブラリを読み込めません。通信状態を確認してください。";container.append(p);return}
+ if(!pathMap){container.replaceChildren();pathMap=L.map(container,{zoomControl:true});L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}).addTo(pathMap)}
+ if(pathLayer)pathLayer.remove();pathLayer=L.layerGroup().addTo(pathMap);
+ const freefall=points.filter(p=>p.agl>=opening),canopy=points.filter(p=>p.agl<=opening);
+ if(freefall.length>1)L.polyline(freefall.map(p=>[p.lat,p.lon]),{color:"#d45b00",weight:5,opacity:.9}).addTo(pathLayer).bindPopup("自由降下区間（参考推定）");
+ if(canopy.length>1)L.polyline(canopy.map(p=>[p.lat,p.lon]),{color:"#1468a8",weight:5,opacity:.9}).addTo(pathLayer).bindPopup("開傘後区間（参考推定）");
+ const start=points[0],open=points.find(p=>p.agl===opening),landing=points[points.length-1];
+ const marker=(p,color,label)=>L.circleMarker([p.lat,p.lon],{radius:8,color:"#fff",weight:2,fillColor:color,fillOpacity:1}).addTo(pathLayer).bindPopup(label+"<br>高度 "+p.agl+"m AGL<br>"+p.lat.toFixed(6)+", "+p.lon.toFixed(6));
+ marker(start,"#8b2f00","降下開始点（参考推定）");if(open)marker(open,"#6b3fa0","開傘点（参考推定）");marker(landing,"#14833b","着地点（入力値）");
+ const bounds=L.latLngBounds(points.map(p=>[p.lat,p.lon]));pathMap.fitBounds(bounds.pad(.25),{maxZoom:16});setTimeout(()=>pathMap.invalidateSize(),0);
+}
 el("calculatePath").addEventListener("click",()=>{
  const status=el("pathStatus"),tbody=el("pathRows");tbody.replaceChildren();
  try{
@@ -356,15 +372,18 @@ el("calculatePath").addEventListener("click",()=>{
   }
   const totalTime=timeBelow,totalEast=east,totalNorth=north,cosLat=Math.cos(landing.lat*Math.PI/180);
   const descending=[...ascending].reverse();
+  const pathPoints=[];
   for(const p of descending){
    const lat=landing.lat-p.north/111320,lon=landing.lon-p.east/(111320*cosLat);
    const phase=p.agl===0?"着地":p.agl<=opening?"開傘後":"自由降下";
+   pathPoints.push({agl:p.agl,lat,lon,phase});
    row(tbody,[p.agl,phase,(totalTime-p.timeBelow).toFixed(1),lat.toFixed(6),lon.toFixed(6),p.wind?Math.round(p.wind.wind_direction_deg_from)+"°":"不明",p.wind?p.wind.wind_speed_ms.toFixed(1)+" m/s":"不明"]);
   }
   const exitLat=landing.lat-totalNorth/111320,exitLon=landing.lon-totalEast/(111320*cosLat),distance=Math.hypot(totalEast,totalNorth);
   el("pathSummary").textContent="着地MGRS "+landing.normalized+"（"+landing.lat.toFixed(6)+", "+landing.lon.toFixed(6)+"） ／ 受動ドリフト開始点の参考推定 "+exitLat.toFixed(6)+", "+exitLon.toFixed(6)+" ／ 水平変位 約"+Math.round(distance)+"m ／ 推定降下時間 "+totalTime.toFixed(1)+"秒 ／ 予報 "+jst(forecast.valid_utc);
+  renderPathMap(pathPoints,opening);
   status.textContent="参考推定完了（操舵・局地風・乱流等を含みません）";
- }catch(e){row(tbody,["算定不能","不明","不明","不明","不明","不明","不明"]);status.textContent="算定失敗："+e.message}
+ }catch(e){if(pathLayer)pathLayer.clearLayers();row(tbody,["算定不能","不明","不明","不明","不明","不明","不明"]);status.textContent="算定失敗："+e.message}
 });
 el("autoGfs").addEventListener("click",async()=>{
  const status=el("autoStatus");status.textContent="取得中";
