@@ -53,7 +53,8 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p><label>傘種：<select id="canopyType"><option value="ra1">RA-1</option><option value="mc4">MC-4</option></select></label> <label>自由降下率（m/s）：<input id="freefallRate" type="number" min="1" max="100" step="0.1" value="50"></label> <label>開傘後降下率（m/s）：<input id="canopyRate" type="number" min="0.5" max="20" step="0.1" value="4.0"></label></p>
 <p id="canopyInfo" class="muted">RA-1 公開仕様：降下率4.0m/s、前進速度13.4m/s、滑空比3.5:1。算定には降下率のみを使用します。</p>
 <p class="muted">性能資料：<a href="https://airborne-sys.com/wp-content/uploads/2026/10/RA-Intruder-Family_English-20261005.pdf" target="_blank" rel="noopener">Airborne Systems RA Intruder</a> ／ <a href="https://www.liberatedmanuals.com/TM-10-1670-287-23-and-P.pdf" target="_blank" rel="noopener">米陸軍 TM 10-1670-287-23&amp;P（MC-4）</a></p>
-<p><label>着地地点（MGRS）：<input id="landingMgrs" type="text" value="54SVE1646751869" inputmode="text" autocomplete="off"></label> <button type="button" id="calculatePath">参考経路を算定</button></p>
+<p><label><span id="landingSiteName">習志野演習場</span> 着地地点（MGRS）：<input id="landingMgrs" type="text" value="54SVE16515209" inputmode="text" autocomplete="off"></label> <button type="button" id="calculatePath">参考経路を算定</button></p>
+<p class="muted">地域を変更すると、対応する降下地点名とMGRSへ自動的に切り替わります。</p>
 <p id="pathStatus" role="status">未算定</p><p id="pathSummary" class="muted">選択中のGFS予報を使用します。</p>
 <div id="pathMap" role="img" aria-label="参考経路地図"><p class="muted">経路算定後に地図を表示します。</p></div>
 <p id="pathLegend"><span><i class="legend-line freefall-line"></i>自由降下</span><span><i class="legend-line canopy-line"></i>開傘後</span></p>
@@ -69,9 +70,21 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p>公式情報の確認：<a href="https://www.jma.go.jp/bosai/" target="_blank" rel="noopener">気象庁防災情報</a></p>
 <p>予報モデルの詳細・更新時刻：不明。信頼度：未評価。取得時刻と予報有効時刻は異なります。</p></section>
 </main><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
-const places={kirishima:{lat:31.98,lon:130.76},tanegashima:{lat:30.38,lon:130.90},narashino:{lat:35.70722400,lon:140.07658381}};
+const places={
+ kirishima:{lat:31.98,lon:130.76,dzName:"霧島演習場DZ",landingMgrs:"52SGB12448691"},
+ tanegashima:{lat:30.38,lon:130.90,dzName:"前之浜DZ",landingMgrs:"52RFU83336085"},
+ narashino:{lat:35.70722400,lon:140.07658381,dzName:"習志野演習場",landingMgrs:"54SVE16515209"}
+};
 const el=id=>document.getElementById(id);
 function row(target,values){const tr=document.createElement("tr");values.forEach(v=>{const td=document.createElement("td");td.textContent=v??"不明";tr.append(td)});target.append(tr)}
+function syncLandingSite(){
+ const place=places[el("location").value];if(!place)return;
+ el("landingSiteName").textContent=place.dzName;
+ el("landingMgrs").value=place.landingMgrs;
+ el("pathStatus").textContent="未算定（"+place.dzName+"へ切替）";
+ el("pathSummary").textContent="選択中のGFS予報を使用します。着地地点："+place.dzName+" "+place.landingMgrs;
+}
+syncLandingSite();
 const canopyProfiles={
  ra1:{label:"RA-1",rate:4.0,info:"RA-1 公開仕様：降下率4.0m/s（13.2ft/s）、前進速度13.4m/s（44ft/s）、滑空比3.5:1。算定には降下率のみを使用します。"},
  mc4:{label:"MC-4",rate:4.6,info:"MC-4 米陸軍公開仕様：全滑空降下率14～16ft/s（4.3～4.9m/s。プリセットは中間値4.6m/s）、前進速度10～25mph、滑空比3:1。算定には降下率のみを使用します。"}
@@ -393,7 +406,7 @@ el("gfsHour").addEventListener("change",()=>{el("gfsTime").value=el("gfsHour").v
 el("gfsPrev").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i>0){el("gfsTime").value=String(i-1);syncGfsDateHour();renderGfs()}});
 el("gfsNext").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i<gfsDataset.forecasts.length-1){el("gfsTime").value=String(i+1);syncGfsDateHour();renderGfs()}});
 el("gfsTime").addEventListener("change",()=>{syncGfsDateHour();renderGfs()});
-el("location").addEventListener("change",()=>{renderGfs();renderAviation()});
+el("location").addEventListener("change",()=>{syncLandingSite();renderGfs();renderAviation()});
 let pathMap=null,pathLayer=null;
 function renderPathMap(points,opening,canopyLabel){
  const container=el("pathMap");
