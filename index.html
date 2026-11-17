@@ -7,7 +7,7 @@ section{background:#fff;border:1px solid #dbe3eb;border-radius:12px;padding:18px
 h1{margin:0;font-size:1.6rem}h2{font-size:1.1rem}p{line-height:1.6}
 button,select{padding:10px;border-radius:7px;font:inherit}button{background:#17548a;color:white;border:0;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.time-controls{display:flex;gap:12px;flex-wrap:wrap}.time-controls label{display:inline-flex;align-items:center;gap:5px}.time-controls select{max-width:100%}@media(max-width:520px){.time-controls{flex-direction:column;align-items:flex-start}.time-controls label{width:100%;justify-content:space-between}.time-controls select{min-width:160px}}
 #gfsChart{overflow:hidden;width:100%}#gfsChart svg{display:block;width:100%;height:auto}#gfsWindLegend{font-size:.88rem;color:#48596e;margin:4px 0 12px}#gfsChart{overflow:hidden}#gfsChart svg{min-width:310px;max-width:850px;height:auto}#gfsSelected{font-weight:700;font-size:1.15rem;margin:12px 0}#gfsFreshness[data-stale="true"]{color:#a13c00;font-weight:700}table{width:100%;border-collapse:collapse;min-width:570px}td,th{padding:9px;border-bottom:1px solid #e3e9f0;text-align:left}
-.scroll{overflow-x:auto}.warn{color:#913800}.muted{color:#647184}#pathMap{height:420px;max-height:65vh;border:1px solid #cbd6e2;border-radius:10px;margin:12px 0;background:#eef3f7}#pathLegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem}.legend-line{display:inline-block;width:28px;height:4px;vertical-align:middle;margin-right:5px}.freefall-line{background:#d45b00}.canopy-line{background:#1468a8}
+.scroll{overflow-x:auto}.warn{color:#913800}.muted{color:#647184}#pathMap{height:420px;max-height:65vh;border:1px solid #cbd6e2;border-radius:10px;margin:12px 0;background:#eef3f7}#pathLegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem}.legend-line{display:inline-block;width:28px;height:4px;vertical-align:middle;margin-right:5px}.freefall-line{background:#d45b00}.canopy-line{background:#1468a8}#aviationCrossSection{overflow-x:auto;border:1px solid #cbd6e2;border-radius:10px;background:#f8fbfe;padding:8px}#aviationCrossSection svg{display:block;min-width:680px;width:100%;height:auto}
 </style></head><body>
 <header><h1>freefall-weather</h1>自由降下訓練向け気象参考ダッシュボード（初期版）</header><main>
 <section><p class="warn"><strong>安全上の注意：</strong>訓練実施可否を判定するものではありません。現地観測と部隊の正式な基準に従ってください。</p>
@@ -65,6 +65,10 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p><button type="button" id="aviationFetch">航空気象を読み込む</button> <span id="aviationStatus" role="status">未取得</span></p>
 <p id="aviationMeta" class="muted">取得時刻・対象空港：不明</p>
 <div class="scroll"><table><thead><tr><th>項目</th><th>状態</th></tr></thead><tbody id="hazards"><tr><td colspan="2">未取得</td></tr></tbody></table></div>
+<h3>航空気象横断図（概念図）</h3>
+<p class="warn">地点間の実測断面ではありません。GFS風と空港METAR/TAFはAGL、SIGMETは福岡FIR全域のFL/MSL相当を同じ図に参考表示します。高度基準と対象範囲が異なります。</p>
+<div id="aviationCrossSection" role="img" aria-label="航空気象の高度別概念横断図"><p class="muted">航空気象とGFSを読み込むと横断図を表示します。</p></div>
+<p id="crossSectionLegend" class="muted">青：GFS風　灰：雲底　紫：ウインドシア　橙：乱流SIGMET　赤：火山灰SIGMET</p>
 <p class="muted">情報源：<a href="https://aviationweather.gov/" target="_blank" rel="noopener">US Aviation Weather Center</a></p></section>
 <section><h2>情報源・信頼度</h2><p>地上予報：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（気象庁の公式情報ではありません）。</p>
 <p>公式情報の確認：<a href="https://www.jma.go.jp/bosai/" target="_blank" rel="noopener">気象庁防災情報</a></p>
@@ -147,6 +151,51 @@ let aviationDataset=null;
 const aviationTime=value=>value?jst(typeof value==="number"?value*1000:value):"不明";
 const flightLevel=value=>Number.isFinite(Number(value))?"FL"+Math.round(Number(value)/100):"高度不明";
 const latestFor=(items,id,timeField)=>items.filter(item=>item.icaoId===id).sort((a,b)=>new Date(b[timeField]||0)-new Date(a[timeField]||0))[0];
+function renderAviationCrossSection(){
+ const container=el("aviationCrossSection");container.replaceChildren();
+ if(!aviationDataset){const p=document.createElement("p");p.className="muted";p.textContent="先に航空気象を読み込んでください。";container.append(p);return}
+ const key=el("location").value,ids=aviationDataset.station_groups?.[key]||[];
+ const metars=ids.map(id=>latestFor(aviationDataset.metars||[],id,"reportTime")).filter(Boolean);
+ const tafs=ids.map(id=>latestFor(aviationDataset.tafs||[],id,"issueTime")).filter(Boolean);
+ const sigmets=aviationDataset.sigmets_fukuoka_fir||[];
+ let winds=[],valid="GFS未取得";
+ if(typeof gfsDataset!=="undefined"&&gfsDataset){
+  const forecast=gfsDataset.forecasts[Number(el("gfsTime").value)],ground=Number(gfsDataset.locations?.[key]?.ground_elevation_m_msl_approx);
+  if(forecast){winds=interpolateAgl(forecast.locations?.[key]||[],ground);valid=jst(forecast.valid_utc)}
+ }
+ const ns="http://www.w3.org/2000/svg",svg=document.createElementNS(ns,"svg"),width=820,height=590,top=45,bottom=500,maxM=12000;
+ svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("aria-label","高度0から12,000メートルまでの航空気象概念図");
+ const add=(tag,attrs,text)=>{const node=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs||{}))node.setAttribute(k,v);if(text!=null)node.textContent=text;svg.append(node);return node};
+ const y=m=>bottom-Math.max(0,Math.min(maxM,m))/maxM*(bottom-top);
+ add("rect",{x:82,y:top,width:650,height:bottom-top,fill:"#fff",stroke:"#b8c7d6"});
+ for(let m=0;m<=maxM;m+=2000){add("line",{x1:82,y1:y(m),x2:732,y2:y(m),stroke:"#dbe4ed"});add("text",{x:74,y:y(m)+4,"text-anchor":"end","font-size":12,fill:"#42566d"},(m/1000)+"km")}
+ add("text",{x:18,y:275,transform:"rotate(-90 18 275)","text-anchor":"middle","font-size":13,fill:"#31475d"},"高度（基準混在・参考）");
+ add("text",{x:240,y:28,"text-anchor":"middle","font-size":14,"font-weight":"700",fill:"#173657"},"空港METAR/TAF・GFS（AGL）");
+ add("text",{x:630,y:28,"text-anchor":"middle","font-size":14,"font-weight":"700",fill:"#173657"},"福岡FIR SIGMET（FL/MSL相当）");
+ metars.forEach((m,index)=>{
+  const layer=(m.clouds||[]).filter(c=>["BKN","OVC","VV"].includes(c.cover)&&Number.isFinite(Number(c.base))).sort((a,b)=>Number(a.base)-Number(b.base))[0];
+  if(!layer)return;const metres=Number(layer.base)*.3048,x1=105+index*185,x2=x1+150;
+  add("line",{x1,y1:y(metres),x2,y2:y(metres),stroke:"#65717e","stroke-width":8,"stroke-dasharray":"14 7"});
+  add("text",{x:(x1+x2)/2,y:y(metres)-9,"text-anchor":"middle","font-size":12,fill:"#37485a"},m.icaoId+" "+layer.cover+" "+layer.base+"ft");
+ });
+ const sampled=winds.filter(p=>p.agl_m%1000===0&&p.agl_m<=6000);
+ sampled.forEach((w,index)=>{const to=(w.wind_direction_deg_from+180)%360,x=175+(index%2)*120;add("text",{x,y:y(w.agl_m)+6,"text-anchor":"middle","font-size":25,fill:"#16639c",transform:"rotate("+to+" "+x+" "+y(w.agl_m)+")"},"➜");add("text",{x:x+25,y:y(w.agl_m)+4,"font-size":11,fill:"#16639c"},w.wind_speed_ms.toFixed(1)+"m/s")});
+ for(const t of tafs)for(const f of t.fcsts||[]){if(!Number.isFinite(Number(f.wshearHgt)))continue;const metres=Number(f.wshearHgt)*.3048;add("circle",{cx:455,cy:y(metres),r:8,fill:"#7b4ab5"});add("text",{x:470,y:y(metres)+4,"font-size":11,fill:"#60358e"},t.icaoId+" WS "+f.wshearHgt+"ft")}
+ sigmets.forEach((s,index)=>{
+  if(!Number.isFinite(Number(s.base))||!Number.isFinite(Number(s.top)))return;
+  const lo=Number(s.base)*.3048,hi=Number(s.top)*.3048,color=String(s.hazard).toUpperCase()==="VA"?"#c63f32":"#df7928";
+  const yy=y(hi),hh=Math.max(7,y(lo)-yy),x=555+(index%2)*82;
+  add("rect",{x,y:yy,width:70,height:hh,fill:color,opacity:.72,stroke:color});
+  add("text",{x:x+35,y:Math.max(top+14,yy+14),"text-anchor":"middle","font-size":11,"font-weight":"700",fill:"#fff"},String(s.hazard||"SIGMET"));
+  add("text",{x:x+35,y:Math.min(bottom-4,yy+hh+14),"text-anchor":"middle","font-size":10,fill:color},flightLevel(s.base)+"–"+flightLevel(s.top));
+ });
+ const visibility=metars.map(m=>m.icaoId+" "+(m.visib??"不明")+"SM").join(" / ")||"METARなし";
+ const thunder=[...metars.map(m=>m.rawOb||""),...tafs.map(t=>t.rawTAF||"")].some(v=>/(^|\s)(VC)?TS/i.test(v));
+ add("text",{x:90,y:530,"font-size":12,fill:"#31475d"},"視程："+visibility+"　雷記載："+(thunder?"TSあり":"明示なし（雷なしを保証しない）"));
+ add("text",{x:90,y:553,"font-size":12,fill:"#647184"},"GFS有効時刻："+valid+"　対象空港："+(ids.join(", ")||"不明"));
+ add("text",{x:90,y:576,"font-size":11,fill:"#913800"},"異なる地点・高度基準・対象範囲を併記した教育用概念図です。運航判断・降下判断には使用しないでください。");
+ container.append(svg);
+}
 function renderAviation(){
  const tbody=el("hazards");tbody.replaceChildren();
  if(!aviationDataset){row(tbody,["航空気象","不明（未取得）"]);return}
@@ -176,6 +225,7 @@ function renderAviation(){
  const errors=(aviationDataset.errors||[]).length?" ／ 取得エラー："+aviationDataset.errors.join("; "):"";
  el("aviationMeta").textContent=freshness+"対象空港："+(ids.join(", ")||"不明")+" ／ 取得："+aviationTime(aviationDataset.retrieved_utc)+errors;
  el("aviationStatus").textContent=(metars.length||tafs.length||sigmets.length)?"取得完了（参考情報）":"取得完了・対象データなし";
+ renderAviationCrossSection();
 }
 async function loadAviation(){
  const button=el("aviationFetch");button.disabled=true;el("aviationStatus").textContent="取得中";
@@ -366,6 +416,7 @@ function renderGfs(){
  }
 
  el("gfsPrev").disabled=!prev;el("gfsNext").disabled=!next;
+ renderAviationCrossSection();
 }
 function acceptGfs(data,source){
  if(data.schema_version!==1||data.model!=="GFS"||data.status!=="ok"||!Array.isArray(data.forecasts)||!data.forecasts.length)throw Error("有効なGFSデータではありません");
@@ -406,7 +457,7 @@ el("gfsHour").addEventListener("change",()=>{el("gfsTime").value=el("gfsHour").v
 el("gfsPrev").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i>0){el("gfsTime").value=String(i-1);syncGfsDateHour();renderGfs()}});
 el("gfsNext").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i<gfsDataset.forecasts.length-1){el("gfsTime").value=String(i+1);syncGfsDateHour();renderGfs()}});
 el("gfsTime").addEventListener("change",()=>{syncGfsDateHour();renderGfs()});
-el("location").addEventListener("change",()=>{syncLandingSite();renderGfs();renderAviation()});
+el("location").addEventListener("change",()=>{syncLandingSite();renderGfs();renderAviation();renderAviationCrossSection()});
 let pathMap=null,pathLayer=null;
 function renderPathMap(points,opening,canopyLabel){
  const container=el("pathMap");
