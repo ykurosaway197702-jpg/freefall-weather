@@ -34,7 +34,7 @@ def candidate_cycles(now, publication_delay_hours=4, count=5):
 def download(cycle, hour, bounds):
     file=f"gfs.t{cycle.hour:02d}z.pgrb2.0p25.f{hour:03d}"
     query={"file":file,"dir":f"/gfs.{cycle:%Y%m%d}/{cycle.hour:02d}/atmos",
-           "var_UGRD":"on","var_VGRD":"on","var_HGT":"on","var_RH":"on",
+           "var_UGRD":"on","var_VGRD":"on","var_HGT":"on","var_RH":"on","var_TCDC":"on",
            "subregion":"",**bounds}
     for lev in LEVELS:query[f"lev_{lev}_mb"]="on"
     url=BASE+"?"+urllib.parse.urlencode(query)
@@ -58,7 +58,7 @@ def parse(data, location_keys=None):
                 try:
                     name=codes_get(gid,"shortName")
                     level=int(codes_get(gid,"level"))
-                    if level not in LEVELS or name not in ("u","v","gh","r"):continue
+                    if level not in LEVELS or name not in ("u","v","gh","r","tcc"):continue
                     for key in location_keys or LOCATIONS:
                         p=LOCATIONS[key]
                         nearest=codes_grib_find_nearest(gid,p["lat"],p["lon"])[0]
@@ -92,6 +92,7 @@ def make_record(fields,cycle,hour):
                          "wind_direction_deg_from":round((math.degrees(math.atan2(-u,-w))+360)%360),
                          "wind_speed_ms":round(math.hypot(u,w),1)}
             if "r" in v and math.isfinite(v["r"]):row["relative_humidity_percent"]=round(max(0,min(100,v["r"])),1)
+            if "tcc" in v and math.isfinite(v["tcc"]):row["cloud_cover_percent"]=round(max(0,min(100,v["tcc"])),1)
             rows.append(row)
         result["locations"][key]=rows
     return result
@@ -124,6 +125,7 @@ def main():
              "retrieved_utc":dt.datetime.now(dt.timezone.utc).isoformat().replace("+00:00","Z"),
              "altitude_reference":"source levels are geopotential height approximately MSL; UI interpolates to 200 m AGL intervals",
              "cloud_layer_proxy":"GFS pressure-level relative humidity interpolated to 200 m AGL; RH >= 80% is shown as a potential cloud layer, not observed cloud thickness",
+             "cloud_cover_source":"GFS total cloud cover on pressure levels, interpolated by the UI; model estimate, not local observation",
              "ground_elevation_source":"Open-Meteo elevation model; approximate, not surveyed",
              "confidence":"not independently verified","locations":LOCATIONS,"forecasts":records,
              "errors":errors[:16],"status":"ok" if records else "unavailable"}
