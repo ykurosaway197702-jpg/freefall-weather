@@ -59,7 +59,12 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p id="pathLegend"><span><i class="legend-line freefall-line"></i>自由降下</span><span><i class="legend-line canopy-line"></i>開傘後</span></p>
 <div class="scroll"><table><thead><tr><th>高度（m AGL）</th><th>段階</th><th>経過時間（秒）</th><th>緯度</th><th>経度</th><th>風向</th><th>風速</th></tr></thead><tbody id="pathRows"><tr><td colspan="7">未算定</td></tr></tbody></table></div>
 <p><a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">気圧面と高度の説明（Open-Meteo）</a></p></section>
-<section><h2>航空気象・危険気象</h2><div class="scroll"><table><thead><tr><th>項目</th><th>状態</th></tr></thead><tbody id="hazards"></tbody></table></div></section>
+<section><h2>航空気象・危険気象</h2>
+<p class="warn">空港のMETAR/TAFと福岡FIR全域のSIGMETです。演習場の現地観測ではなく、実施可否を判定しません。</p>
+<p><button type="button" id="aviationFetch">航空気象を読み込む</button> <span id="aviationStatus" role="status">未取得</span></p>
+<p id="aviationMeta" class="muted">取得時刻・対象空港：不明</p>
+<div class="scroll"><table><thead><tr><th>項目</th><th>状態</th></tr></thead><tbody id="hazards"><tr><td colspan="2">未取得</td></tr></tbody></table></div>
+<p class="muted">情報源：<a href="https://aviationweather.gov/" target="_blank" rel="noopener">US Aviation Weather Center</a></p></section>
 <section><h2>情報源・信頼度</h2><p>地上予報：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（気象庁の公式情報ではありません）。</p>
 <p>公式情報の確認：<a href="https://www.jma.go.jp/bosai/" target="_blank" rel="noopener">気象庁防災情報</a></p>
 <p>予報モデルの詳細・更新時刻：不明。信頼度：未評価。取得時刻と予報有効時刻は異なります。</p></section>
@@ -125,7 +130,53 @@ function mgrsToLatLon(value){
  return {...point,normalized:text};
 }
 
-["雲底","航空視程","雷","乱流","ウインドシア","火山灰","METAR/TAF"].forEach(h=>row(el("hazards"),[h,"不明（未取得）"]));
+let aviationDataset=null;
+const aviationTime=value=>value?jst(typeof value==="number"?value*1000:value):"不明";
+const flightLevel=value=>Number.isFinite(Number(value))?"FL"+Math.round(Number(value)/100):"高度不明";
+const latestFor=(items,id,timeField)=>items.filter(item=>item.icaoId===id).sort((a,b)=>new Date(b[timeField]||0)-new Date(a[timeField]||0))[0];
+function renderAviation(){
+ const tbody=el("hazards");tbody.replaceChildren();
+ if(!aviationDataset){row(tbody,["航空気象","不明（未取得）"]);return}
+ const key=el("location").value,ids=aviationDataset.station_groups?.[key]||[];
+ const metars=ids.map(id=>latestFor(aviationDataset.metars||[],id,"reportTime")).filter(Boolean);
+ const tafs=ids.map(id=>latestFor(aviationDataset.tafs||[],id,"issueTime")).filter(Boolean);
+ const sigmets=aviationDataset.sigmets_fukuoka_fir||[],ceiling=[];
+ for(const m of metars){
+  const layers=(m.clouds||[]).filter(c=>["BKN","OVC","VV"].includes(c.cover)&&Number.isFinite(Number(c.base))).sort((a,b)=>Number(a.base)-Number(b.base));
+  ceiling.push(m.icaoId+"："+(layers.length?layers[0].cover+" "+Number(layers[0].base).toLocaleString("ja-JP")+" ft AGL":"ceiling明示なし"));
+ }
+ row(tbody,["雲底",ceiling.length?ceiling.join(" ／ "):"対象METARなし"]);
+ row(tbody,["航空視程",metars.length?metars.map(m=>m.icaoId+"："+(m.visib??"不明")+" SM（AWC decoded）").join(" ／ "):"対象METARなし"]);
+ const thunder=[...metars.map(m=>m.icaoId+" METAR "+(m.rawOb||"")),...tafs.map(t=>t.icaoId+" TAF "+(t.rawTAF||""))].filter(v=>/(^|\s)(VC)?TS/i.test(v));
+ row(tbody,["雷",thunder.length?"TS記載あり："+thunder.join(" ／ "):"対象METAR/TAFにTS明示なし（雷なしを保証しません）"]);
+ const turbulence=sigmets.filter(s=>String(s.hazard||"").toUpperCase().includes("TURB"));
+ row(tbody,["乱流",turbulence.length?turbulence.map(s=>"福岡FIR SIGMET "+(s.qualifier||s.hazard||"TURB")+" "+flightLevel(s.base)+"～"+flightLevel(s.top)+" ／ "+aviationTime(s.validTimeFrom)+"～"+aviationTime(s.validTimeTo)).join(" ／ "):"福岡FIR SIGMETにTURB明示なし（局地的乱流なしを保証しません）"]);
+ const shear=[];
+ for(const t of tafs)for(const f of t.fcsts||[])if(Number.isFinite(Number(f.wshearHgt))||/(^|\s)WS\d/i.test(t.rawTAF||""))shear.push(t.icaoId+"："+(f.wshearHgt??"不明")+" ft、"+(f.wshearDir??"不明")+"°、"+(f.wshearSpd??"不明")+" kt");
+ row(tbody,["ウインドシア",shear.length?shear.join(" ／ "):"対象TAFにWS明示なし（ウインドシアなしを保証しません）"]);
+ const ash=sigmets.filter(s=>String(s.hazard||"").toUpperCase()==="VA");
+ row(tbody,["火山灰",ash.length?ash.map(s=>"福岡FIR SIGMET "+(s.qualifier||"VA")+" ／ "+aviationTime(s.validTimeFrom)+"～"+aviationTime(s.validTimeTo)).join(" ／ "):"福岡FIR SIGMETにVA明示なし（火山灰なしを保証しません）"]);
+ const raw=[...metars.map(m=>m.icaoId+" METAR: "+(m.rawOb||"原文なし")),...tafs.map(t=>t.icaoId+" TAF: "+(t.rawTAF||"原文なし"))];
+ row(tbody,["METAR/TAF原文",raw.length?raw.join(" ／ "):"対象データなし"]);
+ const age=(Date.now()-new Date(aviationDataset.retrieved_utc).getTime())/3600000;
+ const freshness=Number.isFinite(age)&&age>2?"注意：取得から2時間超 ／ ":"";
+ const errors=(aviationDataset.errors||[]).length?" ／ 取得エラー："+aviationDataset.errors.join("; "):"";
+ el("aviationMeta").textContent=freshness+"対象空港："+(ids.join(", ")||"不明")+" ／ 取得："+aviationTime(aviationDataset.retrieved_utc)+errors;
+ el("aviationStatus").textContent=(metars.length||tafs.length||sigmets.length)?"取得完了（参考情報）":"取得完了・対象データなし";
+}
+async function loadAviation(){
+ const button=el("aviationFetch");button.disabled=true;el("aviationStatus").textContent="取得中";
+ try{
+  if(location.protocol==="file:")throw Error("ローカルHTMLでは自動読込できません。GitHub Pagesで確認してください");
+  const response=await fetch("./data/aviation_weather.json?t="+Date.now(),{cache:"no-store"});
+  if(!response.ok)throw Error("HTTP "+response.status);
+  const data=await response.json();
+  if(data.schema_version!==1||!Array.isArray(data.metars)||!Array.isArray(data.tafs)||!Array.isArray(data.sigmets_fukuoka_fir))throw Error("対応していないデータ形式");
+  aviationDataset=data;renderAviation();
+ }catch(e){const tbody=el("hazards");tbody.replaceChildren();row(tbody,["取得不能","不明"]);el("aviationStatus").textContent="取得失敗："+e.message}
+ finally{button.disabled=false}
+}
+el("aviationFetch").addEventListener("click",loadAviation);
 el("fetch").addEventListener("click",async()=>{
 const p=places[el("location").value],button=el("fetch");button.disabled=true;el("status").textContent="取得中";el("meta").textContent="未取得";el("forecast").replaceChildren();
 try{
@@ -342,7 +393,7 @@ el("gfsHour").addEventListener("change",()=>{el("gfsTime").value=el("gfsHour").v
 el("gfsPrev").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i>0){el("gfsTime").value=String(i-1);syncGfsDateHour();renderGfs()}});
 el("gfsNext").addEventListener("click",()=>{const i=Number(el("gfsTime").value);if(i<gfsDataset.forecasts.length-1){el("gfsTime").value=String(i+1);syncGfsDateHour();renderGfs()}});
 el("gfsTime").addEventListener("change",()=>{syncGfsDateHour();renderGfs()});
-el("location").addEventListener("change",renderGfs);
+el("location").addEventListener("change",()=>{renderGfs();renderAviation()});
 let pathMap=null,pathLayer=null;
 function renderPathMap(points,opening,canopyLabel){
  const container=el("pathMap");
@@ -405,5 +456,5 @@ el("autoGfs").addEventListener("click",async()=>{
   status.textContent="取得完了";
  }catch(e){status.textContent="取得失敗："+e.message}
 });
-if(location.protocol==="https:"&&location.hostname.endsWith(".github.io"))el("autoGfs").click();
+if(location.protocol==="https:"&&location.hostname.endsWith(".github.io")){el("autoGfs").click();el("aviationFetch").click()}
 </script></body></html>
