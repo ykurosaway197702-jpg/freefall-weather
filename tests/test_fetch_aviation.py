@@ -14,8 +14,9 @@ SPEC.loader.exec_module(MODULE)
 
 class FetchAviationTests(unittest.TestCase):
     def test_station_groups_cover_all_locations(self):
-        self.assertEqual(set(MODULE.STATIONS), {"kirishima", "tanegashima", "narashino"})
+        self.assertEqual(set(MODULE.STATIONS), {"kirishima", "tanegashima", "higashifuji", "narashino"})
         self.assertEqual(MODULE.STATIONS["narashino"], ["RJAA", "RJTT"])
+        self.assertEqual(MODULE.STATIONS["higashifuji"], ["RJNS", "RJTT"])
         self.assertTrue(all(len(stations) == 2 for stations in MODULE.STATIONS.values()))
 
     def test_fetch_rejects_non_list_response(self):
