@@ -10,7 +10,7 @@ import tempfile
 import urllib.parse
 import urllib.request
 from pathlib import Path
-BASE="https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl"
+BASE="https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl"\n# Regional downloads keep each training-area request compact and independently retryable.
 LOCATIONS={"kirishima":{"name":"霧島演習場周辺（暫定）","lat":31.98,"lon":130.76,"ground_elevation_m_msl_approx":379},
            "tanegashima":{"name":"南種子町周辺（暫定）","lat":30.38,"lon":130.90,"ground_elevation_m_msl_approx":115},
            "higashifuji":{"name":"東富士山内台DZ（指定MGRS換算）","lat":35.26385539,"lon":138.88753204,"ground_elevation_m_msl_approx":464},
