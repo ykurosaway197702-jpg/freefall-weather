@@ -10,6 +10,7 @@ BASE = "https://aviationweather.gov/api/data"
 STATIONS = {
     "kirishima": ["RJFK", "RJFM"],
     "tanegashima": ["RJFG", "RJFK"],
+    "higashifuji": ["RJNS", "RJTT"],
     "narashino": ["RJAA", "RJTT"],
 }
 
