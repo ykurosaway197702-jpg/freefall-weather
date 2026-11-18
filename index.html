@@ -532,20 +532,30 @@ function renderPathCloudProfile(points){
  const container=el("pathCloudProfile"),status=el("pathCloudStatus");container.replaceChildren();
  const valid=points.filter(p=>Number.isFinite(p.cloudCover));
  if(!valid.length){const p=document.createElement("p");p.className="muted";p.textContent="現在のGFSデータには気圧面雲量がありません。次回更新後に表示されます。";container.append(p);status.textContent="雲量データ待ち";return}
- const ns="http://www.w3.org/2000/svg",width=760,height=390,left=75,right=35,top=32,bottom=325,maxTime=Math.max(...points.map(p=>p.elapsed)),maxAlt=Math.max(...points.map(p=>p.agl),1000);
+ const ns="http://www.w3.org/2000/svg",width=760,height=425,left=75,right=35,top=32,bottom=325,maxTime=Math.max(...points.map(p=>p.elapsed)),maxAlt=Math.max(...points.map(p=>p.agl),1000);
  const svg=document.createElementNS(ns,"svg");svg.setAttribute("viewBox","0 0 "+width+" "+height);
  const add=(tag,attrs,text)=>{const n=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs||{}))n.setAttribute(k,v);if(text!=null)n.textContent=text;svg.append(n);return n};
  const x=t=>left+(maxTime? t/maxTime:0)*(width-left-right),y=a=>bottom-a/maxAlt*(bottom-top);
  add("rect",{x:left,y:top,width:width-left-right,height:bottom-top,fill:"#fff",stroke:"#b8c7d6"});
+ for(const p of valid){
+  const bandTop=y(Math.min(maxAlt,p.agl+100)),bandBottom=y(Math.max(0,p.agl-100));
+  add("rect",{x:left,y:bandTop,width:width-left-right,height:Math.max(2,bandBottom-bandTop),fill:"#287eae",opacity:(.04+p.cloudCover/100*.76).toFixed(2)});
+ }
  for(let a=0;a<=maxAlt;a+=1000){add("line",{x1:left,y1:y(a),x2:width-right,y2:y(a),stroke:"#dbe4ed"});add("text",{x:left-8,y:y(a)+4,"text-anchor":"end","font-size":11,fill:"#42566d"},a+"m")}
  for(let t=0;t<=maxTime;t+=60){add("line",{x1:x(t),y1:top,x2:x(t),y2:bottom,stroke:"#edf1f5"});add("text",{x:x(t),y:bottom+18,"text-anchor":"middle","font-size":10,fill:"#42566d"},Math.round(t)+"秒")}
  for(let i=0;i<points.length-1;i++){
-  const a=points[i],b=points[i+1],cover=Number.isFinite(a.cloudCover)?a.cloudCover:0,color=cover>=50?"#687887":a.phase==="自由降下"?"#d45b00":"#1468a8";
-  add("line",{x1:x(a.elapsed),y1:y(a.agl),x2:x(b.elapsed),y2:y(b.agl),stroke:color,"stroke-width":cover>=50?9:4,opacity:cover>=50?Math.max(.45,cover/100):.9});
+  const a=points[i],b=points[i+1],cover=Number.isFinite(a.cloudCover)?a.cloudCover:0,color=a.phase==="自由降下"?"#d45b00":"#1468a8";
+  if(cover>=50)add("line",{x1:x(a.elapsed),y1:y(a.agl),x2:x(b.elapsed),y2:y(b.agl),stroke:"#263746","stroke-width":10,opacity:.55});
+  add("line",{x1:x(a.elapsed),y1:y(a.agl),x2:x(b.elapsed),y2:y(b.agl),stroke:"#fff","stroke-width":6,opacity:.9});
+  add("line",{x1:x(a.elapsed),y1:y(a.agl),x2:x(b.elapsed),y2:y(b.agl),stroke:color,"stroke-width":3.5,opacity:1});
  }
- for(const p of valid){const c=add("circle",{cx:x(p.elapsed),cy:y(p.agl),r:3.5,fill:p.cloudCover>=50?"#4b5966":"#fff",stroke:"#4b5966"});const title=document.createElementNS(ns,"title");title.textContent=p.agl+"m AGL / 推定雲量 "+p.cloudCover.toFixed(0)+"%";c.append(title)}
- add("text",{x:(left+width-right)/2,y:17,"text-anchor":"middle","font-size":13,"font-weight":"700",fill:"#173657"},"降下経過時間と推定雲量（太い灰色：50%以上）");
- add("text",{x:(left+width-right)/2,y:378,"text-anchor":"middle","font-size":11,fill:"#913800"},"地域代表点のGFSモデル雲量。経路上の実測値・通過可否判定ではありません。");container.append(svg);
+ for(const p of valid){const c=add("circle",{cx:x(p.elapsed),cy:y(p.agl),r:3.5,fill:p.cloudCover>=50?"#263746":"#fff",stroke:"#263746"});const title=document.createElementNS(ns,"title");title.textContent=p.agl+"m AGL / 推定雲量 "+p.cloudCover.toFixed(0)+"%";c.append(title)}
+ const defs=document.createElementNS(ns,"defs"),gradient=document.createElementNS(ns,"linearGradient");gradient.setAttribute("id","cloudCoverGradient");
+ for(const [offset,opacity] of [["0%",".04"],["50%",".42"],["100%",".8"]]){const stop=document.createElementNS(ns,"stop");stop.setAttribute("offset",offset);stop.setAttribute("stop-color","#287eae");stop.setAttribute("stop-opacity",opacity);gradient.append(stop)}defs.append(gradient);svg.insertBefore(defs,svg.firstChild);
+ add("rect",{x:left,y:350,width:210,height:14,fill:"url(#cloudCoverGradient)",stroke:"#8194a8"});add("text",{x:left,y:378,"font-size":10,fill:"#42566d"},"0%");add("text",{x:left+105,y:378,"text-anchor":"middle","font-size":10,fill:"#42566d"},"50%");add("text",{x:left+210,y:378,"text-anchor":"end","font-size":10,fill:"#42566d"},"100%");add("text",{x:left+225,y:362,"font-size":11,fill:"#42566d"},"背景：GFS推定雲量");
+ add("line",{x1:500,y1:357,x2:548,y2:357,stroke:"#d45b00","stroke-width":4});add("text",{x:555,y:361,"font-size":10,fill:"#42566d"},"自由降下");add("line",{x1:625,y1:357,x2:673,y2:357,stroke:"#1468a8","stroke-width":4});add("text",{x:680,y:361,"font-size":10,fill:"#42566d"},"開傘後");
+ add("text",{x:(left+width-right)/2,y:17,"text-anchor":"middle","font-size":13,"font-weight":"700",fill:"#173657"},"降下経路とモデル推定雲量の重ね合わせ");
+ add("text",{x:(left+width-right)/2,y:414,"text-anchor":"middle","font-size":11,fill:"#913800"},"地域代表点のGFSモデル雲量。経路上の実測値・通過可否判定ではありません。");container.append(svg);
  const flagged=valid.filter(p=>p.cloudCover>=50),ranges=[];
  for(const p of flagged){const last=ranges[ranges.length-1];if(last&&last.low-p.agl<=200)last.low=p.agl;else ranges.push({high:p.agl,low:p.agl})}
  status.textContent=flagged.length?"要確認（推定雲量50%以上）："+ranges.map(r=>r.low+"～"+r.high+"m AGL").join(" ／ "):"GFS推定雲量50%以上の区間は表示範囲内にありません（障害なしを保証しません）";
