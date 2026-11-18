@@ -83,6 +83,12 @@ class LocationConfigurationTests(unittest.TestCase):
         self.assertAlmostEqual(point["lon"], 140.07658381)
         self.assertEqual(point["ground_elevation_m_msl_approx"], 29)
 
+    def test_higashifuji_reference_point(self):
+        point = LOCATIONS["higashifuji"]
+        self.assertAlmostEqual(point["lat"], 35.26385539)
+        self.assertAlmostEqual(point["lon"], 138.88753204)
+        self.assertEqual(point["ground_elevation_m_msl_approx"], 464)
+
 
 if __name__ == "__main__":
     unittest.main()
