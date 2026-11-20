@@ -92,7 +92,8 @@ const places={
  narashino:{lat:35.70722400,lon:140.07658381,dzName:"習志野演習場",landingMgrs:"54SVE16515209",requiresDzStart:true,dzBoundaryMgrs:["54SVE14795263","54SVE14825215","54SVE17285150","54SVE17505241","54SVE15685314","54SVE14845266"]}
 };
 const el=id=>document.getElementById(id);
-const feetToModelMeters=feet=>Math.round(feet*.3048/200)*200;\nconst offsetMeters=(point,east,north)=>({lat:point.lat+north/111320,lon:point.lon+east/(111320*Math.cos(point.lat*Math.PI/180))});
+const feetToModelMeters=feet=>Math.round(feet*.3048/200)*200;
+const offsetMeters=(point,east,north)=>({lat:point.lat+north/111320,lon:point.lon+east/(111320*Math.cos(point.lat*Math.PI/180))});
 const metersToFeet=meters=>Math.round(meters*3.28084);
 function row(target,values){const tr=document.createElement("tr");values.forEach(v=>{const td=document.createElement("td");td.textContent=v??"不明";tr.append(td)});target.append(tr)}
 function syncLandingSite(){
@@ -584,7 +585,8 @@ function renderPathMap(points,opening,canopyLabel,boundary,startInside){
  const hold=points.filter(p=>p.phase.startsWith("ホールド")),freefall=points.filter(p=>p.phase==="自由降下"),canopy=points.filter(p=>["ダウンウインドレグ","ベースレグ","ファイナルアプローチ","着地"].includes(p.phase));
  if(hold.length)L.circleMarker([hold[0].lat,hold[0].lon],{radius:11,color:"#7b4aa8",weight:4,fillColor:"#fff",fillOpacity:.8}).addTo(pathLayer).bindPopup("ホールドエリア（概念）<br>操舵性能・旋回半径は未計算");
  if(freefall.length>1)L.polyline(freefall.map(p=>[p.lat,p.lon]),{color:"#d45b00",weight:5,opacity:.9}).addTo(pathLayer).bindPopup("自由降下区間（参考推定）");
- if(canopy.length>1)L.polyline(canopy.map(p=>[p.lat,p.lon]),{color:"#1468a8",weight:5,opacity:.9}).addTo(pathLayer).bindPopup("添付資料基準の着地進入（参考推定）");\n for(const [phase,label] of [["ダウンウインドレグ","ダウンウインド開始 800ft"],["ベースレグ","ベースレグ（高度は表示補間）"],["ファイナルアプローチ","ファイナル開始 300ft"]]){const p=points.find(q=>q.phase===phase);if(p)L.circleMarker([p.lat,p.lon],{radius:6,color:"#fff",weight:2,fillColor:"#1468a8",fillOpacity:1}).addTo(pathLayer).bindPopup(label+"<br>"+p.lat.toFixed(6)+", "+p.lon.toFixed(6))}
+ if(canopy.length>1)L.polyline(canopy.map(p=>[p.lat,p.lon]),{color:"#1468a8",weight:5,opacity:.9}).addTo(pathLayer).bindPopup("添付資料基準の着地進入（参考推定）");
+ for(const [phase,label] of [["ダウンウインドレグ","ダウンウインド開始 800ft"],["ベースレグ","ベースレグ（高度は表示補間）"],["ファイナルアプローチ","ファイナル開始 300ft"]]){const p=points.find(q=>q.phase===phase);if(p)L.circleMarker([p.lat,p.lon],{radius:6,color:"#fff",weight:2,fillColor:"#1468a8",fillOpacity:1}).addTo(pathLayer).bindPopup(label+"<br>"+p.lat.toFixed(6)+", "+p.lon.toFixed(6))}
  for(let i=0;i<points.length-1;i++)if(Number.isFinite(points[i].cloudCover)&&points[i].cloudCover>=50)L.polyline([[points[i].lat,points[i].lon],[points[i+1].lat,points[i+1].lon]],{color:"#4b5966",weight:10,opacity:Math.max(.5,points[i].cloudCover/100),dashArray:"8 6"}).addTo(pathLayer).bindPopup("推定雲量 "+points[i].cloudCover.toFixed(0)+"%<br>高度 "+points[i].agl+"m AGL<br>地域代表点GFSモデル");
  const start=points[0],open=points.find(p=>p.agl===opening),landing=points[points.length-1];
  const marker=(p,color,label)=>L.circleMarker([p.lat,p.lon],{radius:8,color:"#fff",weight:2,fillColor:color,fillOpacity:1}).addTo(pathLayer).bindPopup(label+"<br>高度 "+p.agl+"m AGL<br>"+p.lat.toFixed(6)+", "+p.lon.toFixed(6));
