@@ -57,7 +57,7 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p id="canopyInfo" class="muted">RA-1 公開仕様：降下率4.0m/s、前進速度13.4m/s、滑空比3.5:1。ホールド計算に対気速度を使用します。</p>
 <p class="muted">性能資料：<a href="https://airborne-sys.com/wp-content/uploads/2026/10/RA-Intruder-Family_English-20261005.pdf" target="_blank" rel="noopener">Airborne Systems RA Intruder</a> ／ <a href="https://www.liberatedmanuals.com/TM-10-1670-287-23-and-P.pdf" target="_blank" rel="noopener">米陸軍 TM 10-1670-287-23&amp;P（MC-4）</a></p>
 <p><label><span id="landingSiteName">習志野演習場</span> 着地地点（MGRS）：<input id="landingMgrs" type="text" value="54SVE16515209" inputmode="text" autocomplete="off"></label> <button type="button" id="calculatePath">参考経路を算定</button></p>
-<p class="muted">地域を変更すると、対応する降下地点名とMGRSへ自動的に切り替わります。</p>
+<p class="muted">地域を変更すると、対応する降下地点名とMGRSへ自動的に切り替わります。着地進入は添付資料を基準に、800ftでダウンウインド開始、横間隔約120m、300ft以上でファイナル開始、降着点までの参考パターンを表示します。</p>
 <p id="pathStatus" role="status">未算定</p><p id="pathSummary" class="muted">選択中のGFS予報を使用します。</p>
 <div id="pathMap" role="img" aria-label="参考経路地図"><p class="muted">経路算定後に地図を表示します。</p></div>
 <p id="pathLegend"><span><i class="legend-line hold-line"></i>ホールド高度処理（概念）</span><span><i class="legend-line freefall-line"></i>自由降下</span><span><i class="legend-line canopy-line"></i>開傘後</span><span><i class="legend-line cloud-line"></i>推定雲量50%以上の経路</span></p>
@@ -93,6 +93,7 @@ const places={
 };
 const el=id=>document.getElementById(id);
 const feetToModelMeters=feet=>Math.round(feet*.3048/200)*200;
+const offsetMeters=(point,east,north)=>({lat:point.lat+north/111320,lon:point.lon+east/(111320*Math.cos(point.lat*Math.PI/180))});
 const metersToFeet=meters=>Math.round(meters*3.28084);
 function row(target,values){const tr=document.createElement("tr");values.forEach(v=>{const td=document.createElement("td");td.textContent=v??"不明";tr.append(td)});target.append(tr)}
 function syncLandingSite(){
@@ -581,10 +582,11 @@ function renderPathMap(points,opening,canopyLabel,boundary,startInside){
  if(!pathMap){container.replaceChildren();pathMap=L.map(container,{zoomControl:true});L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}).addTo(pathMap)}
  if(pathLayer)pathLayer.remove();pathLayer=L.layerGroup().addTo(pathMap);
  if(boundary.length>=3)L.polygon(boundary.map(p=>[p.lat,p.lon]),{color:"#7b4aa8",weight:3,fillColor:"#9c75bd",fillOpacity:.08,dashArray:"8 5"}).addTo(pathLayer).bindPopup("指定された降下場エリア");
- const hold=points.filter(p=>p.phase.startsWith("ホールド")),freefall=points.filter(p=>p.phase==="自由降下"),canopy=points.filter(p=>p.phase==="開傘後進入"||p.phase==="着地");
+ const hold=points.filter(p=>p.phase.startsWith("ホールド")),freefall=points.filter(p=>p.phase==="自由降下"),canopy=points.filter(p=>["ダウンウインドレグ","ベースレグ","ファイナルアプローチ","着地"].includes(p.phase));
  if(hold.length)L.circleMarker([hold[0].lat,hold[0].lon],{radius:11,color:"#7b4aa8",weight:4,fillColor:"#fff",fillOpacity:.8}).addTo(pathLayer).bindPopup("ホールドエリア（概念）<br>操舵性能・旋回半径は未計算");
  if(freefall.length>1)L.polyline(freefall.map(p=>[p.lat,p.lon]),{color:"#d45b00",weight:5,opacity:.9}).addTo(pathLayer).bindPopup("自由降下区間（参考推定）");
- if(canopy.length>1)L.polyline(canopy.map(p=>[p.lat,p.lon]),{color:"#1468a8",weight:5,opacity:.9}).addTo(pathLayer).bindPopup("開傘後区間（参考推定）");
+ if(canopy.length>1)L.polyline(canopy.map(p=>[p.lat,p.lon]),{color:"#1468a8",weight:5,opacity:.9}).addTo(pathLayer).bindPopup("添付資料基準の着地進入（参考推定）");
+ for(const [phase,label] of [["ダウンウインドレグ","ダウンウインド開始 800ft"],["ベースレグ","ベースレグ（高度は表示補間）"],["ファイナルアプローチ","ファイナル開始 300ft"]]){const p=points.find(q=>q.phase===phase);if(p)L.circleMarker([p.lat,p.lon],{radius:6,color:"#fff",weight:2,fillColor:"#1468a8",fillOpacity:1}).addTo(pathLayer).bindPopup(label+"<br>"+p.lat.toFixed(6)+", "+p.lon.toFixed(6))}
  for(let i=0;i<points.length-1;i++)if(Number.isFinite(points[i].cloudCover)&&points[i].cloudCover>=50)L.polyline([[points[i].lat,points[i].lon],[points[i+1].lat,points[i+1].lon]],{color:"#4b5966",weight:10,opacity:Math.max(.5,points[i].cloudCover/100),dashArray:"8 6"}).addTo(pathLayer).bindPopup("推定雲量 "+points[i].cloudCover.toFixed(0)+"%<br>高度 "+points[i].agl+"m AGL<br>地域代表点GFSモデル");
  const start=points[0],open=points.find(p=>p.agl===opening),landing=points[points.length-1];
  const marker=(p,color,label)=>L.circleMarker([p.lat,p.lon],{radius:8,color:"#fff",weight:2,fillColor:color,fillOpacity:1}).addTo(pathLayer).bindPopup(label+"<br>高度 "+p.agl+"m AGL<br>"+p.lat.toFixed(6)+", "+p.lon.toFixed(6));
@@ -628,12 +630,26 @@ el("calculatePath").addEventListener("click",()=>{
    const elapsed=totalTime-p.timeBelow,cloudCover=p.cloudCover;
    pathPoints.push({agl:p.agl,lat,lon,phase,elapsed,cloudCover,wind:p.wind,holdMargin:p.holdMargin});
   }
-  for(const p of pathPoints)row(tbody,[p.agl,p.phase,p.elapsed.toFixed(1),p.lat.toFixed(6),p.lon.toFixed(6),p.wind?Math.round(p.wind.wind_direction_deg_from)+"°":"不明",p.wind?p.wind.wind_speed_ms.toFixed(1)+" m/s":"不明",Number.isFinite(p.cloudCover)?p.cloudCover.toFixed(0)+"%":"不明"]);
-  const distance=Math.hypot(totalEast,totalNorth),place=places[loc],boundary=(place.dzBoundaryMgrs||[]).map(mgrsToLatLon);
+  const approachWind=byHeight.get(200);if(!approachWind)throw Error("着地進入に使用する200m AGLの風データがありません");
+  const windRad=approachWind.wind_direction_deg_from*Math.PI/180,upwind={east:Math.sin(windRad),north:Math.cos(windRad)},left={east:-upwind.north,north:upwind.east};
+  const downwindStart=offsetMeters(landing,left.east*120,left.north*120),baseStart=offsetMeters(landing,left.east*120-upwind.east*360,left.north*120-upwind.north*360),finalStart=offsetMeters(landing,-upwind.east*360,-upwind.north*360);
+  const upper=pathPoints.filter(p=>p.agl>patternAltitude),join=upper[upper.length-1];if(!join)throw Error("着地進入へ接続する上空経路がありません");
+  const latShift=downwindStart.lat-join.lat,lonShift=downwindStart.lon-join.lon;for(const p of upper){p.lat+=latShift;p.lon+=lonShift}
+  const downwindAgl=800*.3048,baseAgl=550*.3048,finalAgl=300*.3048,lowCloud=cloudByHeight.get(200),joinTime=join.elapsed;
+  const approach=[
+   {agl:downwindAgl,...downwindStart,phase:"ダウンウインドレグ",elapsed:joinTime+(join.agl-downwindAgl)/canopyRate,cloudCover:lowCloud,wind:approachWind,holdMargin:null},
+   {agl:baseAgl,...baseStart,phase:"ベースレグ",elapsed:joinTime+(join.agl-baseAgl)/canopyRate,cloudCover:lowCloud,wind:approachWind,holdMargin:null},
+   {agl:finalAgl,...finalStart,phase:"ファイナルアプローチ",elapsed:joinTime+(join.agl-finalAgl)/canopyRate,cloudCover:lowCloud,wind:approachWind,holdMargin:null},
+   {agl:0,lat:landing.lat,lon:landing.lon,phase:"着地",elapsed:joinTime+join.agl/canopyRate,cloudCover:null,wind:null,holdMargin:null}
+  ];
+  pathPoints.splice(0,pathPoints.length,...upper,...approach);
+  for(const p of pathPoints)row(tbody,[Math.round(p.agl),p.phase,p.elapsed.toFixed(1),p.lat.toFixed(6),p.lon.toFixed(6),p.wind?Math.round(p.wind.wind_direction_deg_from)+"°":"不明",p.wind?p.wind.wind_speed_ms.toFixed(1)+" m/s":"不明",Number.isFinite(p.cloudCover)?p.cloudCover.toFixed(0)+"%":"不明"]);
+  let distance=0;for(let i=1;i<pathPoints.length;i++){const a=pathPoints[i-1],b=pathPoints[i],north=(b.lat-a.lat)*111320,east=(b.lon-a.lon)*111320*Math.cos(landing.lat*Math.PI/180);distance+=Math.hypot(east,north)}
+  const routeTotalTime=pathPoints[pathPoints.length-1].elapsed,place=places[loc],boundary=(place.dzBoundaryMgrs||[]).map(mgrsToLatLon);
   const landingInside=boundary.length>=3?pointInPolygon(landing,boundary):null,pathInside=boundary.length>=3?pathPoints.every(p=>pointInPolygon(p,boundary)):null,holdCapable=minHoldMargin>=0;
   const holdCheck="ホールド "+openingFeet.toFixed(0)+"～"+patternFeet.toFixed(0)+"ft AGL（モデル "+opening+"～"+patternAltitude+"m） ／ 最小風上余裕 "+(Number.isFinite(minHoldMargin)?minHoldMargin.toFixed(1):"不明")+"m/s"+(holdCapable?"（位置保持可能のモデル判定）":"（"+minHoldAltitude+"mで保持不能、超過風を反映）");
   const areaCheck=!place.requiresDzStart?"島しょ地域：場内判定の対象外":landingInside===false?"警告：入力した降着点が指定エリア外":pathInside===true?"全経路：指定エリア内":"条件不成立：経路が指定エリア外";
-  el("pathSummary").textContent="傘種 "+canopy.label+"（降下率 "+canopyRate.toFixed(1)+"m/s、対気速度 "+canopySpeed.toFixed(1)+"m/s） ／ 着地MGRS "+landing.normalized+" ／ "+holdCheck+" ／ "+areaCheck+" ／ 水平変位 約"+Math.round(distance)+"m ／ 推定降下時間 "+totalTime.toFixed(1)+"秒 ／ 予報 "+jst(forecast.valid_utc);
+  el("pathSummary").textContent="傘種 "+canopy.label+"（降下率 "+canopyRate.toFixed(1)+"m/s、対気速度 "+canopySpeed.toFixed(1)+"m/s） ／ 着地MGRS "+landing.normalized+" ／ "+holdCheck+" ／ "+areaCheck+" ／ 進入基準 800ft・横120m・ファイナル300ft以上 ／ 経路長 約"+Math.round(distance)+"m ／ 推定降下時間 "+routeTotalTime.toFixed(1)+"秒 ／ 予報 "+jst(forecast.valid_utc);
   renderPathMap(pathPoints,opening,canopy.label,boundary,pathInside);
   renderPathCloudProfile(pathPoints);
   status.textContent=place.requiresDzStart&&pathInside===false?"条件不成立：自由降下・ホールド・進入経路の一部が指定エリア外です":!holdCapable?"要確認：風速がキャノピー対気速度を上回る層があり、ホールド中の風下移動を反映しました":"参考推定完了：開傘後ホールドの風上保持余裕を確認しました（旋回半径・局地風・乱流は未計算）";
