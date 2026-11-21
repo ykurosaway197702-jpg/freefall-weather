@@ -28,7 +28,7 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <label>予報モデル：<select id="windModel"><option value="gfs_global">GFS Global</option><option value="ecmwf_ifs025">ECMWF IFS 0.25°</option></select></label>
 <button id="windFetch">高度別風を取得</button> <span id="windStatus" role="status">未取得</span>
 <p id="windMeta" class="muted">モデル初期時刻：不明 ／ 予報有効時刻：不明 ／ 信頼度：未評価</p>
-<div class="scroll"><table><thead><tr><th>高度（m・AGL）</th><th>高度（ft・MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="windRows"><tr><td colspan="4">未取得</td></tr></tbody></table></div>
+<div class="scroll"><table><thead><tr><th>高度（m・AGL）</th><th>高度（ft・AGL）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="windRows"><tr><td colspan="4">未取得</td></tr></tbody></table></div>
 <p>API接続不能時は不明と表示します。気象庁の公式予報とは独立した参考モデルです。</p>
 <h3>NOAA GFS（GitHub Actions取得結果）</h3>
 <p><button id="autoGfs">最新GFSを読み込む</button> <span id="autoStatus" role="status">未取得</span></p>
@@ -38,14 +38,14 @@ button,select{padding:10px;border-radius:7px;font:inherit}button{background:#175
 <p id="gfsCompare" class="muted">前後の予報との比較：未取得</p>
 <h4>高度別・前後予報の風速比較（同一AGL高度）</h4>
 <p class="muted">風速差は「比較時刻 − 選択時刻」。風向は吹いてくる方向です。</p>
-<div class="scroll"><table><thead><tr><th>高度（m・AGL）</th><th>高度（ft・MSL相当）</th><th>現在 風向</th><th>現在 風速</th><th>前の予報（m/s）</th><th>前との差（m/s）</th><th>次の予報（m/s）</th><th>次との差（m/s）</th></tr></thead><tbody id="gfsCompareRows"><tr><td colspan="8">未取得</td></tr></tbody></table></div>
+<div class="scroll"><table><thead><tr><th>高度（m・AGL）</th><th>高度（ft・AGL）</th><th>現在 風向</th><th>現在 風速</th><th>前の予報（m/s）</th><th>前との差（m/s）</th><th>次の予報（m/s）</th><th>次との差（m/s）</th></tr></thead><tbody id="gfsCompareRows"><tr><td colspan="8">未取得</td></tr></tbody></table></div>
 <label class="muted">全予報時刻：<select id="gfsTime"><option value="">未取得</option></select></label>
 <p id="gfsSelected" aria-live="polite">予報時刻：未選択</p><p id="gfsFreshness" class="muted">更新状況：不明</p>
 <p id="gfsWindLegend">風向角は気象学上の「吹いてくる方向」。右欄の矢印は風が吹いていく方向を北を上にして示します。</p><div id="gfsChart" role="img" aria-label="高度別風速・風向グラフ"><p>データ未取得</p></div>
 <p>GitHub Actionsが生成した <code>data/gfs_winds.json</code> を選択すると、Open-Meteoを経由せずにGFSの気圧面風を確認できます。</p>
 <label>GFS JSONファイル：<input type="file" id="noaaFile" accept=".json,application/json"></label>
 <p id="noaaStatus" role="status">未読込</p><p id="noaaMeta" class="muted">データ初期時刻・取得時刻：不明</p>
-<div class="scroll"><table><thead><tr><th>予報有効時刻</th><th>高度（m・AGL）</th><th>高度（ft・MSL相当）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="noaaRows"><tr><td colspan="5">未読込</td></tr></tbody></table></div>
+<div class="scroll"><table><thead><tr><th>予報有効時刻</th><th>高度（m・AGL）</th><th>高度（ft・AGL）</th><th>風向（°）</th><th>風速（m/s）</th></tr></thead><tbody id="noaaRows"><tr><td colspan="5">未読込</td></tr></tbody></table></div>
 <h3>風ドリフト経路（参考推定）</h3>
 <p class="warn">操舵、機体運動、加減速、局地風、乱流を含まない単純モデルです。実際の降下計画や着地点決定には使用しないでください。</p>
 <details><summary>強風時の場内処理プロンプト</summary><p class="muted">開傘後からパターン進入高度までキャノピーを風上へ向けてホールドする。各200m層でキャノピー対気速度と風速を比較し、対気速度が勝る場合は位置保持、風が勝る場合は超過分だけ風下へ移動する。自由降下・ホールド・進入経路の全点が指定境界内か確認し、場外へ出る場合は条件不成立とする。</p></details>
@@ -404,7 +404,7 @@ el("windFetch").addEventListener("click",async()=>{
    if(Number.isFinite(height)&&Number.isFinite(speed)&&Number.isFinite(dir)&&height>=0)raw.push({geopotential_height_m_msl_approx:height,wind_direction_deg_from:dir,wind_speed_ms:speed});
   }
   const points=interpolateAgl(raw,Number(data.elevation));
-  for(const p of points)row(tbody,[p.agl_m,metersToFeet(p.msl_m),Math.round(p.wind_direction_deg_from),p.wind_speed_ms.toFixed(1)]);
+  for(const p of points)row(tbody,[p.agl_m,metersToFeet(p.agl_m),Math.round(p.wind_direction_deg_from),p.wind_speed_ms.toFixed(1)]);
   if(!points.length)row(tbody,["不明","不明","不明","不明"]);
   el("windMeta").textContent="モデル："+model+" ／ 予報有効時刻："+h.time[i]+" JST ／ データ取得："+new Date().toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"})+" JST ／ 地表標高（モデル）："+(Number.isFinite(data.elevation)?data.elevation+"m MSL":"不明")+" ／ 200m AGL間隔・ベクトル線形補間 ／ 信頼度：未評価";
   status.textContent=points.length?"取得完了（"+points.length+"高度）":"取得完了・有効な高度別風は不明";
@@ -443,7 +443,7 @@ function renderGfs(){
  if(!f){row(tbody,["不明","不明","不明","不明","不明"]);return}
  const ground=Number(gfsDataset.locations?.[loc]?.ground_elevation_m_msl_approx);
  const points=interpolateAgl(f.locations?.[loc]||[],ground);
- for(const p of points)row(tbody,[jst(f.valid_utc),p.agl_m,metersToFeet(p.msl_m),Math.round(p.wind_direction_deg_from),p.wind_speed_ms.toFixed(1)]);
+ for(const p of points)row(tbody,[jst(f.valid_utc),p.agl_m,metersToFeet(p.agl_m),Math.round(p.wind_direction_deg_from),p.wind_speed_ms.toFixed(1)]);
  if(!points.length){row(tbody,["不明","不明","不明","不明","不明"]);row(el("gfsCompareRows"),["不明","不明","不明","不明","不明","不明","不明","不明"]);return}
  const maxSpeed=Math.ceil(Math.max(5,...points.map(p=>p.wind_speed_ms))/5)*5;
  const height=390,width=900,left=90,speedRight=610,directionLeft=650,directionCenter=745,right=30,top=36,bottom=65;
@@ -496,7 +496,7 @@ function renderGfs(){
  const fmtDelta=(other,base)=>other?((other.wind_speed_ms-base>=0?"+":"")+(other.wind_speed_ms-base).toFixed(1)):"不明";
  for(const p of ordered){
   const before=atAgl(prev,p.agl_m),after=atAgl(next,p.agl_m);
-  row(compareBody,[p.agl_m,metersToFeet(p.msl_m),Math.round(p.wind_direction_deg_from)+"°",p.wind_speed_ms.toFixed(1)+" m/s",before?before.wind_speed_ms.toFixed(1):"不明",fmtDelta(before,p.wind_speed_ms),after?after.wind_speed_ms.toFixed(1):"不明",fmtDelta(after,p.wind_speed_ms)]);
+  row(compareBody,[p.agl_m,metersToFeet(p.agl_m),Math.round(p.wind_direction_deg_from)+"°",p.wind_speed_ms.toFixed(1)+" m/s",before?before.wind_speed_ms.toFixed(1):"不明",fmtDelta(before,p.wind_speed_ms),after?after.wind_speed_ms.toFixed(1):"不明",fmtDelta(after,p.wind_speed_ms)]);
  }
 
  el("gfsPrev").disabled=!prev;el("gfsNext").disabled=!next;
