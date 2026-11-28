@@ -2,7 +2,7 @@
   "schema_version": 1,
   "source": "US Aviation Weather Center public data API",
   "source_url": "https://aviationweather.gov/api/data",
-  "retrieved_utc": "2026-11-28T01:55:40.297273Z",
+  "retrieved_utc": "2026-11-28T10:16:42.647591Z",
   "station_groups": {
     "kirishima": [
       "RJFK",
@@ -23,118 +23,167 @@
   },
   "metars": [
     {
-      "icaoId": "RJTT",
-      "receiptTime": "2026-11-28T01:40:09.236Z",
-      "obsTime": 1795829400,
-      "reportTime": "2026-11-28T01:30:00.000Z",
-      "temp": 11,
-      "dewp": 11,
-      "wdir": 340,
-      "wspd": 8,
-      "visib": 1.86,
-      "altim": 1004,
-      "qcField": 0,
-      "wxString": "-SHRA BR",
+      "icaoId": "RJFG",
+      "receiptTime": "2026-11-28T10:06:01.172Z",
+      "obsTime": 1795860000,
+      "reportTime": "2026-11-28T10:00:00.000Z",
+      "temp": 13,
+      "dewp": 7,
+      "wdir": 300,
+      "wspd": 31,
+      "wgst": 42,
+      "visib": "6+",
+      "altim": 1017,
+      "qcField": 2,
       "metarType": "METAR",
-      "rawOb": "METAR RJTT 280130Z 34008KT 3000 -SHRA BR BKN003 BKN020 11/11 Q1004 BECMG TL0200 4000 -SHRA BR FEW005 BKN008",
-      "lat": 35.553,
-      "lon": 139.781,
-      "elev": 5,
-      "name": "Tokyo/Haneda Intl, 13, JP",
+      "rawOb": "METAR RJFG 281000Z AUTO 30031G42KT 9999 FEW025 SCT029 BKN041 13/07 Q1017",
+      "lat": 30.605,
+      "lon": 130.992,
+      "elev": 234,
+      "name": "Tanegashima Arpt, 46, JP",
       "cover": "BKN",
       "clouds": [
         {
-          "cover": "BKN",
-          "base": 300
+          "cover": "FEW",
+          "base": 2500
+        },
+        {
+          "cover": "SCT",
+          "base": 2900
         },
         {
           "cover": "BKN",
-          "base": 2000
+          "base": 4100
         }
       ],
-      "fltCat": "LIFR"
+      "fltCat": "VFR"
     },
     {
       "icaoId": "RJAA",
-      "receiptTime": "2026-11-28T01:40:09.190Z",
-      "obsTime": 1795829400,
-      "reportTime": "2026-11-28T01:30:00.000Z",
-      "temp": 11,
-      "dewp": 11,
-      "wdir": 320,
-      "wspd": 8,
-      "visib": 1.12,
-      "altim": 1003,
+      "receiptTime": "2026-11-28T10:07:32.766Z",
+      "obsTime": 1795860000,
+      "reportTime": "2026-11-28T10:00:00.000Z",
+      "temp": 17,
+      "dewp": 12,
+      "wdir": 210,
+      "wspd": 7,
+      "visib": "6+",
+      "altim": 998,
       "qcField": 16,
-      "wxString": "-SHRA BR",
       "metarType": "METAR",
-      "rawOb": "METAR RJAA 280130Z 32008KT 1800 R34L/1500VP2000U R34R/1800U -SHRA BR FEW001 BKN002 BKN003 11/11 Q1003 NOSIG",
+      "rawOb": "METAR RJAA 281000Z 21007KT 9999 FEW020 BKN/// 17/12 Q0998 NOSIG",
       "lat": 35.765,
       "lon": 140.386,
       "elev": 36,
       "name": "Narita Intl, 12, JP",
-      "cover": "BKN",
+      "cover": "FEW",
       "clouds": [
         {
           "cover": "FEW",
-          "base": 100
-        },
-        {
-          "cover": "BKN",
-          "base": 200
-        },
-        {
-          "cover": "BKN",
-          "base": 300
+          "base": 2000
         }
       ],
-      "fltCat": "LIFR"
+      "fltCat": "VFR"
     },
     {
-      "icaoId": "RJFM",
-      "receiptTime": "2026-11-28T01:05:38.589Z",
-      "obsTime": 1795827600,
-      "reportTime": "2026-11-28T01:00:00.000Z",
-      "temp": 18,
-      "dewp": 13,
-      "wdir": 280,
-      "wspd": 7,
+      "icaoId": "RJTT",
+      "receiptTime": "2026-11-28T10:07:32.800Z",
+      "obsTime": 1795860000,
+      "reportTime": "2026-11-28T10:00:00.000Z",
+      "temp": 19,
+      "dewp": 12,
+      "wdir": 200,
+      "wspd": 19,
       "visib": "6+",
-      "altim": 1013,
+      "altim": 998,
       "qcField": 0,
       "metarType": "METAR",
-      "rawOb": "METAR RJFM 280100Z 28007KT 240V310 9999 FEW015 SCT170 18/13 Q1013",
-      "lat": 31.877,
-      "lon": 131.449,
-      "elev": 10,
-      "name": "Miyazaki Arpt, 45, JP",
+      "rawOb": "METAR RJTT 281000Z 20019KT CAVOK 19/12 Q0998 TEMPO 22020G30KT",
+      "lat": 35.553,
+      "lon": 139.781,
+      "elev": 5,
+      "name": "Tokyo/Haneda Intl, 13, JP",
+      "cover": "CAVOK",
+      "clouds": [],
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJNS",
+      "receiptTime": "2026-11-28T10:07:29.949Z",
+      "obsTime": 1795860000,
+      "reportTime": "2026-11-28T10:00:00.000Z",
+      "temp": 15,
+      "dewp": 11,
+      "wdir": 260,
+      "wspd": 13,
+      "visib": "6+",
+      "altim": 1003,
+      "qcField": 0,
+      "metarType": "METAR",
+      "rawOb": "METAR RJNS 281000Z 26013KT 9999 FEW005 SCT070 BKN/// 15/11 Q1003",
+      "lat": 34.796,
+      "lon": 138.189,
+      "elev": 133,
+      "name": "Shizouka Arpt, 22, JP",
       "cover": "SCT",
       "clouds": [
         {
           "cover": "FEW",
-          "base": 1500
+          "base": 500
         },
         {
           "cover": "SCT",
-          "base": 17000
+          "base": 7000
+        }
+      ],
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJFM",
+      "receiptTime": "2026-11-28T10:06:01.197Z",
+      "obsTime": 1795860000,
+      "reportTime": "2026-11-28T10:00:00.000Z",
+      "temp": 12,
+      "dewp": 6,
+      "wdir": 270,
+      "wspd": 11,
+      "visib": "6+",
+      "altim": 1016,
+      "qcField": 0,
+      "metarType": "METAR",
+      "rawOb": "METAR RJFM 281000Z 27011KT 9999 FEW020 BKN080 12/06 Q1016",
+      "lat": 31.877,
+      "lon": 131.449,
+      "elev": 10,
+      "name": "Miyazaki Arpt, 45, JP",
+      "cover": "BKN",
+      "clouds": [
+        {
+          "cover": "FEW",
+          "base": 2000
+        },
+        {
+          "cover": "BKN",
+          "base": 8000
         }
       ],
       "fltCat": "VFR"
     },
     {
       "icaoId": "RJFK",
-      "receiptTime": "2026-11-28T01:05:38.575Z",
-      "obsTime": 1795827600,
-      "reportTime": "2026-11-28T01:00:00.000Z",
-      "temp": 16,
-      "dewp": 14,
-      "wdir": 290,
-      "wspd": 9,
+      "receiptTime": "2026-11-28T10:06:01.183Z",
+      "obsTime": 1795860000,
+      "reportTime": "2026-11-28T10:00:00.000Z",
+      "temp": 9,
+      "dewp": 6,
+      "wdir": 280,
+      "wspd": 10,
       "visib": "6+",
-      "altim": 1015,
+      "altim": 1017,
       "qcField": 0,
+      "wxString": "-SHRA",
       "metarType": "METAR",
-      "rawOb": "METAR RJFK 280100Z 29009KT 9999 FEW020 BKN040 16/14 Q1015",
+      "rawOb": "METAR RJFK 281000Z 28010KT 9999 -SHRA FEW015 SCT040 BKN050 09/06 Q1017",
       "lat": 31.803,
       "lon": 130.719,
       "elev": 271,
@@ -143,99 +192,12 @@
       "clouds": [
         {
           "cover": "FEW",
-          "base": 2000
-        },
-        {
-          "cover": "BKN",
-          "base": 4000
-        }
-      ],
-      "fltCat": "VFR"
-    },
-    {
-      "icaoId": "RJTT",
-      "receiptTime": "2026-11-28T01:07:31.833Z",
-      "obsTime": 1795827600,
-      "reportTime": "2026-11-28T01:00:00.000Z",
-      "temp": 11,
-      "dewp": 11,
-      "wdir": 340,
-      "wspd": 10,
-      "visib": 1.55,
-      "altim": 1004,
-      "qcField": 0,
-      "wxString": "-SHRA BR",
-      "metarType": "METAR",
-      "rawOb": "METAR RJTT 280100Z 34010KT 2500 R34L/P2000N R22/2000N R34R/P2000N R05/P2000N -SHRA BR BKN003 BKN015 11/11 Q1004 BECMG TL0200 4000 -SHRA BR FEW005 BKN008",
-      "lat": 35.553,
-      "lon": 139.781,
-      "elev": 5,
-      "name": "Tokyo/Haneda Intl, 13, JP",
-      "cover": "BKN",
-      "clouds": [
-        {
-          "cover": "BKN",
-          "base": 300
-        },
-        {
-          "cover": "BKN",
           "base": 1500
-        }
-      ],
-      "fltCat": "LIFR"
-    },
-    {
-      "icaoId": "RJAA",
-      "receiptTime": "2026-11-28T01:07:31.787Z",
-      "obsTime": 1795827600,
-      "reportTime": "2026-11-28T01:00:00.000Z",
-      "temp": 10,
-      "dewp": 10,
-      "wdir": 320,
-      "wspd": 11,
-      "visib": 1.37,
-      "altim": 1003,
-      "qcField": 0,
-      "wxString": "-SHRA BR",
-      "metarType": "METAR",
-      "rawOb": "METAR RJAA 280100Z 32011KT 2200 R34L/2000N R34R/P2000N -SHRA BR SCT002 BKN003 10/10 Q1003 TEMPO SHRA BR",
-      "lat": 35.765,
-      "lon": 140.386,
-      "elev": 36,
-      "name": "Narita Intl, 12, JP",
-      "cover": "BKN",
-      "clouds": [
+        },
         {
           "cover": "SCT",
-          "base": 200
+          "base": 4000
         },
-        {
-          "cover": "BKN",
-          "base": 300
-        }
-      ],
-      "fltCat": "LIFR"
-    },
-    {
-      "icaoId": "RJNS",
-      "receiptTime": "2026-11-28T01:05:38.727Z",
-      "obsTime": 1795827600,
-      "reportTime": "2026-11-28T01:00:00.000Z",
-      "temp": 15,
-      "dewp": 14,
-      "wdir": 240,
-      "wspd": 3,
-      "visib": "6+",
-      "altim": 1006,
-      "qcField": 0,
-      "metarType": "METAR",
-      "rawOb": "METAR RJNS 280100Z 24003KT 9999 FEW000 BKN050 15/14 Q1006",
-      "lat": 34.796,
-      "lon": 138.189,
-      "elev": 133,
-      "name": "Shizouka Arpt, 22, JP",
-      "cover": "BKN",
-      "clouds": [
         {
           "cover": "BKN",
           "base": 5000
@@ -244,24 +206,163 @@
       "fltCat": "VFR"
     },
     {
-      "icaoId": "RJFG",
-      "receiptTime": "2026-11-28T01:06:07.592Z",
-      "obsTime": 1795827600,
-      "reportTime": "2026-11-28T01:00:00.000Z",
+      "icaoId": "RJTT",
+      "receiptTime": "2026-11-28T09:40:11.183Z",
+      "obsTime": 1795858200,
+      "reportTime": "2026-11-28T09:30:00.000Z",
       "temp": 19,
       "dewp": 13,
-      "wdir": 280,
-      "wspd": 24,
+      "wdir": 210,
+      "wspd": 18,
       "visib": "6+",
-      "altim": 1015,
+      "altim": 999,
       "qcField": 0,
       "metarType": "METAR",
-      "rawOb": "METAR RJFG 280100Z 28024KT 9999 FEW025 SCT030 BKN/// 19/13 Q1015",
+      "rawOb": "METAR RJTT 280930Z 21018KT CAVOK 19/13 Q0999 TEMPO 22020G30KT",
+      "lat": 35.553,
+      "lon": 139.781,
+      "elev": 5,
+      "name": "Tokyo/Haneda Intl, 13, JP",
+      "cover": "CAVOK",
+      "clouds": [],
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJAA",
+      "receiptTime": "2026-11-28T09:40:11.159Z",
+      "obsTime": 1795858200,
+      "reportTime": "2026-11-28T09:30:00.000Z",
+      "temp": 17,
+      "dewp": 12,
+      "wdir": 220,
+      "wspd": 9,
+      "visib": "6+",
+      "altim": 998,
+      "qcField": 16,
+      "metarType": "METAR",
+      "rawOb": "METAR RJAA 280930Z 22009KT 170V240 9999 FEW020 BKN/// 17/12 Q0998 NOSIG",
+      "lat": 35.765,
+      "lon": 140.386,
+      "elev": 36,
+      "name": "Narita Intl, 12, JP",
+      "cover": "FEW",
+      "clouds": [
+        {
+          "cover": "FEW",
+          "base": 2000
+        }
+      ],
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJNS",
+      "receiptTime": "2026-11-28T09:07:29.259Z",
+      "obsTime": 1795856400,
+      "reportTime": "2026-11-28T09:00:00.000Z",
+      "temp": 15,
+      "dewp": 12,
+      "wdir": 250,
+      "wspd": 11,
+      "visib": "6+",
+      "altim": 1003,
+      "qcField": 0,
+      "metarType": "METAR",
+      "rawOb": "METAR RJNS 280900Z 25011KT 9999 FEW005 SCT070 BKN/// 15/12 Q1003",
+      "lat": 34.796,
+      "lon": 138.189,
+      "elev": 133,
+      "name": "Shizouka Arpt, 22, JP",
+      "cover": "SCT",
+      "clouds": [
+        {
+          "cover": "FEW",
+          "base": 500
+        },
+        {
+          "cover": "SCT",
+          "base": 7000
+        }
+      ],
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJFM",
+      "receiptTime": "2026-11-28T09:06:04.070Z",
+      "obsTime": 1795856400,
+      "reportTime": "2026-11-28T09:00:00.000Z",
+      "temp": 13,
+      "dewp": 6,
+      "wdir": 260,
+      "wspd": 7,
+      "visib": "6+",
+      "altim": 1014,
+      "qcField": 0,
+      "metarType": "METAR",
+      "rawOb": "METAR RJFM 280900Z 26007KT 230V300 9999 FEW020 13/06 Q1014",
+      "lat": 31.877,
+      "lon": 131.449,
+      "elev": 10,
+      "name": "Miyazaki Arpt, 45, JP",
+      "cover": "FEW",
+      "clouds": [
+        {
+          "cover": "FEW",
+          "base": 2000
+        }
+      ],
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJFK",
+      "receiptTime": "2026-11-28T09:06:04.056Z",
+      "obsTime": 1795856400,
+      "reportTime": "2026-11-28T09:00:00.000Z",
+      "temp": 9,
+      "dewp": 6,
+      "wdir": 310,
+      "wspd": 16,
+      "visib": "6+",
+      "altim": 1016,
+      "qcField": 0,
+      "metarType": "METAR",
+      "rawOb": "METAR RJFK 280900Z 31016KT 9999 FEW015 SCT045 09/06 Q1016",
+      "lat": 31.803,
+      "lon": 130.719,
+      "elev": 271,
+      "name": "Kagoshima Arpt, 46, JP",
+      "cover": "SCT",
+      "clouds": [
+        {
+          "cover": "FEW",
+          "base": 1500
+        },
+        {
+          "cover": "SCT",
+          "base": 4500
+        }
+      ],
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJFG",
+      "receiptTime": "2026-11-28T09:06:04.044Z",
+      "obsTime": 1795856400,
+      "reportTime": "2026-11-28T09:00:00.000Z",
+      "temp": 15,
+      "dewp": 6,
+      "wdir": 290,
+      "wspd": 31,
+      "wgst": 42,
+      "visib": "6+",
+      "altim": 1016,
+      "qcField": 0,
+      "metarType": "METAR",
+      "rawOb": "METAR RJFG 280900Z 29031G42KT 9999 FEW025 SCT030 BKN045 15/06 Q1016",
       "lat": 30.605,
       "lon": 130.992,
       "elev": 234,
       "name": "Tanegashima Arpt, 46, JP",
-      "cover": "SCT",
+      "cover": "BKN",
       "clouds": [
         {
           "cover": "FEW",
@@ -270,106 +371,6 @@
         {
           "cover": "SCT",
           "base": 3000
-        }
-      ],
-      "fltCat": "VFR"
-    },
-    {
-      "icaoId": "RJTT",
-      "receiptTime": "2026-11-28T00:40:23.265Z",
-      "obsTime": 1795825800,
-      "reportTime": "2026-11-28T00:30:00.000Z",
-      "temp": 11,
-      "dewp": 10,
-      "wdir": 340,
-      "wspd": 14,
-      "visib": 1.86,
-      "altim": 1005,
-      "qcField": 0,
-      "wxString": "-SHRA BR",
-      "metarType": "METAR",
-      "rawOb": "METAR RJTT 280030Z 34014KT 3000 R34L/P2000N R22/P2000N R34R/P2000N R05/P2000N -SHRA BR FEW004 SCT006 BKN016 11/10 Q1005 TEMPO FEW005 BKN008 BECMG TL0130 4000 -SHRA BR",
-      "lat": 35.553,
-      "lon": 139.781,
-      "elev": 5,
-      "name": "Tokyo/Haneda Intl, 13, JP",
-      "cover": "BKN",
-      "clouds": [
-        {
-          "cover": "FEW",
-          "base": 400
-        },
-        {
-          "cover": "SCT",
-          "base": 600
-        },
-        {
-          "cover": "BKN",
-          "base": 1600
-        }
-      ],
-      "fltCat": "IFR"
-    },
-    {
-      "icaoId": "RJAA",
-      "receiptTime": "2026-11-28T00:40:23.225Z",
-      "obsTime": 1795825800,
-      "reportTime": "2026-11-28T00:30:00.000Z",
-      "temp": 10,
-      "dewp": 9,
-      "wdir": 320,
-      "wspd": 9,
-      "visib": 1.37,
-      "altim": 1004,
-      "qcField": 0,
-      "wxString": "-SHRA BR",
-      "metarType": "METAR",
-      "rawOb": "METAR RJAA 280030Z 32009KT 2200 -SHRA BR FEW001 SCT002 BKN003 10/09 Q1004 BECMG 6000 -SHRA",
-      "lat": 35.765,
-      "lon": 140.386,
-      "elev": 36,
-      "name": "Narita Intl, 12, JP",
-      "cover": "BKN",
-      "clouds": [
-        {
-          "cover": "FEW",
-          "base": 100
-        },
-        {
-          "cover": "SCT",
-          "base": 200
-        },
-        {
-          "cover": "BKN",
-          "base": 300
-        }
-      ],
-      "fltCat": "LIFR"
-    },
-    {
-      "icaoId": "RJNS",
-      "receiptTime": "2026-11-28T00:05:40.141Z",
-      "obsTime": 1795824000,
-      "reportTime": "2026-11-28T00:00:00.000Z",
-      "temp": 14,
-      "dewp": 14,
-      "wdir": 350,
-      "wspd": 3,
-      "visib": "6+",
-      "altim": 1006,
-      "qcField": 0,
-      "wxString": "-SHRA",
-      "metarType": "METAR",
-      "rawOb": "METAR RJNS 280000Z 35003KT 290V060 9999 -SHRA FEW000 SCT010 BKN045 14/14 Q1006",
-      "lat": 34.796,
-      "lon": 138.189,
-      "elev": 133,
-      "name": "Shizouka Arpt, 22, JP",
-      "cover": "BKN",
-      "clouds": [
-        {
-          "cover": "SCT",
-          "base": 1000
         },
         {
           "cover": "BKN",
@@ -379,288 +380,126 @@
       "fltCat": "VFR"
     },
     {
-      "icaoId": "RJTT",
-      "receiptTime": "2026-11-28T00:07:20.824Z",
-      "obsTime": 1795824000,
-      "reportTime": "2026-11-28T00:00:00.000Z",
-      "temp": 10,
-      "dewp": 10,
-      "wdir": 330,
-      "wspd": 16,
-      "visib": 1.24,
-      "altim": 1006,
-      "qcField": 0,
-      "wxString": "-SHRA BR",
-      "metarType": "METAR",
-      "rawOb": "METAR RJTT 280000Z 33016KT 2000 R34L/P2000N R22/P2000N R34R/P2000N R05/1500VP2000U -SHRA BR FEW003 BKN004 BKN012 10/10 Q1006 BECMG TL0100 8000 -SHRA FEW005 BKN008",
-      "lat": 35.553,
-      "lon": 139.781,
-      "elev": 5,
-      "name": "Tokyo/Haneda Intl, 13, JP",
-      "cover": "BKN",
-      "clouds": [
-        {
-          "cover": "FEW",
-          "base": 300
-        },
-        {
-          "cover": "BKN",
-          "base": 400
-        },
-        {
-          "cover": "BKN",
-          "base": 1200
-        }
-      ],
-      "fltCat": "LIFR"
-    },
-    {
       "icaoId": "RJAA",
-      "receiptTime": "2026-11-28T00:07:20.775Z",
-      "obsTime": 1795824000,
-      "reportTime": "2026-11-28T00:00:00.000Z",
-      "temp": 10,
-      "dewp": 9,
-      "wdir": 290,
-      "wspd": 9,
-      "visib": 0.93,
-      "altim": 1006,
-      "qcField": 0,
-      "wxString": "SHRA BR",
+      "receiptTime": "2026-11-28T09:08:03.621Z",
+      "obsTime": 1795856400,
+      "reportTime": "2026-11-28T09:00:00.000Z",
+      "temp": 17,
+      "dewp": 13,
+      "wdir": 210,
+      "wspd": 12,
+      "visib": "6+",
+      "altim": 998,
+      "qcField": 16,
       "metarType": "METAR",
-      "rawOb": "METAR RJAA 280000Z 29009KT 260V330 1500 R34L/P2000N R34R/P2000N SHRA BR SCT001 BKN002 10/09 Q1006 BECMG 6000 -SHRA",
+      "rawOb": "METAR RJAA 280900Z 21012KT 9999 FEW020 BKN/// 17/13 Q0998 NOSIG",
       "lat": 35.765,
       "lon": 140.386,
       "elev": 36,
       "name": "Narita Intl, 12, JP",
-      "cover": "BKN",
-      "clouds": [
-        {
-          "cover": "SCT",
-          "base": 100
-        },
-        {
-          "cover": "BKN",
-          "base": 200
-        }
-      ],
-      "fltCat": "LIFR"
-    },
-    {
-      "icaoId": "RJFK",
-      "receiptTime": "2026-11-28T00:05:39.959Z",
-      "obsTime": 1795824000,
-      "reportTime": "2026-11-28T00:00:00.000Z",
-      "temp": 16,
-      "dewp": 13,
-      "wdir": 280,
-      "wspd": 7,
-      "visib": "6+",
-      "altim": 1014,
-      "qcField": 0,
-      "wxString": "-SHRA",
-      "metarType": "METAR",
-      "rawOb": "METAR RJFK 280000Z 28007KT 9999 -SHRA FEW005 BKN030 16/13 Q1014",
-      "lat": 31.803,
-      "lon": 130.719,
-      "elev": 271,
-      "name": "Kagoshima Arpt, 46, JP",
-      "cover": "BKN",
+      "cover": "FEW",
       "clouds": [
         {
           "cover": "FEW",
-          "base": 500
-        },
-        {
-          "cover": "BKN",
-          "base": 3000
+          "base": 2000
         }
       ],
-      "fltCat": "MVFR"
+      "fltCat": "VFR"
     },
     {
-      "icaoId": "RJFM",
-      "receiptTime": "2026-11-28T00:05:39.973Z",
-      "obsTime": 1795824000,
-      "reportTime": "2026-11-28T00:00:00.000Z",
+      "icaoId": "RJTT",
+      "receiptTime": "2026-11-28T09:08:03.659Z",
+      "obsTime": 1795856400,
+      "reportTime": "2026-11-28T09:00:00.000Z",
       "temp": 19,
       "dewp": 13,
-      "wdir": 280,
-      "wspd": 14,
+      "wdir": 210,
+      "wspd": 20,
       "visib": "6+",
-      "altim": 1012,
+      "altim": 999,
       "qcField": 0,
       "metarType": "METAR",
-      "rawOb": "METAR RJFM 280000Z 28014KT 9999 FEW015 SCT170 19/13 Q1012",
-      "lat": 31.877,
-      "lon": 131.449,
-      "elev": 10,
-      "name": "Miyazaki Arpt, 45, JP",
-      "cover": "SCT",
-      "clouds": [
-        {
-          "cover": "FEW",
-          "base": 1500
-        },
-        {
-          "cover": "SCT",
-          "base": 17000
-        }
-      ],
-      "fltCat": "VFR"
-    },
-    {
-      "icaoId": "RJFG",
-      "receiptTime": "2026-11-28T00:05:39.945Z",
-      "obsTime": 1795824000,
-      "reportTime": "2026-11-28T00:00:00.000Z",
-      "temp": 18,
-      "dewp": 14,
-      "wdir": 300,
-      "wspd": 17,
-      "visib": "6+",
-      "altim": 1015,
-      "qcField": 0,
-      "metarType": "METAR",
-      "rawOb": "METAR RJFG 280000Z 30017KT 9999 FEW025 SCT030 BKN040 18/14 Q1015",
-      "lat": 30.605,
-      "lon": 130.992,
-      "elev": 234,
-      "name": "Tanegashima Arpt, 46, JP",
-      "cover": "BKN",
-      "clouds": [
-        {
-          "cover": "FEW",
-          "base": 2500
-        },
-        {
-          "cover": "SCT",
-          "base": 3000
-        },
-        {
-          "cover": "BKN",
-          "base": 4000
-        }
-      ],
+      "rawOb": "METAR RJTT 280900Z 21020KT CAVOK 19/13 Q0999 TEMPO 22020G30KT",
+      "lat": 35.553,
+      "lon": 139.781,
+      "elev": 5,
+      "name": "Tokyo/Haneda Intl, 13, JP",
+      "cover": "CAVOK",
+      "clouds": [],
       "fltCat": "VFR"
     },
     {
       "icaoId": "RJAA",
-      "receiptTime": "2026-11-27T23:40:15.707Z",
-      "obsTime": 1795822200,
-      "reportTime": "2026-11-27T23:30:00.000Z",
+      "receiptTime": "2026-11-28T08:40:15.228Z",
+      "obsTime": 1795854600,
+      "reportTime": "2026-11-28T08:30:00.000Z",
       "temp": 16,
-      "dewp": 16,
-      "wdir": "VRB",
-      "wspd": 2,
-      "visib": 1.24,
-      "altim": 1005,
-      "qcField": 0,
-      "wxString": "SHRA BR",
+      "dewp": 14,
+      "wdir": 220,
+      "wspd": 8,
+      "visib": "6+",
+      "altim": 998,
+      "qcField": 16,
       "metarType": "METAR",
-      "rawOb": "METAR RJAA 272330Z VRB02KT 2000 SHRA BR SCT002 BKN003 16/16 Q1005 BECMG 32010KT 6000 -SHRA",
+      "rawOb": "METAR RJAA 280830Z 22008KT 190V250 9999 FEW020 BKN/// 16/14 Q0998 NOSIG",
       "lat": 35.765,
       "lon": 140.386,
       "elev": 36,
       "name": "Narita Intl, 12, JP",
-      "cover": "BKN",
-      "clouds": [
-        {
-          "cover": "SCT",
-          "base": 200
-        },
-        {
-          "cover": "BKN",
-          "base": 300
-        }
-      ],
-      "fltCat": "LIFR"
-    },
-    {
-      "icaoId": "RJFG",
-      "receiptTime": "2026-11-27T23:38:26.921Z",
-      "obsTime": 1795822200,
-      "reportTime": "2026-11-27T23:30:00.000Z",
-      "temp": 18,
-      "dewp": 13,
-      "wdir": 300,
-      "wspd": 18,
-      "visib": "6+",
-      "altim": 1014,
-      "qcField": 0,
-      "metarType": "METAR",
-      "rawOb": "METAR RJFG 272330Z 30018KT 9999 FEW025 SCT030 BKN040 18/13 Q1014",
-      "lat": 30.605,
-      "lon": 130.992,
-      "elev": 234,
-      "name": "Tanegashima Arpt, 46, JP",
-      "cover": "BKN",
+      "cover": "FEW",
       "clouds": [
         {
           "cover": "FEW",
-          "base": 2500
-        },
-        {
-          "cover": "SCT",
-          "base": 3000
-        },
-        {
-          "cover": "BKN",
-          "base": 4000
+          "base": 2000
         }
       ],
       "fltCat": "VFR"
     },
     {
       "icaoId": "RJTT",
-      "receiptTime": "2026-11-27T23:40:15.734Z",
-      "obsTime": 1795822200,
-      "reportTime": "2026-11-27T23:30:00.000Z",
-      "temp": 9,
-      "dewp": 9,
-      "wdir": 320,
-      "wspd": 19,
-      "visib": 1.24,
-      "altim": 1007,
+      "receiptTime": "2026-11-28T08:40:15.252Z",
+      "obsTime": 1795854600,
+      "reportTime": "2026-11-28T08:30:00.000Z",
+      "temp": 19,
+      "dewp": 14,
+      "wdir": 210,
+      "wspd": 22,
+      "visib": "6+",
+      "altim": 999,
       "qcField": 0,
-      "wxString": "-SHRA BR",
       "metarType": "METAR",
-      "rawOb": "METAR RJTT 272330Z 32019KT 2000 -SHRA BR FEW005 BKN007 09/09 Q1007 BECMG TL0000 8000 -SHRA",
+      "rawOb": "METAR RJTT 280830Z 21022KT 9999 FEW030 BKN/// 19/14 Q0999 TEMPO 22020G30KT",
       "lat": 35.553,
       "lon": 139.781,
       "elev": 5,
       "name": "Tokyo/Haneda Intl, 13, JP",
-      "cover": "BKN",
+      "cover": "FEW",
       "clouds": [
         {
           "cover": "FEW",
-          "base": 500
-        },
-        {
-          "cover": "BKN",
-          "base": 700
+          "base": 3000
         }
       ],
-      "fltCat": "IFR"
+      "fltCat": "VFR"
     },
     {
-      "icaoId": "RJFM",
-      "receiptTime": "2026-11-27T23:05:44.508Z",
-      "obsTime": 1795820400,
-      "reportTime": "2026-11-27T23:00:00.000Z",
-      "temp": 18,
-      "dewp": 13,
-      "wdir": 270,
-      "wspd": 14,
-      "visib": "6+",
-      "altim": 1012,
+      "icaoId": "RJAA",
+      "receiptTime": "2026-11-28T08:07:46.318Z",
+      "obsTime": 1795852800,
+      "reportTime": "2026-11-28T08:00:00.000Z",
+      "temp": 15,
+      "dewp": 14,
+      "wdir": 260,
+      "wspd": 3,
+      "visib": 3.73,
+      "altim": 998,
       "qcField": 0,
       "metarType": "METAR",
-      "rawOb": "METAR RJFM 272300Z 27014KT 9999 FEW015 18/13 Q1012",
-      "lat": 31.877,
-      "lon": 131.449,
-      "elev": 10,
-      "name": "Miyazaki Arpt, 45, JP",
+      "rawOb": "METAR RJAA 280800Z 26003KT 190V300 6000 FEW015 BKN/// 15/14 Q0998 BECMG 22012KT",
+      "lat": 35.765,
+      "lon": 140.386,
+      "elev": 36,
+      "name": "Narita Intl, 12, JP",
       "cover": "FEW",
       "clouds": [
         {
@@ -668,27 +507,62 @@
           "base": 1500
         }
       ],
-      "fltCat": "VFR"
+      "fltCat": "MVFR"
     },
     {
-      "icaoId": "RJFK",
-      "receiptTime": "2026-11-27T23:05:44.495Z",
-      "obsTime": 1795820400,
-      "reportTime": "2026-11-27T23:00:00.000Z",
-      "temp": 15,
-      "dewp": 14,
-      "wdir": 270,
-      "wspd": 4,
+      "icaoId": "RJFM",
+      "receiptTime": "2026-11-28T08:05:32.700Z",
+      "obsTime": 1795852800,
+      "reportTime": "2026-11-28T08:00:00.000Z",
+      "temp": 14,
+      "dewp": 7,
+      "wdir": 290,
+      "wspd": 18,
       "visib": "6+",
       "altim": 1014,
       "qcField": 0,
-      "wxString": "BCFG",
+      "wxString": "-SHRA",
       "metarType": "METAR",
-      "rawOb": "METAR RJFK 272300Z 27004KT 9999 BCFG FEW005 SCT030 15/14 Q1014",
-      "lat": 31.803,
-      "lon": 130.719,
-      "elev": 271,
-      "name": "Kagoshima Arpt, 46, JP",
+      "rawOb": "METAR RJFM 280800Z 29018KT 9999 -SHRA FEW020 SCT035 BKN050 14/07 Q1014",
+      "lat": 31.877,
+      "lon": 131.449,
+      "elev": 10,
+      "name": "Miyazaki Arpt, 45, JP",
+      "cover": "BKN",
+      "clouds": [
+        {
+          "cover": "FEW",
+          "base": 2000
+        },
+        {
+          "cover": "SCT",
+          "base": 3500
+        },
+        {
+          "cover": "BKN",
+          "base": 5000
+        }
+      ],
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJNS",
+      "receiptTime": "2026-11-28T08:07:43.251Z",
+      "obsTime": 1795852800,
+      "reportTime": "2026-11-28T08:00:00.000Z",
+      "temp": 15,
+      "dewp": 12,
+      "wdir": 250,
+      "wspd": 13,
+      "visib": "6+",
+      "altim": 1003,
+      "qcField": 0,
+      "metarType": "METAR",
+      "rawOb": "METAR RJNS 280800Z 25013KT 9999 FEW005 SCT050 BKN/// 15/12 Q1003",
+      "lat": 34.796,
+      "lon": 138.189,
+      "elev": 133,
+      "name": "Shizouka Arpt, 22, JP",
       "cover": "SCT",
       "clouds": [
         {
@@ -697,6 +571,33 @@
         },
         {
           "cover": "SCT",
+          "base": 5000
+        }
+      ],
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJTT",
+      "receiptTime": "2026-11-28T08:07:46.348Z",
+      "obsTime": 1795852800,
+      "reportTime": "2026-11-28T08:00:00.000Z",
+      "temp": 19,
+      "dewp": 14,
+      "wdir": 210,
+      "wspd": 21,
+      "visib": "6+",
+      "altim": 998,
+      "qcField": 0,
+      "metarType": "METAR",
+      "rawOb": "METAR RJTT 280800Z 21021KT 9999 FEW030 BKN/// 19/14 Q0998 TEMPO 22020G30KT",
+      "lat": 35.553,
+      "lon": 139.781,
+      "elev": 5,
+      "name": "Tokyo/Haneda Intl, 13, JP",
+      "cover": "FEW",
+      "clouds": [
+        {
+          "cover": "FEW",
           "base": 3000
         }
       ],
@@ -704,145 +605,137 @@
     },
     {
       "icaoId": "RJFG",
-      "receiptTime": "2026-11-27T23:05:44.484Z",
-      "obsTime": 1795820400,
-      "reportTime": "2026-11-27T23:00:00.000Z",
-      "temp": 17,
-      "dewp": 14,
+      "receiptTime": "2026-11-28T08:05:32.673Z",
+      "obsTime": 1795852800,
+      "reportTime": "2026-11-28T08:00:00.000Z",
+      "temp": 15,
+      "dewp": 10,
       "wdir": 300,
-      "wspd": 16,
+      "wspd": 30,
+      "wgst": 44,
       "visib": "6+",
-      "altim": 1014,
-      "qcField": 2,
+      "altim": 1015,
+      "qcField": 0,
       "metarType": "METAR",
-      "rawOb": "METAR RJFG 272300Z AUTO 30016KT 9999 BKN026 OVC050 17/14 Q1014",
+      "rawOb": "METAR RJFG 280800Z 30030G44KT 9999 FEW025 SCT030 BKN045 15/10 Q1015",
       "lat": 30.605,
       "lon": 130.992,
       "elev": 234,
       "name": "Tanegashima Arpt, 46, JP",
-      "cover": "OVC",
-      "clouds": [
-        {
-          "cover": "BKN",
-          "base": 2600
-        },
-        {
-          "cover": "OVC",
-          "base": 5000
-        }
-      ],
-      "fltCat": "MVFR"
-    },
-    {
-      "icaoId": "RJNS",
-      "receiptTime": "2026-11-27T23:05:44.013Z",
-      "obsTime": 1795820400,
-      "reportTime": "2026-11-27T23:00:00.000Z",
-      "temp": 14,
-      "dewp": 13,
-      "wdir": 320,
-      "wspd": 5,
-      "visib": 3.11,
-      "altim": 1007,
-      "qcField": 0,
-      "wxString": "-SHRA BR",
-      "metarType": "METAR",
-      "rawOb": "METAR RJNS 272300Z 32005KT 290V010 5000 -SHRA BR FEW000 SCT025 BKN035 14/13 Q1007",
-      "lat": 34.796,
-      "lon": 138.189,
-      "elev": 133,
-      "name": "Shizouka Arpt, 22, JP",
       "cover": "BKN",
       "clouds": [
         {
-          "cover": "SCT",
+          "cover": "FEW",
           "base": 2500
         },
         {
+          "cover": "SCT",
+          "base": 3000
+        },
+        {
           "cover": "BKN",
-          "base": 3500
+          "base": 4500
         }
       ],
-      "fltCat": "MVFR"
+      "fltCat": "VFR"
+    },
+    {
+      "icaoId": "RJFK",
+      "receiptTime": "2026-11-28T08:05:32.687Z",
+      "obsTime": 1795852800,
+      "reportTime": "2026-11-28T08:00:00.000Z",
+      "temp": 10,
+      "dewp": 6,
+      "wdir": 300,
+      "wspd": 10,
+      "visib": "6+",
+      "altim": 1015,
+      "qcField": 0,
+      "metarType": "METAR",
+      "rawOb": "METAR RJFK 280800Z 30010KT 9999 FEW015 SCT080 10/06 Q1015",
+      "lat": 31.803,
+      "lon": 130.719,
+      "elev": 271,
+      "name": "Kagoshima Arpt, 46, JP",
+      "cover": "SCT",
+      "clouds": [
+        {
+          "cover": "FEW",
+          "base": 1500
+        },
+        {
+          "cover": "SCT",
+          "base": 8000
+        }
+      ],
+      "fltCat": "VFR"
     },
     {
       "icaoId": "RJTT",
-      "receiptTime": "2026-11-27T23:05:41.228Z",
-      "obsTime": 1795820400,
-      "reportTime": "2026-11-27T23:00:00.000Z",
-      "temp": 10,
-      "dewp": 9,
-      "wdir": 320,
-      "wspd": 16,
-      "visib": 4.35,
-      "altim": 1007,
-      "qcField": 16,
-      "wxString": "-SHRA",
+      "receiptTime": "2026-11-28T07:40:15.871Z",
+      "obsTime": 1795851000,
+      "reportTime": "2026-11-28T07:30:00.000Z",
+      "temp": 19,
+      "dewp": 15,
+      "wdir": 200,
+      "wspd": 21,
+      "visib": "6+",
+      "altim": 998,
+      "qcField": 0,
+      "minT": -2,
       "metarType": "METAR",
-      "rawOb": "METAR RJTT 272300Z 32016KT 7000 -SHRA FEW006 BKN008 10/09 Q1007 NOSIG",
+      "rawOb": "METAR RJTT 280730Z 20021KT 9999 FEW030 BKN/// 19/15 Q0998 TEMPO 21020G30KT",
       "lat": 35.553,
       "lon": 139.781,
       "elev": 5,
       "name": "Tokyo/Haneda Intl, 13, JP",
-      "cover": "BKN",
+      "cover": "FEW",
       "clouds": [
         {
           "cover": "FEW",
-          "base": 600
-        },
-        {
-          "cover": "BKN",
-          "base": 800
+          "base": 3000
         }
       ],
-      "fltCat": "IFR"
+      "fltCat": "VFR"
     },
     {
       "icaoId": "RJAA",
-      "receiptTime": "2026-11-27T23:07:29.341Z",
-      "obsTime": 1795820400,
-      "reportTime": "2026-11-27T23:00:00.000Z",
-      "temp": 16,
-      "dewp": 16,
-      "wdir": 130,
-      "wspd": 3,
-      "visib": 1.86,
-      "altim": 1006,
+      "receiptTime": "2026-11-28T07:40:15.848Z",
+      "obsTime": 1795851000,
+      "reportTime": "2026-11-28T07:30:00.000Z",
+      "temp": 14,
+      "dewp": 14,
+      "wdir": 170,
+      "wspd": 5,
+      "visib": 3.11,
+      "altim": 999,
       "qcField": 0,
-      "wxString": "SHRA BR",
+      "wxString": "BR",
       "metarType": "METAR",
-      "rawOb": "METAR RJAA 272300Z 13003KT 3000 R16R/2000N R16L/P2000N SHRA BR FEW003 BKN007 BKN020 16/16 Q1006 TEMPO FEW002 BKN005 BECMG 32008KT 6000 -SHRA",
+      "rawOb": "METAR RJAA 280730Z 17005KT 140V200 5000 BR FEW015 BKN/// 14/14 Q0999 TEMPO 22015G25KT BECMG 22015KT",
       "lat": 35.765,
       "lon": 140.386,
       "elev": 36,
       "name": "Narita Intl, 12, JP",
-      "cover": "BKN",
+      "cover": "FEW",
       "clouds": [
         {
           "cover": "FEW",
-          "base": 300
-        },
-        {
-          "cover": "BKN",
-          "base": 700
-        },
-        {
-          "cover": "BKN",
-          "base": 2000
+          "base": 1500
         }
       ],
-      "fltCat": "IFR"
+      "fltCat": "MVFR"
     }
   ],
   "tafs": [
     {
       "icaoId": "RJAA",
-      "dbPopTime": "2026-11-28T00:44:56.615Z",
-      "bulletinTime": "2026-11-27T23:00:00.000Z",
-      "issueTime": "2026-11-28T00:41:00.000Z",
-      "validTimeFrom": 1795824000,
-      "validTimeTo": 1795932000,
-      "rawTAF": "TAF AMD RJAA 280041Z 2800/2906 32008KT 6000 FEW005 BKN012 TEMPO 2800/2804 3000 SHRA BR FEW001 BKN003 BECMG 2804/2806 21010KT TEMPO 2806/2809 21015G25KT BECMG 2810/2812 29008KT TEMPO 2900/2906 31018G28KT",
+      "dbPopTime": "2026-11-28T05:27:45.143Z",
+      "bulletinTime": "2026-11-28T05:00:00.000Z",
+      "issueTime": "2026-11-28T05:05:00.000Z",
+      "validTimeFrom": 1795845600,
+      "validTimeTo": 1795953600,
+      "rawTAF": "TAF RJAA 280505Z 2806/2912 30006KT 9999 FEW030 TEMPO 2806/2807 3000 BR FEW001 BKN003 BECMG 2806/2808 22012KT TEMPO 2808/2810 22015G25KT BECMG 2811/2813 31008KT TEMPO 2900/2906 31020G30KT",
       "mostRecent": 1,
       "remarks": "",
       "lat": 35.765,
@@ -852,331 +745,8 @@
       "name": "Narita Intl",
       "fcsts": [
         {
-          "timeFrom": 1795824000,
-          "timeTo": 1795838400,
-          "timeBec": null,
-          "fcstChange": null,
-          "probability": null,
-          "wdir": 320,
-          "wspd": 8,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": 3.73,
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 500,
-              "type": null
-            },
-            {
-              "cover": "BKN",
-              "base": 1200,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795824000,
-          "timeTo": 1795838400,
-          "timeBec": null,
-          "fcstChange": "TEMPO",
-          "probability": null,
-          "wdir": null,
-          "wspd": null,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": 1.86,
-          "altim": null,
-          "vertVis": null,
-          "wxString": "SHRA BR",
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 100,
-              "type": null
-            },
-            {
-              "cover": "BKN",
-              "base": 300,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795838400,
-          "timeTo": 1795860000,
-          "timeBec": 1795845600,
-          "fcstChange": "BECMG",
-          "probability": null,
-          "wdir": 210,
-          "wspd": 10,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": 3.73,
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 500,
-              "type": null
-            },
-            {
-              "cover": "BKN",
-              "base": 1200,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
           "timeFrom": 1795845600,
-          "timeTo": 1795856400,
-          "timeBec": null,
-          "fcstChange": "TEMPO",
-          "probability": null,
-          "wdir": 210,
-          "wspd": 15,
-          "wgst": 25,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795860000,
-          "timeTo": 1795932000,
-          "timeBec": 1795867200,
-          "fcstChange": "BECMG",
-          "probability": null,
-          "wdir": 290,
-          "wspd": 8,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": 3.73,
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 500,
-              "type": null
-            },
-            {
-              "cover": "BKN",
-              "base": 1200,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795910400,
-          "timeTo": 1795932000,
-          "timeBec": null,
-          "fcstChange": "TEMPO",
-          "probability": null,
-          "wdir": 310,
-          "wspd": 18,
-          "wgst": 28,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [],
-          "icgTurb": [],
-          "temp": []
-        }
-      ]
-    },
-    {
-      "icaoId": "RJFM",
-      "dbPopTime": "2026-11-27T23:28:02.082Z",
-      "bulletinTime": "2026-11-27T23:00:00.000Z",
-      "issueTime": "2026-11-27T23:05:00.000Z",
-      "validTimeFrom": 1795824000,
-      "validTimeTo": 1795932000,
-      "rawTAF": "TAF RJFM 272305Z 2800/2906 27022KT 9999 FEW030 BKN060 TEMPO 2800/2809 28027G37KT BECMG 2821/2900 29010KT BECMG 2903/2906 05008KT",
-      "mostRecent": 1,
-      "remarks": "",
-      "lat": 31.877,
-      "lon": 131.449,
-      "elev": 10,
-      "prior": 1,
-      "name": "Miyazaki Arpt",
-      "fcsts": [
-        {
-          "timeFrom": 1795824000,
-          "timeTo": 1795899600,
-          "timeBec": null,
-          "fcstChange": null,
-          "probability": null,
-          "wdir": 270,
-          "wspd": 22,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "6+",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 3000,
-              "type": null
-            },
-            {
-              "cover": "BKN",
-              "base": 6000,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795824000,
-          "timeTo": 1795856400,
-          "timeBec": null,
-          "fcstChange": "TEMPO",
-          "probability": null,
-          "wdir": 280,
-          "wspd": 27,
-          "wgst": 37,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795899600,
-          "timeTo": 1795921200,
-          "timeBec": 1795910400,
-          "fcstChange": "BECMG",
-          "probability": null,
-          "wdir": 290,
-          "wspd": 10,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "6+",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 3000,
-              "type": null
-            },
-            {
-              "cover": "BKN",
-              "base": 6000,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795921200,
-          "timeTo": 1795932000,
-          "timeBec": 1795932000,
-          "fcstChange": "BECMG",
-          "probability": null,
-          "wdir": 50,
-          "wspd": 8,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "6+",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 3000,
-              "type": null
-            },
-            {
-              "cover": "BKN",
-              "base": 6000,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        }
-      ]
-    },
-    {
-      "icaoId": "RJNS",
-      "dbPopTime": "2026-11-27T23:28:02.025Z",
-      "bulletinTime": "2026-11-27T23:00:00.000Z",
-      "issueTime": "2026-11-27T23:05:00.000Z",
-      "validTimeFrom": 1795824000,
-      "validTimeTo": 1795932000,
-      "rawTAF": "TAF RJNS 272305Z 2800/2906 30006KT 9999 FEW015 BKN030 BECMG 2801/2803 24012KT TEMPO 2803/2821 27020G30KT BECMG 2821/2900 26024KT TEMPO 2821/2906 26026G36KT",
-      "mostRecent": 1,
-      "remarks": "",
-      "lat": 34.796,
-      "lon": 138.189,
-      "elev": 133,
-      "prior": 3,
-      "name": "Shizouka Arpt",
-      "fcsts": [
-        {
-          "timeFrom": 1795824000,
-          "timeTo": 1795827600,
+          "timeTo": 1795953600,
           "timeBec": null,
           "fcstChange": null,
           "probability": null,
@@ -1194,11 +764,6 @@
           "clouds": [
             {
               "cover": "FEW",
-              "base": 1500,
-              "type": null
-            },
-            {
-              "cover": "BKN",
               "base": 3000,
               "type": null
             }
@@ -1207,12 +772,44 @@
           "temp": []
         },
         {
-          "timeFrom": 1795827600,
-          "timeTo": 1795899600,
-          "timeBec": 1795834800,
+          "timeFrom": 1795845600,
+          "timeTo": 1795849200,
+          "timeBec": null,
+          "fcstChange": "TEMPO",
+          "probability": null,
+          "wdir": null,
+          "wspd": null,
+          "wgst": null,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": 1.86,
+          "altim": null,
+          "vertVis": null,
+          "wxString": "BR",
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 100,
+              "type": null
+            },
+            {
+              "cover": "BKN",
+              "base": 300,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795845600,
+          "timeTo": 1795863600,
+          "timeBec": 1795852800,
           "fcstChange": "BECMG",
           "probability": null,
-          "wdir": 240,
+          "wdir": 220,
           "wspd": 12,
           "wgst": null,
           "wshearHgt": null,
@@ -1226,11 +823,6 @@
           "clouds": [
             {
               "cover": "FEW",
-              "base": 1500,
-              "type": null
-            },
-            {
-              "cover": "BKN",
               "base": 3000,
               "type": null
             }
@@ -1239,14 +831,14 @@
           "temp": []
         },
         {
-          "timeFrom": 1795834800,
-          "timeTo": 1795899600,
+          "timeFrom": 1795852800,
+          "timeTo": 1795860000,
           "timeBec": null,
           "fcstChange": "TEMPO",
           "probability": null,
-          "wdir": 270,
-          "wspd": 20,
-          "wgst": 30,
+          "wdir": 220,
+          "wspd": 15,
+          "wgst": 25,
           "wshearHgt": null,
           "wshearDir": null,
           "wshearSpd": null,
@@ -1260,218 +852,13 @@
           "temp": []
         },
         {
-          "timeFrom": 1795899600,
-          "timeTo": 1795932000,
-          "timeBec": 1795910400,
+          "timeFrom": 1795863600,
+          "timeTo": 1795953600,
+          "timeBec": 1795870800,
           "fcstChange": "BECMG",
           "probability": null,
-          "wdir": 260,
-          "wspd": 24,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "6+",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 1500,
-              "type": null
-            },
-            {
-              "cover": "BKN",
-              "base": 3000,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795899600,
-          "timeTo": 1795932000,
-          "timeBec": null,
-          "fcstChange": "TEMPO",
-          "probability": null,
-          "wdir": 260,
-          "wspd": 26,
-          "wgst": 36,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [],
-          "icgTurb": [],
-          "temp": []
-        }
-      ]
-    },
-    {
-      "icaoId": "RJTT",
-      "dbPopTime": "2026-11-28T00:37:22.480Z",
-      "bulletinTime": "2026-11-27T23:00:00.000Z",
-      "issueTime": "2026-11-28T00:33:00.000Z",
-      "validTimeFrom": 1795824000,
-      "validTimeTo": 1795932000,
-      "rawTAF": "TAF AMD RJTT 280033Z 2800/2906 30008KT 9999 FEW030 TEMPO 2800/2803 4000 -SHRA BR FEW005 BKN008 BECMG 2803/2805 21018KT TEMPO 2805/2809 20022G32KT BECMG 2812/2815 28008KT BECMG 2821/2900 33018KT TEMPO 2900/2903 33025G35KT",
-      "mostRecent": 1,
-      "remarks": "",
-      "lat": 35.553,
-      "lon": 139.781,
-      "elev": 5,
-      "prior": 0,
-      "name": "Tokyo/Haneda Intl",
-      "fcsts": [
-        {
-          "timeFrom": 1795824000,
-          "timeTo": 1795834800,
-          "timeBec": null,
-          "fcstChange": null,
-          "probability": null,
-          "wdir": 300,
+          "wdir": 310,
           "wspd": 8,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "6+",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 3000,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795824000,
-          "timeTo": 1795834800,
-          "timeBec": null,
-          "fcstChange": "TEMPO",
-          "probability": null,
-          "wdir": null,
-          "wspd": null,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": 2.49,
-          "altim": null,
-          "vertVis": null,
-          "wxString": "-SHRA BR",
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 500,
-              "type": null
-            },
-            {
-              "cover": "BKN",
-              "base": 800,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795834800,
-          "timeTo": 1795867200,
-          "timeBec": 1795842000,
-          "fcstChange": "BECMG",
-          "probability": null,
-          "wdir": 210,
-          "wspd": 18,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "6+",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 3000,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795842000,
-          "timeTo": 1795856400,
-          "timeBec": null,
-          "fcstChange": "TEMPO",
-          "probability": null,
-          "wdir": 200,
-          "wspd": 22,
-          "wgst": 32,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795867200,
-          "timeTo": 1795899600,
-          "timeBec": 1795878000,
-          "fcstChange": "BECMG",
-          "probability": null,
-          "wdir": 280,
-          "wspd": 8,
-          "wgst": null,
-          "wshearHgt": null,
-          "wshearDir": null,
-          "wshearSpd": null,
-          "visib": "6+",
-          "altim": null,
-          "vertVis": null,
-          "wxString": null,
-          "notDecoded": null,
-          "clouds": [
-            {
-              "cover": "FEW",
-              "base": 3000,
-              "type": null
-            }
-          ],
-          "icgTurb": [],
-          "temp": []
-        },
-        {
-          "timeFrom": 1795899600,
-          "timeTo": 1795932000,
-          "timeBec": 1795910400,
-          "fcstChange": "BECMG",
-          "probability": null,
-          "wdir": 330,
-          "wspd": 18,
           "wgst": null,
           "wshearHgt": null,
           "wshearDir": null,
@@ -1493,6 +880,218 @@
         },
         {
           "timeFrom": 1795910400,
+          "timeTo": 1795932000,
+          "timeBec": null,
+          "fcstChange": "TEMPO",
+          "probability": null,
+          "wdir": 310,
+          "wspd": 20,
+          "wgst": 30,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "",
+          "altim": null,
+          "vertVis": null,
+          "wxString": null,
+          "notDecoded": null,
+          "clouds": [],
+          "icgTurb": [],
+          "temp": []
+        }
+      ]
+    },
+    {
+      "icaoId": "RJNS",
+      "dbPopTime": "2026-11-28T05:28:01.070Z",
+      "bulletinTime": "2026-11-28T05:00:00.000Z",
+      "issueTime": "2026-11-28T05:12:00.000Z",
+      "validTimeFrom": 1795845600,
+      "validTimeTo": 1795953600,
+      "rawTAF": "TAF RJNS 280512Z 2806/2912 26018KT 9999 FEW030 BKN060 TEMPO 2808/2906 26022G32KT",
+      "mostRecent": 1,
+      "remarks": "",
+      "lat": 34.796,
+      "lon": 138.189,
+      "elev": 133,
+      "prior": 3,
+      "name": "Shizouka Arpt",
+      "fcsts": [
+        {
+          "timeFrom": 1795845600,
+          "timeTo": 1795953600,
+          "timeBec": null,
+          "fcstChange": null,
+          "probability": null,
+          "wdir": 260,
+          "wspd": 18,
+          "wgst": null,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "6+",
+          "altim": null,
+          "vertVis": null,
+          "wxString": null,
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 3000,
+              "type": null
+            },
+            {
+              "cover": "BKN",
+              "base": 6000,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795852800,
+          "timeTo": 1795932000,
+          "timeBec": null,
+          "fcstChange": "TEMPO",
+          "probability": null,
+          "wdir": 260,
+          "wspd": 22,
+          "wgst": 32,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "",
+          "altim": null,
+          "vertVis": null,
+          "wxString": null,
+          "notDecoded": null,
+          "clouds": [],
+          "icgTurb": [],
+          "temp": []
+        }
+      ]
+    },
+    {
+      "icaoId": "RJTT",
+      "dbPopTime": "2026-11-28T05:27:45.229Z",
+      "bulletinTime": "2026-11-28T05:00:00.000Z",
+      "issueTime": "2026-11-28T05:05:00.000Z",
+      "validTimeFrom": 1795845600,
+      "validTimeTo": 1795953600,
+      "rawTAF": "TAF RJTT 280505Z 2806/2912 21018KT 9999 FEW020 TEMPO 2806/2813 21020G30KT BECMG 2814/2816 26012KT BECMG 2821/2900 33022KT TEMPO 2821/2903 33025G35KT",
+      "mostRecent": 1,
+      "remarks": "",
+      "lat": 35.553,
+      "lon": 139.781,
+      "elev": 5,
+      "prior": 0,
+      "name": "Tokyo/Haneda Intl",
+      "fcsts": [
+        {
+          "timeFrom": 1795845600,
+          "timeTo": 1795874400,
+          "timeBec": null,
+          "fcstChange": null,
+          "probability": null,
+          "wdir": 210,
+          "wspd": 18,
+          "wgst": null,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "6+",
+          "altim": null,
+          "vertVis": null,
+          "wxString": null,
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 2000,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795845600,
+          "timeTo": 1795870800,
+          "timeBec": null,
+          "fcstChange": "TEMPO",
+          "probability": null,
+          "wdir": 210,
+          "wspd": 20,
+          "wgst": 30,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "",
+          "altim": null,
+          "vertVis": null,
+          "wxString": null,
+          "notDecoded": null,
+          "clouds": [],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795874400,
+          "timeTo": 1795899600,
+          "timeBec": 1795881600,
+          "fcstChange": "BECMG",
+          "probability": null,
+          "wdir": 260,
+          "wspd": 12,
+          "wgst": null,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "6+",
+          "altim": null,
+          "vertVis": null,
+          "wxString": null,
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 2000,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795899600,
+          "timeTo": 1795953600,
+          "timeBec": 1795910400,
+          "fcstChange": "BECMG",
+          "probability": null,
+          "wdir": 330,
+          "wspd": 22,
+          "wgst": null,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "6+",
+          "altim": null,
+          "vertVis": null,
+          "wxString": null,
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 2000,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795899600,
           "timeTo": 1795921200,
           "timeBec": null,
           "fcstChange": "TEMPO",
@@ -1516,12 +1115,12 @@
     },
     {
       "icaoId": "RJFK",
-      "dbPopTime": "2026-11-27T23:27:51.362Z",
-      "bulletinTime": "2026-11-27T23:00:00.000Z",
-      "issueTime": "2026-11-27T23:05:00.000Z",
-      "validTimeFrom": 1795824000,
-      "validTimeTo": 1795932000,
-      "rawTAF": "TAF RJFK 272305Z 2800/2906 30010KT 9999 FEW030 BKN040 TEMPO 2801/2808 30022G32KT BECMG 2802/2804 30020KT",
+      "dbPopTime": "2026-11-28T06:25:44.162Z",
+      "bulletinTime": "2026-11-28T05:00:00.000Z",
+      "issueTime": "2026-11-28T06:24:00.000Z",
+      "validTimeFrom": 1795845600,
+      "validTimeTo": 1795953600,
+      "rawTAF": "TAF AMD RJFK 280624Z 2806/2912 30015KT 9000 -SHRA FEW020 SCT030 BKN040 TEMPO 2806/2810 30016G26KT -TSRA FEW030 BKN035 FEW035CB TEMPO 2810/2815 -TSRA FEW008 SCT030 BKN035 FEW035CB",
       "mostRecent": 1,
       "remarks": "",
       "lat": 31.803,
@@ -1531,25 +1130,30 @@
       "name": "Kagoshima Arpt",
       "fcsts": [
         {
-          "timeFrom": 1795824000,
-          "timeTo": 1795831200,
+          "timeFrom": 1795845600,
+          "timeTo": 1795953600,
           "timeBec": null,
           "fcstChange": null,
           "probability": null,
           "wdir": 300,
-          "wspd": 10,
+          "wspd": 15,
           "wgst": null,
           "wshearHgt": null,
           "wshearDir": null,
           "wshearSpd": null,
-          "visib": "6+",
+          "visib": 5.59,
           "altim": null,
           "vertVis": null,
-          "wxString": null,
+          "wxString": "-SHRA",
           "notDecoded": null,
           "clouds": [
             {
               "cover": "FEW",
+              "base": 2000,
+              "type": null
+            },
+            {
+              "cover": "SCT",
               "base": 3000,
               "type": null
             },
@@ -1563,14 +1167,138 @@
           "temp": []
         },
         {
-          "timeFrom": 1795827600,
-          "timeTo": 1795852800,
+          "timeFrom": 1795845600,
+          "timeTo": 1795860000,
           "timeBec": null,
           "fcstChange": "TEMPO",
           "probability": null,
           "wdir": 300,
-          "wspd": 22,
-          "wgst": 32,
+          "wspd": 16,
+          "wgst": 26,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "",
+          "altim": null,
+          "vertVis": null,
+          "wxString": "-TSRA",
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 3000,
+              "type": null
+            },
+            {
+              "cover": "FEW",
+              "base": 3500,
+              "type": "CB"
+            },
+            {
+              "cover": "BKN",
+              "base": 3500,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795860000,
+          "timeTo": 1795878000,
+          "timeBec": null,
+          "fcstChange": "TEMPO",
+          "probability": null,
+          "wdir": null,
+          "wspd": null,
+          "wgst": null,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "",
+          "altim": null,
+          "vertVis": null,
+          "wxString": "-TSRA",
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 800,
+              "type": null
+            },
+            {
+              "cover": "SCT",
+              "base": 3000,
+              "type": null
+            },
+            {
+              "cover": "BKN",
+              "base": 3500,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        }
+      ]
+    },
+    {
+      "icaoId": "RJFM",
+      "dbPopTime": "2026-11-28T05:28:02.215Z",
+      "bulletinTime": "2026-11-28T05:00:00.000Z",
+      "issueTime": "2026-11-28T05:05:00.000Z",
+      "validTimeFrom": 1795845600,
+      "validTimeTo": 1795953600,
+      "rawTAF": "TAF RJFM 280505Z 2806/2912 27020KT 9999 -SHRA FEW030 BKN045 TEMPO 2806/2808 28025G35KT BECMG 2900/2903 30010KT BECMG 2903/2906 12010KT BECMG 2909/2912 26010KT",
+      "mostRecent": 1,
+      "remarks": "",
+      "lat": 31.877,
+      "lon": 131.449,
+      "elev": 10,
+      "prior": 1,
+      "name": "Miyazaki Arpt",
+      "fcsts": [
+        {
+          "timeFrom": 1795845600,
+          "timeTo": 1795910400,
+          "timeBec": null,
+          "fcstChange": null,
+          "probability": null,
+          "wdir": 270,
+          "wspd": 20,
+          "wgst": null,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "6+",
+          "altim": null,
+          "vertVis": null,
+          "wxString": "-SHRA",
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 3000,
+              "type": null
+            },
+            {
+              "cover": "BKN",
+              "base": 4500,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795845600,
+          "timeTo": 1795852800,
+          "timeBec": null,
+          "fcstChange": "TEMPO",
+          "probability": null,
+          "wdir": 280,
+          "wspd": 25,
+          "wgst": 35,
           "wshearHgt": null,
           "wshearDir": null,
           "wshearSpd": null,
@@ -1584,13 +1312,13 @@
           "temp": []
         },
         {
-          "timeFrom": 1795831200,
-          "timeTo": 1795932000,
-          "timeBec": 1795838400,
+          "timeFrom": 1795910400,
+          "timeTo": 1795921200,
+          "timeBec": 1795921200,
           "fcstChange": "BECMG",
           "probability": null,
           "wdir": 300,
-          "wspd": 20,
+          "wspd": 10,
           "wgst": null,
           "wshearHgt": null,
           "wshearDir": null,
@@ -1598,7 +1326,7 @@
           "visib": "6+",
           "altim": null,
           "vertVis": null,
-          "wxString": null,
+          "wxString": "-SHRA",
           "notDecoded": null,
           "clouds": [
             {
@@ -1608,7 +1336,71 @@
             },
             {
               "cover": "BKN",
-              "base": 4000,
+              "base": 4500,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795921200,
+          "timeTo": 1795942800,
+          "timeBec": 1795932000,
+          "fcstChange": "BECMG",
+          "probability": null,
+          "wdir": 120,
+          "wspd": 10,
+          "wgst": null,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "6+",
+          "altim": null,
+          "vertVis": null,
+          "wxString": "-SHRA",
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 3000,
+              "type": null
+            },
+            {
+              "cover": "BKN",
+              "base": 4500,
+              "type": null
+            }
+          ],
+          "icgTurb": [],
+          "temp": []
+        },
+        {
+          "timeFrom": 1795942800,
+          "timeTo": 1795953600,
+          "timeBec": 1795953600,
+          "fcstChange": "BECMG",
+          "probability": null,
+          "wdir": 260,
+          "wspd": 10,
+          "wgst": null,
+          "wshearHgt": null,
+          "wshearDir": null,
+          "wshearSpd": null,
+          "visib": "6+",
+          "altim": null,
+          "vertVis": null,
+          "wxString": "-SHRA",
+          "notDecoded": null,
+          "clouds": [
+            {
+              "cover": "FEW",
+              "base": 3000,
+              "type": null
+            },
+            {
+              "cover": "BKN",
+              "base": 4500,
               "type": null
             }
           ],
@@ -1623,41 +1415,281 @@
       "icaoId": "RJTD",
       "firId": "RJJJ",
       "firName": "RJJJ FUKUOKA",
-      "receiptTime": "2026-11-27T23:12:15.196Z",
-      "validTimeFrom": 1795821060,
-      "validTimeTo": 1795835460,
-      "seriesId": "H03",
-      "hazard": "TS",
-      "qualifier": "EMBD",
+      "receiptTime": "2026-11-28T08:32:28.606Z",
+      "validTimeFrom": 1795854660,
+      "validTimeTo": 1795861860,
+      "seriesId": "L01",
+      "hazard": "TURB",
+      "qualifier": "SEV",
       "base": null,
-      "top": 39000,
+      "top": 28000,
       "geom": "AREA",
       "coords": [
         {
-          "lon": 139.367,
-          "lat": 32.6
-        },
-        {
-          "lon": 139.783,
-          "lat": 34.583
-        },
-        {
-          "lon": 144.567,
-          "lat": 37.117
-        },
-        {
-          "lon": 144.767,
-          "lat": 33.15
-        },
-        {
-          "lon": 139.367,
-          "lat": 32.6
+          "lon": 149,
+          "lat": 41.117
         }
       ],
       "dir": "ENE",
       "spd": "30",
-      "chng": "WKN",
-      "rawSigmet": "WSJP31 RJTD 272311\nRJJJ SIGMET H03 VALID 272311/280311 RJTD-\nRJJJ FUKUOKA FIR EMBD TS FCST WI N3236 E13922 - N3435 E13947 - N3707\nE14434 - N3309 E14446 - N3236 E13922 TOP FL390 MOV ENE 30KT WKN="
+      "chng": "INTSF",
+      "rawSigmet": "WSJP31 RJTD 280831\nRJJJ SIGMET L01 VALID 280831/281031 RJTD-\nRJJJ FUKUOKA FIR SEV TURB OBS AT 0800Z N4107E14900 FL280 MOV ENE 30KT\nINTSF="
+    },
+    {
+      "icaoId": "RJTD",
+      "firId": "RJJJ",
+      "firName": "RJJJ FUKUOKA",
+      "receiptTime": "2026-11-28T08:38:34.706Z",
+      "validTimeFrom": 1795855020,
+      "validTimeTo": 1795862220,
+      "seriesId": "M01",
+      "hazard": "TURB",
+      "qualifier": "SEV",
+      "base": null,
+      "top": 19000,
+      "geom": "AREA",
+      "coords": [
+        {
+          "lon": 133.1,
+          "lat": 35.283
+        }
+      ],
+      "dir": "E",
+      "spd": "20",
+      "chng": "NC",
+      "rawSigmet": "WSJP31 RJTD 280837\nRJJJ SIGMET M01 VALID 280837/281037 RJTD-\nRJJJ FUKUOKA FIR SEV TURB OBS AT 0822Z N3517E13306 FL190 MOV E 20KT\nNC="
+    },
+    {
+      "icaoId": "RJTD",
+      "firId": "RJJJ",
+      "firName": "RJJJ FUKUOKA",
+      "receiptTime": "2026-11-28T08:51:57.897Z",
+      "validTimeFrom": 1795855740,
+      "validTimeTo": 1795870140,
+      "seriesId": "N01",
+      "hazard": "TURB",
+      "qualifier": "SEV",
+      "base": 27000,
+      "top": 35000,
+      "geom": "AREA",
+      "coords": [
+        {
+          "lon": 148.117,
+          "lat": 39.25
+        },
+        {
+          "lon": 146.833,
+          "lat": 43
+        },
+        {
+          "lon": 153.633,
+          "lat": 47.05
+        },
+        {
+          "lon": 155.867,
+          "lat": 42.817
+        },
+        {
+          "lon": 148.117,
+          "lat": 39.25
+        }
+      ],
+      "dir": "ENE",
+      "spd": "30",
+      "chng": "INTSF",
+      "rawSigmet": "WSJP31 RJTD 280849\nRJJJ SIGMET N01 VALID 280849/281249 RJTD-\nRJJJ FUKUOKA FIR SEV TURB FCST WI N3915 E14807 - N4300 E14650 - N4703\nE15338 - N4249 E15552 - N3915 E14807 FL270/350 MOV ENE 30KT INTSF="
+    },
+    {
+      "icaoId": "RJTD",
+      "firId": "RJJJ",
+      "firName": "RJJJ FUKUOKA",
+      "receiptTime": "2026-11-28T08:51:56.528Z",
+      "validTimeFrom": 1795855800,
+      "validTimeTo": 1795870200,
+      "seriesId": "J02",
+      "hazard": "TURB",
+      "qualifier": "SEV",
+      "base": 10000,
+      "top": 21000,
+      "geom": "AREA",
+      "coords": [
+        {
+          "lon": 130.05,
+          "lat": 29.917
+        },
+        {
+          "lon": 129.383,
+          "lat": 33.75
+        },
+        {
+          "lon": 138.017,
+          "lat": 38.45
+        },
+        {
+          "lon": 139.2,
+          "lat": 34.683
+        },
+        {
+          "lon": 130.05,
+          "lat": 29.917
+        }
+      ],
+      "dir": "E",
+      "spd": "20",
+      "chng": "NC",
+      "rawSigmet": "WSJP31 RJTD 280850\nRJJJ SIGMET J02 VALID 280850/281250 RJTD-\nRJJJ FUKUOKA FIR SEV TURB FCST WI N2955 E13003 - N3345 E12923 - N3827\nE13801 - N3441 E13912 - N2955 E13003 FL100/210 MOV E 20KT NC="
+    },
+    {
+      "icaoId": "RJTD",
+      "firId": "RJJJ",
+      "firName": "RJJJ FUKUOKA",
+      "receiptTime": "2026-11-28T09:40:55.319Z",
+      "validTimeFrom": 1795858800,
+      "validTimeTo": 1795866000,
+      "seriesId": "O01",
+      "hazard": "TURB",
+      "qualifier": "SEV",
+      "base": 18000,
+      "top": 22000,
+      "geom": "AREA",
+      "coords": [
+        {
+          "lon": 139.8,
+          "lat": 38.817
+        }
+      ],
+      "dir": "E",
+      "spd": "20",
+      "chng": "NC",
+      "rawSigmet": "WSJP31 RJTD 280940\nRJJJ SIGMET O01 VALID 280940/281140 RJTD-\nRJJJ FUKUOKA FIR SEV TURB OBS AT 0910Z N3849E13948 FL180/220 MOV E\n20KT NC="
+    },
+    {
+      "icaoId": "RJTD",
+      "firId": "RJJJ",
+      "firName": "RJJJ FUKUOKA",
+      "receiptTime": "2026-11-28T09:52:11.085Z",
+      "validTimeFrom": 1795859340,
+      "validTimeTo": 1795873740,
+      "seriesId": "P01",
+      "hazard": "TURB",
+      "qualifier": "SEV",
+      "base": 22000,
+      "top": 30000,
+      "geom": "AREA",
+      "coords": [
+        {
+          "lon": 128.05,
+          "lat": 30.083
+        },
+        {
+          "lon": 125.8,
+          "lat": 30.65
+        },
+        {
+          "lon": 126.833,
+          "lat": 32.5
+        },
+        {
+          "lon": 127.5,
+          "lat": 32.5
+        },
+        {
+          "lon": 128.233,
+          "lat": 33.45
+        },
+        {
+          "lon": 129.667,
+          "lat": 33.1
+        },
+        {
+          "lon": 128.05,
+          "lat": 30.083
+        }
+      ],
+      "dir": "E",
+      "spd": "20",
+      "chng": "INTSF",
+      "rawSigmet": "WSJP31 RJTD 280949\nRJJJ SIGMET P01 VALID 280949/281349 RJTD-\nRJJJ FUKUOKA FIR SEV TURB FCST WI N3005 E12803 - N3039 E12548 - N3230\nE12650 - N3230 E12730 - N3327 E12814 - N3306 E12940 - N3005 E12803\nFL220/300 MOV E 20KT INTSF="
+    },
+    {
+      "icaoId": "RJTD",
+      "firId": "RJJJ",
+      "firName": "RJJJ FUKUOKA",
+      "receiptTime": "2026-11-28T09:52:11.111Z",
+      "validTimeFrom": 1795859400,
+      "validTimeTo": 1795873800,
+      "seriesId": "J03",
+      "hazard": "TURB",
+      "qualifier": "SEV",
+      "base": 11000,
+      "top": 22000,
+      "geom": "AREA",
+      "coords": [
+        {
+          "lon": 130.183,
+          "lat": 30.95
+        },
+        {
+          "lon": 129.583,
+          "lat": 34.15
+        },
+        {
+          "lon": 140.9,
+          "lat": 39.783
+        },
+        {
+          "lon": 139.05,
+          "lat": 34.867
+        },
+        {
+          "lon": 130.183,
+          "lat": 30.95
+        }
+      ],
+      "dir": "E",
+      "spd": "20",
+      "chng": "NC",
+      "rawSigmet": "WSJP31 RJTD 280950\nRJJJ SIGMET J03 VALID 280950/281350 RJTD-\nRJJJ FUKUOKA FIR SEV TURB FCST WI N3057 E13011 - N3409 E12935 - N3947\nE14054 - N3452 E13903 - N3057 E13011 FL110/220 MOV E 20KT NC="
+    },
+    {
+      "icaoId": "RJTD",
+      "firId": "RJJJ",
+      "firName": "RJJJ FUKUOKA",
+      "receiptTime": "2026-11-28T10:09:34.061Z",
+      "validTimeFrom": 1795860480,
+      "validTimeTo": 1795874880,
+      "seriesId": "Q01",
+      "hazard": "TURB",
+      "qualifier": "SEV",
+      "base": 33000,
+      "top": 39000,
+      "geom": "AREA",
+      "coords": [
+        {
+          "lon": 138.117,
+          "lat": 32.517
+        },
+        {
+          "lon": 137.533,
+          "lat": 34.233
+        },
+        {
+          "lon": 146.067,
+          "lat": 39.75
+        },
+        {
+          "lon": 147.6,
+          "lat": 37.6
+        },
+        {
+          "lon": 138.117,
+          "lat": 32.517
+        }
+      ],
+      "dir": "ENE",
+      "spd": "30",
+      "chng": "INTSF",
+      "rawSigmet": "WSJP31 RJTD 281008\nRJJJ SIGMET Q01 VALID 281008/281408 RJTD-\nRJJJ FUKUOKA FIR SEV TURB FCST WI N3231 E13807 - N3414 E13732 - N3945\nE14604 - N3736 E14736 - N3231 E13807 FL330/390 MOV ENE 30KT INTSF="
     }
   ],
   "limitations": "Airport METAR/TAF and FIR-wide SIGMET; not a training-area observation or go/no-go decision.",
